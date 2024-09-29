@@ -1,4 +1,4 @@
-package org.example.entites;
+package org.example.homeservice.entites;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -24,9 +24,9 @@ public class BaseUser extends BaseEntity<Long> {
     @Column(nullable = false,name = FIRST_NAME)
     @Length(min = 2, max = 50)
     private String firstName;
+
     @Column(nullable = false,name = LAST_NAME)
     @Length(min = 2, max = 50)
-
     private String lastName;
 
     @Column(nullable = false,name = EMAIL,unique = true)
@@ -41,7 +41,6 @@ public class BaseUser extends BaseEntity<Long> {
 
     @Size(min = 8, max = 8, message = "The length must be exactly 8 characters.")
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$", message = "Password must contain a combination of letters and numbers")
-
     @Column(nullable = false,name = PASSWORD)
     private String password;
 

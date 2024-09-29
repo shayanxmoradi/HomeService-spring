@@ -1,10 +1,8 @@
-package org.example.entites;
+package org.example.homeservice.entites;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 @Table(name = Customer.TABLE_NAME)

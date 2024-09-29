@@ -1,20 +1,23 @@
-package org.example.homeservice.baseentity;
+package org.example.homeservice.repository.baseentity;
 
-import org.example.homeservice.entity.BaseEntity;
+import org.example.homeservice.entites.BaseEntity;
+import org.example.homeservice.entites.Service;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+@Primary
+@Repository
+public interface BaseEnitityRepo<T extends BaseEntity<ID>, ID extends Serializable> extends JpaRepository<T, ID> {
 
-public interface BaseEnitityRepo<T extends BaseEntity<ID>, ID extends Serializable> {
+   // List<T> findWithAttribute(String attributeName, Object attributeValue);
+//    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END FROM #{#entityName} e WHERE e.:attributeName = :attributeValue")
+//    boolean existsByAttribute(@Param("attributeName") String attributeName, @Param("attributeValue") Object attributeValue);
 
-    Optional<T> save(T entity);
-    Optional<T> update(T entity);
-    boolean deleteByID(ID id);
-    boolean delelte(T eintity);
-    Optional<T> findById(ID id);
-    public Optional<List<T>> findWithAttribute(Class<T> clazz, String attributeName, Object attributeValue);
-    Optional<List<T>> findAll();
-
-    public <T> boolean existsWithAttribute(Class<T> clazz, String attributeName, Object attributeValue);
+   // boolean existsByAttribute(String attributeName, Object attributeValue);
 }

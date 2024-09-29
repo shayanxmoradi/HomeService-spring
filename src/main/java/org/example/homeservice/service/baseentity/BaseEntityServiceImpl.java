@@ -1,57 +1,71 @@
-package org.example.homeservice.service;
+package org.example.homeservice.service.baseentity;
 
-import org.example.homeservice.baseentity.BaseEnitityRepo;
-import org.example.homeservice.entity.BaseEntity;
+import org.example.homeservice.entites.BaseEntity;
+import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+@Service
+public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializable, R extends BaseEnitityRepo<T, ID>, D,RDTO>
+        implements BaseEntityService<T, ID, D,RDTO> {
+    protected final R baseRepository;
 
-public class BaseEntityServiceImpl<T extends BaseEntity<ID>,ID extends Serializable,R extends BaseEnitityRepo<T,ID>> implements BaseEnitityService<T,ID> {
-  public final R baseRepository;
+    @Autowired
+    public BaseEntityServiceImpl(R baseRepository) {
+        this.baseRepository = baseRepository;
+    }
 
-    public BaseEntityServiceImpl(R baseRepo) {
-        this.baseRepository = baseRepo;
+    protected T toEntity(D dto) {
+        throw new UnsupportedOperationException("Conversion not implemented");
+    }
+
+    protected RDTO toDto(T entity) {
+        throw new UnsupportedOperationException("Conversion not implemented");
     }
 
     @Override
-    public Optional<T> save(T entity) {
-        return baseRepository.save(entity);
+    public Optional<RDTO> save(D dto) {
+        T entity = toEntity(dto);
+        return Optional.of(toDto(baseRepository.save(entity)));
     }
 
     @Override
-    public Optional<T> update(T entity) {
-        return baseRepository.update(entity);
+    public Optional<RDTO> update(D dto) {
+        T entity = toEntity(dto);
+        return Optional.of(toDto(baseRepository.save(entity)));
     }
 
     @Override
     public boolean delete(T entity) {
-        return baseRepository.delelte(entity);
+        baseRepository.delete(entity);
+        return true;
     }
 
     @Override
     public boolean deleteById(ID id) {
-        return baseRepository.deleteByID(id);
-    }
-
-
-
-
-    @Override
-    public Optional<T> findById(ID id) {
-        return baseRepository.findById(id);
+        baseRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public Optional<List<T>> findAll() {
-        return baseRepository.findAll();
-    }
-    public Optional<List<T>> findByAttribute(Class<T> clazz, String attributeName, Object attributeValue) {
-        return baseRepository.findWithAttribute(clazz, attributeName, attributeValue);
+    public Optional<RDTO> findById(ID id) {
+
+        return baseRepository.findById(id).map(this::toDto);
     }
 
     @Override
-    public boolean existisByAttribute(Class<T> clazz, String attributeName, Object attributeValue) {
-        return baseRepository.existsWithAttribute( clazz,  attributeName, attributeValue);
+    public Optional<List<RDTO>> findAll() {
+        List<T> entities = baseRepository.findAll();
+        return Optional.of(entities.stream().map(this::toDto).toList());
+    }
+
+
+    @Override
+    public boolean existsByAttribute(String attributeName, Object attributeValue) {
+        return false; // Implement as needed
     }
 }

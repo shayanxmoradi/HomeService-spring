@@ -1,4 +1,4 @@
-package org.example.entites;
+package org.example.homeservice.entites;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;

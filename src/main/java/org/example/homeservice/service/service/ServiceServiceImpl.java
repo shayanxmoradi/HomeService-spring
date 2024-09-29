@@ -1,59 +1,60 @@
-package org.example.services.service;
+package org.example.homeservice.service.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
-import org.example.dto.AddServiceDto;
-import org.example.entites.Service;
-import org.example.repositories.service.ServiceRepo;
-import org.example.services.baseentity.BaseEntityServceImpl;
+import org.example.homeservice.dto.ServiceMapper;
+import org.example.homeservice.dto.ServiceRequest;
+import org.example.homeservice.dto.ServiceResponse;
+import org.example.homeservice.entites.Service;
+import org.example.homeservice.repository.service.ServiceRepo;
+import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class ServiceServiceImpl extends BaseEntityServceImpl<Service,Long,ServiceRepo> implements ServiceService {
-    ServiceRepo serviceRepo;
+@org.springframework.stereotype.Service
+public class ServiceServiceImpl extends BaseEntityServiceImpl<Service,Long, ServiceRepo, ServiceRequest, ServiceResponse> implements ServiceService {
+    private final ServiceMapper serviceMapper;
 
 
-
-    public ServiceServiceImpl(ServiceRepo baseRepo) {
-        super(baseRepo);
-        this.serviceRepo = baseRepo;
+    public ServiceServiceImpl(ServiceRepo baseRepository, ServiceMapper serviceMapper) {
+        super(baseRepository);
+        this.serviceMapper = serviceMapper;
     }
-
-
-     @Override
-     public Optional<Service> findByName(String name) {
-         return serviceRepo.findByName(name);
-     }
-
-
-     @Override
-     public boolean addSubService(AddServiceDto addServiceDto) {
-         //todo should we check real servicde here?
-
-         Optional<Service> byName = serviceRepo.findByName(addServiceDto.getName());
-         if (byName.isPresent()) {
-             throw  new ValidationException("Service with name " + addServiceDto.getName() + " already exists");
-         }
-
-         return serviceRepo.addSubService(addServiceDto.getParentServiceId(), convertToEntity(addServiceDto));
-     }
-
-     @Override
-     public boolean removeSubService(Long serviceId) {
-         return false;
-     }
 
     @Override
-    public List<Service> findAllByParentId(Long parentId) {
-        return serviceRepo.findAllByParentId(parentId);
+    public Optional<ServiceResponse> findByName(String name) {
+        return baseRepository.findByName(name)
+                .map(serviceMapper::toDto); // Convert Service entity to ServiceResponse
     }
-    private Service convertToEntity(AddServiceDto serviceDTO) {
-        Service service = new Service();
-        service.setName(serviceDTO.getName());
-        service.setDescription(serviceDTO.getDescription());
-        service.setBasePrice(serviceDTO.getBasePrice());
-        service.setParentServiceById(null, serviceDTO.getParentServiceId()); //todo haa?
-        service.setCategory(serviceDTO.isCategory());
-        return service;
+
+    @Override
+    public boolean addSubService(ServiceRequest addServiceDto) {
+        // Check for existing service
+        Optional<Service> existingService = baseRepository.findByName(addServiceDto.name());
+        if (existingService.isPresent()) {
+            throw new ValidationException("Service with name " + addServiceDto.name() + " already exists");
+        }
+
+        // Convert DTO to entity using ServiceMapper
+        Service newService = serviceMapper.toEntity(addServiceDto);
+
+        // Add the new service as a subservice
+        return baseRepository.addSubService(addServiceDto.parentServiceId(), newService);
+    }
+
+    @Override
+    public List<ServiceResponse> findAllByParentId(Long parentId) {
+        Optional<Service> parentService = baseRepository.findById(parentId);
+        if (parentService.isPresent()) {
+            // Convert list of services to ServiceResponse DTOs
+            return baseRepository.findAllByParentService(parentService.get())
+                    .stream()
+                    .map(serviceMapper::toDto)
+                    .collect(Collectors.toList());
+        } else {
+            throw new EntityNotFoundException("Parent service not found with id: " + parentId);
+        }
     }
 }
