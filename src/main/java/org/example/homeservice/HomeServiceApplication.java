@@ -2,7 +2,6 @@ package org.example.homeservice;
 
 import org.example.homeservice.entites.Customer;
 import org.example.homeservice.entites.Service;
-import org.example.homeservice.service.baseentity.BaseEnitityService;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.CustomerService;
 import org.springframework.boot.CommandLineRunner;

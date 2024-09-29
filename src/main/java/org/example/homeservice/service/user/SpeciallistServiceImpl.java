@@ -1,9 +1,9 @@
 package org.example.homeservice.service.user;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.example.homeservice.dto.SpecialistMapper;
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.SpecialistResponse;
+import jakarta.validation.ValidationException;
+import org.example.homeservice.dto.*;
+import org.example.homeservice.entites.Customer;
 import org.example.homeservice.entites.Specialist;
 import org.example.homeservice.repository.baseuser.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
@@ -34,45 +34,35 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     @Override
     public Optional<SpecialistResponse> findById(Long id) {
         return baseRepository.findById(id)
-                .map(specialistMapper::toResponse);
+                .map(specialistMapper::toDto);
     }
+
+//    @Override
+//    public List<SpecialistResponse> findAll() {
+//        return baseRepository.findAll().stream()
+//                .map(specialistMapper::toDto)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
-    public List<SpecialistResponse> findAll() {
-        return baseRepository.findAll().stream()
-                .map(specialistMapper::toResponse)
-                .collect(Collectors.toList());
+    public Optional<SpecialistResponse> save(SpecialistRequest request) {
+        if (baseRepository.findByEmail(request.email()).isPresent()) {
+            throw new ValidationException("Customer with this email already exists");
+        }
+
+        // Convert DTO to entity and save
+        Specialist customer = SpecialistMapper.INSTANCE.toEntity(request);
+        Specialist savedSpelist = baseRepository.save(customer);
+        return Optional.of(SpecialistMapper.INSTANCE.toDto(savedSpelist));
     }
 
-    @Override
-    public SpecialistResponse save(SpecialistRequest request) {
-        Specialist specialist = specialistMapper.toEntity(request);
-        // Additional logic for setting defaults, etc.
-        Specialist savedSpecialist = baseRepository.save(specialist);
-        return specialistMapper.toResponse(savedSpecialist);
-    }
 
-    @Override
-    public SpecialistResponse update(Long id, SpecialistRequest request) {
-        Specialist specialist = baseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Specialist not found with id: " + id));
 
-        // Update specialist fields
-        specialist.setFirstName(request.firstName());
-        specialist.setLastName(request.lastName());
-        specialist.setEmail(request.email());
-        specialist.setPassword(request.password()); // Ensure to hash the password
-        specialist.setSpecialistStatus(request.specialistStatus());
-        specialist.setRate(request.rate());
-        specialist.setPersonalImage(request.personalImage());
-
-        Specialist updatedSpecialist = baseRepository.save(specialist);
-        return specialistMapper.toResponse(updatedSpecialist);
-    }
 
 
     @Override
-    public Optional<SpecialistRequest> login(String email, String password) {
-        return Optional.empty();
+    public Optional<SpecialistResponse> login(String email, String password) {
+        return Optional.ofNullable(toDto(baseRepository.findByEmailAndPassword(email, password).get()));
     }
+
 }

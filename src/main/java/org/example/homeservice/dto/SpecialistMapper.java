@@ -5,6 +5,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface SpecialistMapper {
     SpecialistMapper INSTANCE = Mappers.getMapper(SpecialistMapper.class);
@@ -12,5 +14,6 @@ public interface SpecialistMapper {
     Specialist toEntity(SpecialistRequest request);
 
     //@Mapping(target = "id", source = "entity.id")
-    SpecialistResponse toResponse(Specialist entity);
+    SpecialistResponse toDto(Specialist entity);
+    List<SpecialistResponse> toDto(List<Specialist> specialists);
 }
