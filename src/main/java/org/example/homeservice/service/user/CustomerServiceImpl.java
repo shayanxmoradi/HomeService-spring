@@ -1,13 +1,13 @@
 package org.example.homeservice.service.user;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.CustomerMapper;
+import org.example.homeservice.dto.mapper.CustomerMapper;
 import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.dto.CustomerResponseDto;
 import org.example.homeservice.entites.Customer;
 import org.example.homeservice.entites.Order;
 import org.example.homeservice.entites.Service;
-import org.example.homeservice.repository.baseuser.CustomerRepo;
+import org.example.homeservice.repository.user.CustomerRepo;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;

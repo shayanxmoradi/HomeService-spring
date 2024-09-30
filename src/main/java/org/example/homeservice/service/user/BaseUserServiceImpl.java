@@ -1,7 +1,7 @@
 package org.example.homeservice.service.user;
 
 import org.example.homeservice.entites.BaseUser;
-import org.example.homeservice.repository.baseuser.BaseUserRepo;
+import org.example.homeservice.repository.user.BaseUserRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

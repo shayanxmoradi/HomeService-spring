@@ -1,8 +1,7 @@
-package org.example.homeservice.repository.baseuser;
+package org.example.homeservice.repository.user;
 
 import org.example.homeservice.entites.BaseUser;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

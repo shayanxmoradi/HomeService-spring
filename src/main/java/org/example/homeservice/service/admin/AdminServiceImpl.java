@@ -1,7 +1,7 @@
 package org.example.homeservice.service.admin;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.SpecialistMapper;
+import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.entites.Admin;
@@ -9,7 +9,7 @@ import org.example.homeservice.entites.BaseUser;
 import org.example.homeservice.entites.Specialist;
 import org.example.homeservice.entites.enums.SpecialistStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
-import org.example.homeservice.repository.baseuser.SpecialistRepo;
+import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

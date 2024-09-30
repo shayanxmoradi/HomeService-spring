@@ -1,4 +1,4 @@
-package org.example.homeservice.repository.baseuser;
+package org.example.homeservice.repository.user;
 
 import org.example.homeservice.entites.Specialist;
 import org.example.homeservice.entites.enums.SpecialistStatus;

@@ -13,7 +13,7 @@ import java.util.List;
 public class Specialist extends BaseUser {
     public static final String TABLE_NAME = "specialist";
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private SpecialistStatus specialistStatus;
 

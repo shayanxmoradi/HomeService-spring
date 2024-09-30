@@ -2,7 +2,7 @@ package org.example.homeservice.service.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.ServiceMapper;
+import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.entites.Service;

@@ -1,19 +1,23 @@
 package org.example.homeservice.service.user;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
+import org.example.homeservice.Exception.FileNotFoundException;
+import org.example.homeservice.Exception.ImageTooLargeException;
 import org.example.homeservice.dto.*;
-import org.example.homeservice.entites.Customer;
+import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.entites.Specialist;
-import org.example.homeservice.repository.baseuser.SpecialistRepo;
+import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.List;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, SpecialistRepo, SpecialistRequest,SpecialistResponse> implements SpeciallistService {
@@ -37,12 +41,7 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
                 .map(specialistMapper::toDto);
     }
 
-//    @Override
-//    public List<SpecialistResponse> findAll() {
-//        return baseRepository.findAll().stream()
-//                .map(specialistMapper::toDto)
-//                .collect(Collectors.toList());
-//    }
+
 
     @Override
     public Optional<SpecialistResponse> save(SpecialistRequest request) {
@@ -65,4 +64,50 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         return Optional.ofNullable(toDto(baseRepository.findByEmailAndPassword(email, password).get()));
     }
 
-}
+    @Override
+    public byte[] processImage(String imagePath) {
+        try {
+            File imageFile = new File(imagePath);
+
+            if (!imageFile.exists()) {
+                throw new FileNotFoundException("Image file not found at the  path.", imagePath);
+            }
+
+            if (imageFile.length() > 300 * 1024) {
+                throw new ImageTooLargeException("Image exceeds 300KB, cannot store it.");
+            }
+
+            try (FileInputStream fileInputStream = new FileInputStream(imageFile)) {
+                BufferedImage bufferedImage = ImageIO.read(fileInputStream);
+
+                if (bufferedImage == null) {
+                    throw new ValidationException("Invalid image format. Only JPG is allowed.");
+                }
+
+                // Verify JPEG
+                String formatName = ImageIO.getImageReaders(ImageIO.createImageInputStream(imageFile)).next().getFormatName();
+                if (!"JPEG".equalsIgnoreCase(formatName) && !"JPG".equalsIgnoreCase(formatName)) {
+                    throw new ValidationException("Invalid image format. Only JPG is allowed.");
+                }
+            }
+
+            byte[] imageData = new byte[(int) imageFile.length()];
+            try (FileInputStream fileInputStream = new FileInputStream(imageFile)) {
+                fileInputStream.read(imageData);
+            }
+
+            System.out.println("Image processed successfully!");
+            return imageData;
+
+
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage() + ": \n" + e.getFilePath());
+        } catch (ImageTooLargeException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println("An IO error occurred while processing the image.");
+            e.printStackTrace();
+        }
+
+        return null;
+    }    }

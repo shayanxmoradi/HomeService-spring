@@ -1,10 +1,12 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.mapper;
 
+import org.example.homeservice.dto.CustomerRequsetDto;
+import org.example.homeservice.dto.CustomerResponseDto;
 import org.example.homeservice.entites.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CustomerMapper {
     CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 

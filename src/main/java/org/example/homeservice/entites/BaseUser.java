@@ -22,11 +22,11 @@ public class BaseUser extends BaseEntity<Long> {
 
 
     @Column(nullable = false,name = FIRST_NAME)
-    @Length(min = 2, max = 50)
+    @Length(min = 2, max = 50,message = "should be at least 2 char and max 50")
     private String firstName;
 
     @Column(nullable = false,name = LAST_NAME)
-    @Length(min = 2, max = 50)
+    @Length(min = 2, max = 50,message = "should be at least 2 char and max 50")
     private String lastName;
 
     @Column(nullable = false,name = EMAIL,unique = true)
