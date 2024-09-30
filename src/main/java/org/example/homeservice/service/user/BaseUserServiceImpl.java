@@ -1,6 +1,9 @@
 package org.example.homeservice.service.user;
 
+import jakarta.validation.ValidationException;
+import org.example.homeservice.dto.UpdatePasswordRequst;
 import org.example.homeservice.entites.BaseUser;
+import org.example.homeservice.entites.Customer;
 import org.example.homeservice.repository.user.BaseUserRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,19 @@ public abstract class BaseUserServiceImpl<T extends BaseUser, R extends BaseUser
     @Override
     public boolean emailExists(String email) {
         return userRepo.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
+        T baseUser = baseRepository.findByEmail(updatePasswordRequst.email())
+                .orElseThrow(() -> new ValidationException("user with this email not found"));
+
+        if (!baseUser.getPassword().equals(updatePasswordRequst.oldPassword())) {
+            throw new ValidationException("Incorrect password");
+        }
+
+        baseUser.setPassword(updatePasswordRequst.newPassword());
+        baseRepository.save(baseUser);
     }
 
 //    @Override

@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -48,8 +49,8 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         if (baseRepository.findByEmail(request.email()).isPresent()) {
             throw new ValidationException("Customer with this email already exists");
         }
+        if (request.personalImage()==null) throw new ValidationException("Personal image is required");
 
-        // Convert DTO to entity and save
         Specialist customer = SpecialistMapper.INSTANCE.toEntity(request);
         Specialist savedSpelist = baseRepository.save(customer);
         return Optional.of(SpecialistMapper.INSTANCE.toDto(savedSpelist));
@@ -110,4 +111,22 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         }
 
         return null;
-    }    }
+    }
+    @Override
+    public   void retriveImageOfSpecialist(Long specialistId, String savingPath) {
+        try {
+
+            byte[] imageData = findById(specialistId).get().personalImage();
+
+            FileOutputStream fileOutputStream = new FileOutputStream(savingPath);
+            fileOutputStream.write(imageData);
+            fileOutputStream.close();
+
+            System.out.println("Image retrieved and saved to file successfully!");
+
+
+        } catch (IOException e) {
+            System.err.println("An IO error occurred while processing the image.");
+        }
+    }
+}

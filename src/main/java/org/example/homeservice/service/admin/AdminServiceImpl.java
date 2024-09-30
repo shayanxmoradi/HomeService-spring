@@ -56,7 +56,7 @@ public class AdminServiceImpl extends BaseEntityServiceImpl<Admin, Long, BaseEni
         if (specialists.isEmpty()) {
             throw new ValidationException("No specialists found");
         }
-        return specialistConverter.toDto(specialists); // Use the mapper to convert to DTOs
+        return specialistConverter.toDto(specialists);
     }
 
     @Override

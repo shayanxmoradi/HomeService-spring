@@ -24,7 +24,7 @@ public class Specialist extends BaseUser {
     List<Service > workServices;
 
 
-    @Lob
+    // @Lob //todo whgat is this
     @Column(name = "image_data",length = 300000)
     private byte[] personalImage;
 

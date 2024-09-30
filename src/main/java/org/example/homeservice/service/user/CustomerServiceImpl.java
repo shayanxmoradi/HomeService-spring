@@ -1,6 +1,7 @@
 package org.example.homeservice.service.user;
 
 import jakarta.validation.ValidationException;
+import org.example.homeservice.dto.UpdatePasswordRequst;
 import org.example.homeservice.dto.mapper.CustomerMapper;
 import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.dto.CustomerResponseDto;
@@ -92,18 +93,18 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer,CustomerRe
         return navigate(null, topLevelServices);
     }
 
-    @Override
-    public void updatePassword(CustomerRequsetDto customerRequestDto, String oldPassword, String newPassword) {
-        Customer customer = baseRepository.findByEmail(customerRequestDto.email())
-                .orElseThrow(() -> new ValidationException("Customer not found"));
-
-        if (!customer.getPassword().equals(oldPassword)) {
-            throw new ValidationException("Incorrect password");
-        }
-
-        customer.setPassword(newPassword);
-        baseRepository.save(customer);
-    }
+//    @Override
+//    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
+//        Customer customer = baseRepository.findByEmail(updatePasswordRequst.email())
+//                .orElseThrow(() -> new ValidationException("Customer not found"));
+//
+//        if (!customer.getPassword().equals(updatePasswordRequst.oldPassword())) {
+//            throw new ValidationException("Incorrect password");
+//        }
+//
+//        customer.setPassword(updatePasswordRequst.newPassword());
+//        baseRepository.save(customer);
+//    }
 
     @Override
     public Optional<CustomerResponseDto> findByEmailAndPass(String email, String password) {

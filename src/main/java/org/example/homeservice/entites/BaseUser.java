@@ -9,6 +9,9 @@ import org.hibernate.validator.constraints.Length;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Table(name = BaseUser.TABLE_NAME)
 @Data
 @Entity
@@ -34,10 +37,10 @@ public class BaseUser extends BaseEntity<Long> {
     private String email;
 
     @Column
-    private Date registrationDate;
+    private Date registrationDate= Date.valueOf(LocalDate.now());
 
     @Column
-    private Time registrationTime;
+    private Time registrationTime=Time.valueOf(LocalTime.now());
 
     @Size(min = 8, max = 8, message = "The length must be exactly 8 characters.")
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$", message = "Password must contain a combination of letters and numbers")

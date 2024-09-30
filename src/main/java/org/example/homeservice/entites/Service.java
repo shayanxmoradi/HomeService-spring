@@ -1,17 +1,21 @@
 package org.example.homeservice.entites;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = Service.TABLE_NAME)
 @Entity
-@Data
+@AllArgsConstructor
+@Setter
+@Getter
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
+@Builder
 public class Service extends BaseEntity<Long> {
     public static final String TABLE_NAME = "service";
     private static final String PARENT_SERVICE_ID = "parent_service_id";
@@ -28,21 +32,24 @@ public class Service extends BaseEntity<Long> {
     private List<Service> subServices= new ArrayList<>();
 
     @Column(name = SERVICE_NAME,unique = true)
+    @NotBlank(message = "Name cannot be blank")
+
     private String name;
 
     @Column(name = DESCRIPTION)
     private String description;
 
     @Column(name = BASE_PRICE)
+    @Positive
     private Float basePrice;
 
     @OneToMany
     private List<Specialist> avilableSpecialists = new ArrayList<>();
 
     @Column
-    private boolean isCategory;
+    private boolean category;
 
-    
+
 
     public void addSubService(Service subService) {
         subServices.add(subService);
@@ -61,10 +68,17 @@ public class Service extends BaseEntity<Long> {
     public Service(String name) {
         this.name = name;
     }
-    public void setParentServiceById(EntityManager entityManager, Long parentId) {
-        if (parentId != null) {
-            this.parentService = entityManager.getReference(Service.class, parentId);
+//    public void setParentServiceById(EntityManager entityManager, Long parentId) {
+//        if (parentId != null) {
+//            this.parentService = entityManager.getReference(Service.class, parentId);
+//        }
+//    }
+
+    public void setBasePrice(Float basePrice) {
+        if (category) {
+            throw new IllegalStateException("Categories cannot have a base price.");
         }
+        this.basePrice = basePrice;
     }
 
     @Override

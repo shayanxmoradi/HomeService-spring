@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
-public class ServiceServiceImpl extends BaseEntityServiceImpl<Service,Long, ServiceRepo, ServiceRequest, ServiceResponse> implements ServiceService {
+public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, ServiceRepo, ServiceRequest, ServiceResponse> implements ServiceService {
     private final ServiceMapper serviceMapper;
 
 
@@ -31,24 +31,60 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service,Long, Serv
 
     @Override
     public boolean addSubService(ServiceRequest addServiceDto) {
-        // Check for existing service
         Optional<Service> existingService = baseRepository.findByName(addServiceDto.name());
         if (existingService.isPresent()) {
             throw new ValidationException("Service with name " + addServiceDto.name() + " already exists");
         }
 
-        // Convert DTO to entity using ServiceMapper
         Service newService = serviceMapper.toEntity(addServiceDto);
-
-        // Add the new service as a subservice
         return baseRepository.addSubService(addServiceDto.parentServiceId(), newService);
+    }
+
+    //    @Override
+//    public Optional<ServiceResponse> save(ServiceRequest dto) {
+//        Optional<Service> existingService = baseRepository.findByName(dto.name());
+//        if (existingService.isPresent()) {
+//            throw new ValidationException("Service with name " + dto.name() + " already exists");
+//        }
+//        if (dto.parentServiceId() != null) {
+//            Optional<Service> parentService = baseRepository.findById( dto.parentServiceId()); // Fetch parent service by ID
+//            if (parentService != null) {
+//
+//            } else {
+//                throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " not found");
+//            }
+//        }
+//
+//      return Optional.ofNullable(serviceMapper.toDto(baseRepository.save(serviceMapper.toEntity(dto))));
+//    }
+    @Override
+    public Optional<ServiceResponse> save(ServiceRequest dto) {
+        Optional<Service> existingService = baseRepository.findByName(dto.name());
+        if (existingService.isPresent()) {
+            throw new ValidationException("Service with name " + dto.name() + " already exists");
+        }
+        Service savingService = serviceMapper.toEntity(dto);
+
+        if (dto.parentServiceId() != null) {
+            Optional<Service> parentServiceOpt = baseRepository.findById(dto.parentServiceId()); // Fetch parent service by ID
+            if (parentServiceOpt.isPresent()) {
+                Service parentService = parentServiceOpt.get();
+                if (!parentService.isCategory()) {
+                    throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " is not a category and cannot be a parent.");
+                }
+                savingService.setParentService(parentService);
+            } else {
+                throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " not found");
+            }
+        }
+        // Convert DTO to entity and save
+        return Optional.ofNullable(serviceMapper.toDto(baseRepository.save(savingService)));
     }
 
     @Override
     public List<ServiceResponse> findAllByParentId(Long parentId) {
         Optional<Service> parentService = baseRepository.findById(parentId);
         if (parentService.isPresent()) {
-            // Convert list of services to ServiceResponse DTOs
             return baseRepository.findAllByParentService(parentService.get())
                     .stream()
                     .map(serviceMapper::toDto)

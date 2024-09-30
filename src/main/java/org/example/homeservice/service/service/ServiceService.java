@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ServiceService extends BaseEntityService<Service,Long, ServiceRequest, ServiceResponse> {
     Optional<ServiceResponse> findByName(String name);
-    boolean addSubService(ServiceRequest addServiceDto);
+    boolean addSubService(ServiceRequest addServiceDto);//todo wtf is this
     List<ServiceResponse> findAllByParentId(Long parentId);
 
 

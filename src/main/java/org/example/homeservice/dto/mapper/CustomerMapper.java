@@ -2,7 +2,9 @@ package org.example.homeservice.dto.mapper;
 
 import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.dto.CustomerResponseDto;
+import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.entites.Customer;
+import org.example.homeservice.entites.Specialist;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -12,4 +14,6 @@ public interface CustomerMapper {
 
     Customer toEntity(CustomerRequsetDto dto);
     CustomerResponseDto toResponseDto(Customer customer);
+    CustomerRequsetDto toDtoReq(Customer entity);
+
 }

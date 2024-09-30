@@ -1,14 +1,20 @@
 package org.example.homeservice.dto;
 
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import org.example.homeservice.dto.validator.ServiceValidator;
 
+import java.util.List;
+@ServiceValidator
 public record ServiceRequest(
-    Long id,
+
+    @NotBlank(message = "Name cannot be blank")
     String name,
     String description,
+    @Positive
     Float basePrice,
     Long parentServiceId,
-    boolean isCategory,
-    List<Long> availableSpecialistsIds){ //
+    boolean category,
+    List<Long> availableSpecialistsIds){
 
 }
