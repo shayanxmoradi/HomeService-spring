@@ -178,7 +178,7 @@ public class HomeServiceApplication {
             List<ServiceResponse> serviceResponses = adminService.findAllServices().get();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(serviceResponses);
-            System.out.println(json);
+          //  System.out.println(json);
         };
     }
 
@@ -214,5 +214,10 @@ public class HomeServiceApplication {
             orderService.save(order);
         };
     }
-    LocalDateTime  localDateTime = LocalDateTime.now();
+    @Bean
+    CommandLineRunner seeActiveOrders(OrderService orderService, OrderMapper orderMapper) {
+        return args -> {
+            System.out.println(orderService.findWaitingForOfferAndSpecialist());
+        };
+    }
 }

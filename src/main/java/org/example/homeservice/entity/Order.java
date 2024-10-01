@@ -3,6 +3,7 @@ package org.example.homeservice.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import lombok.Data;
+import org.example.homeservice.entity.enums.OrderStatus;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -50,14 +51,14 @@ public class Order extends BaseEntity<Long> {
 
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id", nullable = true)
-    private OrderStatus status;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "status_id", nullable = true)
+//    private OrderStatus status;
 
-//
-//    @Enumerated(EnumType.STRING)
-//    @Column
-//    private OrderStatus status=OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private OrderStatus status= org.example.homeservice.entity.enums.OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS;
 
     @Override
     public String toString() {

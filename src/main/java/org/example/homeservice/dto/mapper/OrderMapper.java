@@ -34,8 +34,12 @@ public interface OrderMapper {
         return service;
     }
 
-
+    @Mapping(target = "customerId", source = "customer.id")
+    @Mapping(target = "serviceId", source = "choosenService.id")
+    @Mapping(target = "addressId", source = "address.id")
     OrderResponse toResponse(Order order);
+
+    List<OrderResponse> toListOfResponse(List<Order> order);
 
 
     //    @Mapping(target = "isCategory", source = "isCategory")

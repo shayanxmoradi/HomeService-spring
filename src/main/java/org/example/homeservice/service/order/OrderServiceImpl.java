@@ -8,6 +8,7 @@ import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.dto.mapper.AddressMapper;
 import org.example.homeservice.dto.mapper.OrderMapper;
 import org.example.homeservice.entity.Order;
+import org.example.homeservice.entity.enums.OrderStatus;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,28 +42,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         this.customerService = customerService;
     }
 
-//    @Override
-//    public Optional<OrderResponse> registerOrder(OrderRequest orderRequest) {
-//        if (customerService.findById(orderRequest.customerId()).isEmpty()) {
-//            throw new ValidationException("Customer with this id not found");
-//        }
-//        Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
-//        if (foundService.isEmpty()) {
-//            throw new ValidationException("Order cannot be null");
-//        } else if (foundService.get().category()==true) {
-//            throw new ValidationException("chosenService is not really service its just as category for other services");
-//
-//        }
-//        if (addressService.findById(orderRequest.addressId()).isEmpty()) {
-//            throw new ValidationException("no address with this id found");
-//        }
-//        if (foundService.get().basePrice()> orderRequest.offeredPrice()) throw new ValidationException("base price is greater than offered price");
-//
-////todo saving
-//       return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(orderMapper.toEntity(orderRequest))));
-//
-//    //watchout saved order shoud be added to customer to
-//    }
+
 
     @Override
     public Optional<OrderResponse> save(OrderRequest orderRequest) {
@@ -95,5 +77,11 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     @Override
     protected Order toEntity(OrderRequest dto) {
         return orderMapper.toEntity(dto);
+    }
+
+    @Override
+    public List<OrderResponse> findWaitingForOfferAndSpecialist() {
+
+        return orderMapper.toListOfResponse(baseRepository.findByStatusIn(Arrays.asList(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS,OrderStatus.WAITING_FOR_SPECIALISTS)));
     }
 }
