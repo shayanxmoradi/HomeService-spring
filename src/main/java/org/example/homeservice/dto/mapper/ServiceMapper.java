@@ -12,12 +12,17 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {
     Service toEntity(ServiceRequest serviceRequestDto);
-
+//
+//    @Mapping(target = "parentServiceId", source = "parentService.id")
+//    @Mapping(target = "availableSpecialists", source = "avilableSpecialists")
+//    @Mapping(target = "subServices", source = "subServices")
     ServiceResponse toDto(Service service);
+
     List<ServiceResponse> toDto(List<Service> service);
 
     //    @Mapping(target = "isCategory", source = "isCategory")
@@ -25,8 +30,27 @@ public interface ServiceMapper {
 
     ServiceRequest responeToDtoReq(ServiceResponse serviceResponse);
 
-}
 
+//    default List<Long> mapAvailableSpecialists(List<Specialist> availableSpecialists) {
+//        if (availableSpecialists == null) {
+//            return null;
+//        }
+//        return availableSpecialists.stream()
+//                .map(Specialist::getId)  // Assuming `Specialist` has an `id` field
+//                .collect(Collectors.toList());
+//    }
+//
+//    // Recursively map subservices
+//    default List<ServiceResponse> mapSubServices(List<Service> subServices) {
+//        if (subServices == null) {
+//            return null;
+//        }
+//        return subServices.stream()
+//                .map(this::toDto)  // Reusing the `toResponse` method for subservices
+//                .collect(Collectors.toList());
+//    }
+
+}
 
 
 //    @Mapping(target = "parentService", source = "parentServiceId", qualifiedByName = "mapParentServiceById")

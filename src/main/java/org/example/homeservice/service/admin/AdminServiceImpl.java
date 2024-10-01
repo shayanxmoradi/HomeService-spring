@@ -17,6 +17,7 @@ import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,13 +100,12 @@ public class AdminServiceImpl  implements AdminService {
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));
-
-        if (foundService.availableSpecialists().stream()
-                .anyMatch(s -> s.getId().equals(specialist.getId()))) {
-            throw new ValidationException("Specialist is already assigned to this service");
-        }
-
-        foundService.availableSpecialists().add(specialist);
+//
+//        if (foundService.availableSpecialists().stream()
+//                .anyMatch(s -> s.getId().equals(specialist.getId()))) {
+//            throw new ValidationException("Specialist is already assigned to this service");
+//        }//TODO THIS IS FUCKED UP
+        foundService.availableSpecialists().add(specialist.getId());
 
         serviceService.save(serviceMapper.responeToDtoReq(foundService));
     }

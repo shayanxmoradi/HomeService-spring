@@ -18,4 +18,7 @@ public interface SpecialistMapper {
     SpecialistResponse toDto(Specialist entity);
   SpecialistRequest toDtoReq(Specialist entity);
     List<SpecialistResponse> toDto(List<Specialist> specialists);
+
+
+
 }

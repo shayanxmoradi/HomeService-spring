@@ -1,5 +1,6 @@
 package org.example.homeservice.service.order;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.AddressResponse;
 import org.example.homeservice.dto.OrderRequest;
@@ -83,5 +84,10 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     public List<OrderResponse> findWaitingForOfferAndSpecialist() {
 
         return orderMapper.toListOfResponse(baseRepository.findByStatusIn(Arrays.asList(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS,OrderStatus.WAITING_FOR_SPECIALISTS)));
+    }
+@Transactional
+    @Override
+    public List<OrderResponse> findWaitingOrdersBySpecialist(Long specialistId) {
+        return orderMapper.toListOfResponse(baseRepository.findWaitingOrdersBySpecialist(specialistId));
     }
 }

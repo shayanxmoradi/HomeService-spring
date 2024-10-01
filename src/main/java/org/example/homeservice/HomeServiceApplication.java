@@ -87,7 +87,7 @@ public class HomeServiceApplication {
 //specialist.setSpecialistStatus();//todo defalut status
             specialist.setPersonalImage(speciallistService.processImage("/Users/shayan/Desktop/x.jpg"));
 
-            //  speciallistService.save(specialistMapper.toDtoReq(specialist));
+          //  speciallistService.save(specialistMapper.toDtoReq(specialist));
 
             //speciallistService.retriveImageOfSpecialist(802l,"/Users/shayan/Desktop/savedx.jpg");
         };
@@ -96,7 +96,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner acceptSpecialist(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-//adminService.acceptSpecialist(852l);
+//adminService.acceptSpecialist(1002L);
 
         };
     }
@@ -104,8 +104,8 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-            //  adminService.addingSpecialistToSubService(852l,752l);
-
+            // adminService.addingSpecialistToSubService(1002L,1102L);
+//todo FIIIIIIIIIIXXXXXX
         };
     }
 
@@ -218,6 +218,13 @@ public class HomeServiceApplication {
     CommandLineRunner seeActiveOrders(OrderService orderService, OrderMapper orderMapper) {
         return args -> {
             System.out.println(orderService.findWaitingForOfferAndSpecialist());
+        };
+    }
+    @Bean
+    CommandLineRunner getrelatedOrderToSpecialist(OrderService orderService, OrderMapper orderMapper) {
+        return args -> {
+            System.out.println("here");
+            orderService.findWaitingOrdersBySpecialist(1002l).forEach(a -> System.out.println(a.serviceId()));
         };
     }
 }

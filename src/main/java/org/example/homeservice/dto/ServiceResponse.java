@@ -5,6 +5,7 @@ import org.example.homeservice.entity.Specialist;
 import org.example.homeservice.entity.enums.SpecialistStatus;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record ServiceResponse(
@@ -13,7 +14,7 @@ public record ServiceResponse(
         Float basePrice,
         Long parentServiceId,
         boolean category,
-        List<Specialist> availableSpecialists,
+        List<Long> availableSpecialists,
         List<ServiceResponse> subServices
 ){
 }

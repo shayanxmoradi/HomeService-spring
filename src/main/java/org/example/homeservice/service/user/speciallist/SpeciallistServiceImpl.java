@@ -9,6 +9,7 @@ import org.example.homeservice.entity.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
+import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,20 +20,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, SpecialistRepo, SpecialistRequest,SpecialistResponse> implements SpeciallistService {
     private final ServiceRepo serviceRepo;
     private final SpecialistMapper specialistMapper;
+    private final OrderService orderService;
 
 
     @Autowired
-    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper) {
+    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService) {
         super(baseRepo);
         this.serviceRepo = serviceRepo;
         this.specialistMapper = specialistMapper;
 
+        this.orderService = orderService;
     }
 
 
@@ -127,5 +131,10 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         } catch (IOException e) {
             System.err.println("An IO error occurred while processing the image.");
         }
+    }
+
+    @Override
+    public List<OrderResponse> getAvilableOrders(Long specialistId) {
+        return orderService.findWaitingOrdersBySpecialist(specialistId  );
     }
 }
