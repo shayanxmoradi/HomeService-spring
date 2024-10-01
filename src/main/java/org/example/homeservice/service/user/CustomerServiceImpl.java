@@ -1,13 +1,12 @@
 package org.example.homeservice.service.user;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.UpdatePasswordRequst;
 import org.example.homeservice.dto.mapper.CustomerMapper;
 import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.entites.Customer;
-import org.example.homeservice.entites.Order;
-import org.example.homeservice.entites.Service;
+import org.example.homeservice.entity.Customer;
+import org.example.homeservice.entity.Order;
+import org.example.homeservice.entity.Service;
 import org.example.homeservice.repository.user.CustomerRepo;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.repository.service.ServiceRepo;

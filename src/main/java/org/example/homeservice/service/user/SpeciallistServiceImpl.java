@@ -5,7 +5,7 @@ import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
-import org.example.homeservice.entites.Specialist;
+import org.example.homeservice.entity.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
@@ -55,8 +55,6 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         Specialist savedSpelist = baseRepository.save(customer);
         return Optional.of(SpecialistMapper.INSTANCE.toDto(savedSpelist));
     }
-
-
 
 
 

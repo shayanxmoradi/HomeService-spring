@@ -1,23 +1,26 @@
 package org.example.homeservice;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.UpdatePasswordRequst;
+import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.dto.mapper.CustomerMapper;
 import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
-import org.example.homeservice.entites.Customer;
-import org.example.homeservice.entites.Service;
-import org.example.homeservice.entites.Specialist;
+import org.example.homeservice.entity.Customer;
+import org.example.homeservice.entity.Service;
+import org.example.homeservice.entity.Specialist;
+import org.example.homeservice.service.admin.AdminService;
+import org.example.homeservice.service.admin.AdminServiceImpl;
 import org.example.homeservice.service.service.ServiceService;
-import org.example.homeservice.service.user.BaseUserService;
 import org.example.homeservice.service.user.CustomerService;
 import org.example.homeservice.service.user.SpeciallistService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 @SpringBootApplication
 public class HomeServiceApplication {
@@ -80,9 +83,24 @@ public class HomeServiceApplication {
 //specialist.setSpecialistStatus();//todo defalut status
             specialist.setPersonalImage(speciallistService.processImage("/Users/shayan/Desktop/x.jpg"));
 
-            //  speciallistService.save(specialistMapper.toDtoReq(specialist));
+          //  speciallistService.save(specialistMapper.toDtoReq(specialist));
 
             //speciallistService.retriveImageOfSpecialist(802l,"/Users/shayan/Desktop/savedx.jpg");
+        };
+    }
+    @Bean
+    CommandLineRunner acceptSpecialist(AdminService adminService, SpecialistMapper specialistMapper) {
+        return args -> {
+adminService.acceptSpecialist(852l);
+
+        };
+    }
+
+    @Bean
+    CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
+        return args -> {
+          //  adminService.addingSpecialistToSubService(852l,752l);
+
         };
     }
 
@@ -115,9 +133,45 @@ public class HomeServiceApplication {
                     false,
                     null
             );
-
-            serviceService.save(serviceRequest);
+           // serviceService.save(serviceRequest);
         };
 
+
+    }
+
+    @Bean
+    CommandLineRunner admincreateService(AdminService adminService, ServiceMapper serviceMapper) {
+
+        return args -> {
+            Long parentServiceId = 752l;
+//todo if parent already not category cant be parent
+            ServiceRequest serviceRequest = new ServiceRequest(
+                    "from adsmin",
+                    "asdf",
+                    12.2f,
+                    parentServiceId,
+                    false,
+                    null
+            );
+            //adminService.createNewService(serviceRequest);
+        };
+    }
+    @Bean
+    CommandLineRunner findService(ServiceService serviceService, ServiceMapper serviceMapper) {
+        return args -> {
+            List<ServiceResponse> serviceResponses = serviceService.findAll().get();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(serviceResponses);
+          //  System.out.println(json);
+        };
+    }
+    @Bean
+    CommandLineRunner findServiceByAdmin(AdminService adminService, ServiceMapper serviceMapper) {
+        return args -> {
+            List<ServiceResponse> serviceResponses = adminService.findAllServices().get();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(serviceResponses);
+            System.out.println(json);
+        };
     }
 }

@@ -2,7 +2,7 @@ package org.example.homeservice.repository.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.example.homeservice.entites.Service;
+import org.example.homeservice.entity.Service;
 
 public class CustomServiceRepoImpl implements CustomServiceRepo {
 

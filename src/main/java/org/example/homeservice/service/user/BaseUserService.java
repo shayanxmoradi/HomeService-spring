@@ -1,7 +1,7 @@
 package org.example.homeservice.service.user;
 
 import org.example.homeservice.dto.UpdatePasswordRequst;
-import org.example.homeservice.entites.BaseUser;
+import org.example.homeservice.entity.BaseUser;
 import org.example.homeservice.service.baseentity.BaseEntityService;
 
 import java.util.Optional;

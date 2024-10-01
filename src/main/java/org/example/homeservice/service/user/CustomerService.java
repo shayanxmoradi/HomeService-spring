@@ -4,10 +4,9 @@ package org.example.homeservice.service.user;
 
 import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.dto.UpdatePasswordRequst;
-import org.example.homeservice.entites.Customer;
-import org.example.homeservice.entites.Order;
-import org.example.homeservice.entites.Service;
+import org.example.homeservice.entity.Customer;
+import org.example.homeservice.entity.Order;
+import org.example.homeservice.entity.Service;
 
 import javax.management.ServiceNotFoundException;
 import java.util.List;

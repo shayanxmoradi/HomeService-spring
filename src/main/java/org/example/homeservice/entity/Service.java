@@ -1,4 +1,4 @@
-package org.example.homeservice.entites;
+package org.example.homeservice.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,7 +28,7 @@ public class Service extends BaseEntity<Long> {
     @JoinColumn(name = PARENT_SERVICE_ID)
     private Service parentService;
 
-    @OneToMany(mappedBy = "parentService",  cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentService",  cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Service> subServices= new ArrayList<>();
 
     @Column(name = SERVICE_NAME,unique = true)
@@ -68,11 +68,7 @@ public class Service extends BaseEntity<Long> {
     public Service(String name) {
         this.name = name;
     }
-//    public void setParentServiceById(EntityManager entityManager, Long parentId) {
-//        if (parentId != null) {
-//            this.parentService = entityManager.getReference(Service.class, parentId);
-//        }
-//    }
+
 
     public void setBasePrice(Float basePrice) {
         if (category) {

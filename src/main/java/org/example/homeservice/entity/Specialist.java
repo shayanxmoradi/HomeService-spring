@@ -1,8 +1,8 @@
-package org.example.homeservice.entites;
+package org.example.homeservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.homeservice.entites.enums.SpecialistStatus;
+import org.example.homeservice.entity.enums.SpecialistStatus;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Specialist extends BaseUser {
 
     @Column(nullable = true)
     @Enumerated(EnumType.STRING)
-    private SpecialistStatus specialistStatus;
+    private SpecialistStatus specialistStatus=SpecialistStatus.PENDING;
 
     @Column
     private Double rate=0.0;

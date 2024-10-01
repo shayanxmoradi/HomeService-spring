@@ -1,6 +1,6 @@
 package org.example.homeservice.repository.order;
 
-import org.example.homeservice.entites.Order;
+import org.example.homeservice.entity.Order;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 
 import java.util.List;

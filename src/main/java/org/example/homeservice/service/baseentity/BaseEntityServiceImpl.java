@@ -1,20 +1,17 @@
 package org.example.homeservice.service.baseentity;
 
-import org.example.homeservice.entites.BaseEntity;
+import org.example.homeservice.entity.BaseEntity;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
-@Service
+
 public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializable, R extends BaseEnitityRepo<T, ID>, D,RDTO>
         implements BaseEntityService<T, ID, D,RDTO> {
     protected final R baseRepository;
 
-    @Autowired
+
     public BaseEntityServiceImpl(R baseRepository) {
         this.baseRepository = baseRepository;
     }
@@ -66,6 +63,6 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
 
     @Override
     public boolean existsByAttribute(String attributeName, Object attributeValue) {
-        return false; // Implement as needed
+        return false;
     }
 }
