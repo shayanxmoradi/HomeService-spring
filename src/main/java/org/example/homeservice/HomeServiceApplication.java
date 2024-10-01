@@ -2,24 +2,30 @@ package org.example.homeservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.example.homeservice.dto.AddressReqest;
+import org.example.homeservice.dto.OrderRequest;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.dto.mapper.CustomerMapper;
+import org.example.homeservice.dto.mapper.OrderMapper;
 import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
+import org.example.homeservice.entity.Address;
 import org.example.homeservice.entity.Customer;
 import org.example.homeservice.entity.Service;
 import org.example.homeservice.entity.Specialist;
 import org.example.homeservice.service.admin.AdminService;
-import org.example.homeservice.service.admin.AdminServiceImpl;
+import org.example.homeservice.service.adress.AddressService;
+import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
-import org.example.homeservice.service.user.CustomerService;
-import org.example.homeservice.service.user.SpeciallistService;
+import org.example.homeservice.service.user.customer.CustomerService;
+import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -40,14 +46,12 @@ public class HomeServiceApplication {
             addServiceDto.setCategory(true);
             //serviceService.save(addServiceDto);
 
-
         };
     }
 
     @Bean
     CommandLineRunner createCustomer(CustomerService customerService, CustomerMapper customerMapper) {
         return args -> {
-
             Customer customer = new Customer();
             customer.setId(1l);
             customer.setFirstName("John");
@@ -55,7 +59,7 @@ public class HomeServiceApplication {
             customer.setEmail("john.doe@example.com");
             customer.setPassword("1234123s");
 
-            //customerService.save(customerMapper.toDtoReq(customer));
+            //   customerService.save(customerMapper.toDtoReq(customer));
         };
     }
 
@@ -83,15 +87,16 @@ public class HomeServiceApplication {
 //specialist.setSpecialistStatus();//todo defalut status
             specialist.setPersonalImage(speciallistService.processImage("/Users/shayan/Desktop/x.jpg"));
 
-          //  speciallistService.save(specialistMapper.toDtoReq(specialist));
+            //  speciallistService.save(specialistMapper.toDtoReq(specialist));
 
             //speciallistService.retriveImageOfSpecialist(802l,"/Users/shayan/Desktop/savedx.jpg");
         };
     }
+
     @Bean
     CommandLineRunner acceptSpecialist(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-adminService.acceptSpecialist(852l);
+//adminService.acceptSpecialist(852l);
 
         };
     }
@@ -99,7 +104,7 @@ adminService.acceptSpecialist(852l);
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-          //  adminService.addingSpecialistToSubService(852l,752l);
+            //  adminService.addingSpecialistToSubService(852l,752l);
 
         };
     }
@@ -123,17 +128,17 @@ adminService.acceptSpecialist(852l);
     CommandLineRunner createService(ServiceService serviceService, ServiceMapper serviceMapper) {
 
         return args -> {
-            Long parentServiceId = 902l;
+            Long parentServiceId = 1052l;
 //todo if parent already not category cant be parent
             ServiceRequest serviceRequest = new ServiceRequest(
-                    "neverxmore",
-                    "asdf",
-                    12.2f,
+                    "kitchen",
+                    "fast and ez",
+                    222.2f,
                     parentServiceId,
                     false,
                     null
             );
-           // serviceService.save(serviceRequest);
+    //     serviceService.save(serviceRequest);
         };
 
 
@@ -156,15 +161,17 @@ adminService.acceptSpecialist(852l);
             //adminService.createNewService(serviceRequest);
         };
     }
+
     @Bean
     CommandLineRunner findService(ServiceService serviceService, ServiceMapper serviceMapper) {
         return args -> {
             List<ServiceResponse> serviceResponses = serviceService.findAll().get();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(serviceResponses);
-          //  System.out.println(json);
+            //  System.out.println(json);
         };
     }
+
     @Bean
     CommandLineRunner findServiceByAdmin(AdminService adminService, ServiceMapper serviceMapper) {
         return args -> {
@@ -174,4 +181,38 @@ adminService.acceptSpecialist(852l);
             System.out.println(json);
         };
     }
+
+    @Bean
+    CommandLineRunner createAddress(AddressService addressService, ServiceMapper serviceMapper) {
+        return args ->
+        {
+//            Address address = new Address();
+//            address.setCity("San Francisco");
+//            address.setState("CA");
+//            address.setZip("12345");
+            AddressReqest addressReqest = new AddressReqest(
+                    "emil moog",
+                    "dortmund",
+                    "NRW",
+                    "12345",
+                    952l);
+            //  addressService.save(addressReqest);
+        };
+    }
+
+    @Bean
+    CommandLineRunner registerOrder(OrderService orderService, OrderMapper orderMapper) {
+        return args -> {
+            OrderRequest order = new OrderRequest(
+                    952l,
+                    1102l,
+                    52l,
+                    "its hould be claen",
+                    LocalDateTime.now().plusDays(2),
+                    33333.21
+            );
+            orderService.save(order);
+        };
+    }
+    LocalDateTime  localDateTime = LocalDateTime.now();
 }

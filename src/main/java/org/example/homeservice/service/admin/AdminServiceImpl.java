@@ -12,9 +12,8 @@ import org.example.homeservice.entity.BaseUser;
 import org.example.homeservice.entity.Specialist;
 import org.example.homeservice.entity.enums.SpecialistStatus;
 import org.example.homeservice.repository.user.SpecialistRepo;
-import org.example.homeservice.repository.service.ServiceRepo;
 import org.example.homeservice.service.service.ServiceService;
-import org.example.homeservice.service.user.SpeciallistService;
+import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

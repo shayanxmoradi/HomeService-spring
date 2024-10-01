@@ -92,5 +92,21 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ServiceResponse> findFirstLayerServices() {
+        return baseRepository.findByParentServiceIsNull()
+                .stream()
+                .map(serviceMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    protected ServiceResponse toDto(Service entity) {
+        return serviceMapper.toDto(entity);
+    }
+
+    @Override
+    protected Service toEntity(ServiceRequest dto) {
+        return serviceMapper.toEntity(dto);
+    }
 }

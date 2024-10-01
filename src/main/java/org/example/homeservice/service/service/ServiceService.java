@@ -14,4 +14,5 @@ public interface ServiceService extends BaseEntityService<Service,Long, ServiceR
     List<ServiceResponse> findAllByParentId(Long parentId);
 
     List<ServiceResponse> findRealServices();
+    List<ServiceResponse> findFirstLayerServices();
 }

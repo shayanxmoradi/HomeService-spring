@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Table(name = Order.TABLE_NAME)
@@ -19,7 +21,7 @@ public class Order extends BaseEntity<Long> {
 
     @PrimaryKeyJoinColumn
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Service choosenService;
 
     @Column(nullable = false)
@@ -28,16 +30,13 @@ public class Order extends BaseEntity<Long> {
     @Column
     private Double offeredPrice;
 
-    @Column
+
     @Future
-    private Date serviceDate;
-
     @Column
-    private Time serviceTime;
+    private LocalDateTime serviceTime;
 
 
-    @OneToOne(cascade = CascadeType.ALL)  // Cascade the persist operation
-    @PrimaryKeyJoinColumn
+   @ManyToOne
     private Address address;
 
     @ManyToOne
@@ -66,12 +65,12 @@ public class Order extends BaseEntity<Long> {
                "choosenService=" + choosenService +
                ", orderDescription='" + orderDescription + '\'' +
                ", offeredPrice=" + offeredPrice +
-               ", serviceDate=" + serviceDate +
                ", serviceTime=" + serviceTime +
                ", address=" + address +
                ", status=" + status +
                ", speclistsWhoOffered=" + speclistsWhoOffered +
                ", chosenSpecialist=" + chosenSpecialist +
+              // getCustomer()+
                '}';
     }
 

@@ -17,11 +17,11 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
     }
 
     protected T toEntity(D dto) {
-        throw new UnsupportedOperationException("Conversion not implemented");
+        throw new UnsupportedOperationException(dto.getClass()+"to eininty Conversion not implemented");
     }
 
     protected RDTO toDto(T entity) {
-        throw new UnsupportedOperationException("Conversion not implemented");
+        throw new UnsupportedOperationException( entity.getClass()+" todto Conversion not implemented");
     }
 
     @Override

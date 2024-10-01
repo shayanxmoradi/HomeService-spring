@@ -1,4 +1,4 @@
-package org.example.homeservice.service.user;
+package org.example.homeservice.service.user.speciallist;
 
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
@@ -9,6 +9,7 @@ import org.example.homeservice.entity.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
+import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

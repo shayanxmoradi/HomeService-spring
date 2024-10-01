@@ -12,6 +12,6 @@ public interface CustomerMapper {
 
     Customer toEntity(CustomerRequsetDto dto);
     CustomerResponseDto toResponseDto(Customer customer);
-    CustomerRequsetDto toDtoReq(Customer entity);
+    CustomerRequsetDto toDto(Customer entity);
 
 }
