@@ -85,7 +85,13 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
         return orderMapper.toListOfResponse(baseRepository.findByStatusIn(Arrays.asList(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS,OrderStatus.WAITING_FOR_SPECIALISTS)));
     }
-@Transactional
+
+    @Override
+    public List<OrderResponse> findByCustomerId(Long customerId) {
+      return   orderMapper.toListOfResponse( baseRepository.findByCustomerId(customerId));
+    }
+
+    @Transactional
     @Override
     public List<OrderResponse> findWaitingOrdersBySpecialist(Long specialistId) {
         return orderMapper.toListOfResponse(baseRepository.findWaitingOrdersBySpecialist(specialistId));

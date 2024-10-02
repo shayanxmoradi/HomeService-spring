@@ -44,6 +44,7 @@ public class Order extends BaseEntity<Long> {
     private Customer customer ;
 
     @OneToMany
+//            (fetch = FetchType.LAZY)
     private List<Specialist> speclistsWhoOffered;
 
     @OneToOne

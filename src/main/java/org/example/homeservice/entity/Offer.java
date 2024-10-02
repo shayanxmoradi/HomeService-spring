@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -14,13 +16,19 @@ import java.util.Date;
 public class Offer extends BaseEntity<Long> {
 
     @Column
-    Date submitedDate;
+    LocalDate submitedDate;
 
     @Column
-    Time submittedTime;
+    LocalTime submittedTime;
 
     @Column
     Double suggestedPrice;
+
+    @ManyToOne
+    Order order;
+
+    @ManyToOne
+    Service service;
 
 
     @Column

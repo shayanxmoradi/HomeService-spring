@@ -2,20 +2,12 @@ package org.example.homeservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.homeservice.dto.AddressReqest;
-import org.example.homeservice.dto.OrderRequest;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.dto.mapper.CustomerMapper;
-import org.example.homeservice.dto.mapper.OrderMapper;
-import org.example.homeservice.dto.mapper.ServiceMapper;
-import org.example.homeservice.dto.mapper.SpecialistMapper;
-import org.example.homeservice.entity.Address;
-import org.example.homeservice.entity.Customer;
-import org.example.homeservice.entity.Service;
-import org.example.homeservice.entity.Specialist;
+import org.example.homeservice.dto.*;
+import org.example.homeservice.dto.mapper.*;
+import org.example.homeservice.entity.*;
 import org.example.homeservice.service.admin.AdminService;
 import org.example.homeservice.service.adress.AddressService;
+import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.customer.CustomerService;
@@ -25,7 +17,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -223,8 +217,27 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner getrelatedOrderToSpecialist(OrderService orderService, OrderMapper orderMapper) {
         return args -> {
-            System.out.println("here");
-            orderService.findWaitingOrdersBySpecialist(1002l).forEach(a -> System.out.println(a.serviceId()));
+         //   System.out.println("here");
+          //  orderService.findWaitingOrdersBySpecialist(1002l).forEach(a -> System.out.println(a.serviceId()));
+        };
+    }
+
+    @Bean
+    CommandLineRunner registerOffer(OfferService offerService, OfferMapper offerMapper) {
+        return args -> {
+            OfferRequest offer= new OfferRequest(LocalDate.now().plusDays(2), LocalTime.now().plusHours(2),
+                    4444.2,2552l ,
+                    1102l,
+                    5,1, LocalDate.now().plusDays(2),22,1002l);
+            offerService.save(offer);
+        };
+    }
+
+    @Bean
+    CommandLineRunner findOffers(OfferService offerService, OfferMapper offerMapper) {
+        return args -> {
+            System.out.println("findOffers");
+            System.out.println(offerService.findOfferByOrderId(2552l));
         };
     }
 }
