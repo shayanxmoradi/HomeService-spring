@@ -22,6 +22,11 @@ public interface OrderMapper {
     @Mapping(target = "customer.id", source = "customerId")
     @Mapping(target = "address", source = "addressId")
     Order toEntity(OrderRequest orderRequest);
+    @Mapping(target = "choosenService", source = "serviceId")
+    @Mapping(target = "address.id", source = "addressId")
+    @Mapping(target = "customer.id", source = "customerId")
+    @Mapping(target = "address", source = "addressId")
+    Order toEntity(OrderResponse orderRequest);
 
     OrderRequest toDto(Order order);
 

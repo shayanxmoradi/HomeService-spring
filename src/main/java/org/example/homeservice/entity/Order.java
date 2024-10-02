@@ -21,8 +21,8 @@ public class Order extends BaseEntity<Long> {
     public static final String TABLE_NAME = "orders";
 
     @PrimaryKeyJoinColumn
-
-    @ManyToOne(fetch = FetchType.LAZY)
+//todo check dont fuck oders
+    @ManyToOne(fetch = FetchType.EAGER)
     private Service choosenService;
 
     @Column(nullable = false)
@@ -40,7 +40,7 @@ public class Order extends BaseEntity<Long> {
    @ManyToOne
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer ;
 
     @OneToMany
@@ -49,6 +49,9 @@ public class Order extends BaseEntity<Long> {
 
     @OneToOne
     private Specialist chosenSpecialist;
+
+    @OneToOne
+    private Offer chosenOffer;
 
 
 

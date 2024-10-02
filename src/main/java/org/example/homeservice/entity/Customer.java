@@ -14,7 +14,7 @@ import java.util.List;
 public class Customer extends BaseUser {
     public static final String TABLE_NAME = "customer";
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders;
 
     public void addOrder(Order order) {

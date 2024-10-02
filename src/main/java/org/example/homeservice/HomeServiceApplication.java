@@ -240,4 +240,10 @@ public class HomeServiceApplication {
             System.out.println(offerService.findOfferByOrderId(2552l));
         };
     }
+    @Bean
+    CommandLineRunner choseOffer(OrderService orderService, OfferMapper offerMapper) {
+        return args -> {
+            orderService.choseOrder(2552l,1l);
+        };
+    }
 }

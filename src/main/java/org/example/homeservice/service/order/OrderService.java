@@ -8,12 +8,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 public interface OrderService extends BaseEntityService<Order,Long, OrderRequest, OrderResponse> {
 //  Optional< OrderResponse> registerOrder(OrderRequest orderRequest);
 List<OrderResponse> findWaitingForOfferAndSpecialist();
     List<OrderResponse> findByCustomerId(Long customerId);
 
     List<OrderResponse> findWaitingOrdersBySpecialist( Long specialistId);
-
+Optional<OrderResponse> choseOrder(Long orderId,Long chosenOfferId);
 
 }

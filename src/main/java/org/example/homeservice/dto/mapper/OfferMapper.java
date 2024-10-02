@@ -28,6 +28,10 @@ public interface OfferMapper {
 
     List<OfferResponse> toResponses(List<Offer> offers);
 
+    @Mapping(target = "order.id", source = "order")
+
+    Offer toEnity(OfferResponse offerRequest);
+
     default Service mapService(Long serviceId) {
         if (serviceId == null) {
             return null;  // Handle null case
