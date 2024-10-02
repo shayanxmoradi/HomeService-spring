@@ -19,19 +19,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRepo, OrderRequest, OrderResponse> implements OrderService {
-   private  CustomerService customerService;
-   private final ServiceService serviceService;
-   private final AddressService addressService;
-   private final OrderMapper orderMapper;
-   private final AddressMapper addressMapper;
-   private final OfferService offerService;
-   private final OfferMapper offerMapper;
+    private CustomerService customerService;
+    private final ServiceService serviceService;
+    private final AddressService addressService;
+    private final OrderMapper orderMapper;
+    private final AddressMapper addressMapper;
+    private final OfferService offerService;
+    private final OfferMapper offerMapper;
+
     @Autowired
     public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, AddressMapper addressMapper, OfferService offerService, OfferMapper offerMapper) {
         super(baseRepository);
@@ -42,11 +46,11 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         this.offerService = offerService;
         this.offerMapper = offerMapper;
     }
+
     @Autowired
     public void setCustomerService(@Lazy CustomerService customerService) {
         this.customerService = customerService;
     }
-
 
 
     @Override
@@ -57,7 +61,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
             throw new ValidationException("Order cannot be null");
-        } else if (foundService.get().category()==true) {
+        } else if (foundService.get().category() == true) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
         }
@@ -65,13 +69,14 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         if (foundedAddress.isEmpty()) {
             throw new ValidationException("no address with this id found");
         }
-        if (foundService.get().basePrice()> orderRequest.offeredPrice()) throw new ValidationException("base price is greater than offered price");
+        if (foundService.get().basePrice() > orderRequest.offeredPrice())
+            throw new ValidationException("base price is greater than offered price");
 
 //todo saving in customer side
         //todo tekraari
 
 
-      return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(orderMapper.toEntity(orderRequest))));
+        return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(orderMapper.toEntity(orderRequest))));
     }
 
     @Override
@@ -87,12 +92,12 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     @Override
     public List<OrderResponse> findWaitingForOfferAndSpecialist() {
 
-        return orderMapper.toListOfResponse(baseRepository.findByStatusIn(Arrays.asList(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS,OrderStatus.WAITING_FOR_SPECIALISTS)));
+        return orderMapper.toListOfResponse(baseRepository.findByStatusIn(Arrays.asList(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS, OrderStatus.WAITING_FOR_SPECIALISTS)));
     }
 
     @Override
     public List<OrderResponse> findByCustomerId(Long customerId) {
-      return   orderMapper.toListOfResponse( baseRepository.findByCustomerId(customerId));
+        return orderMapper.toListOfResponse(baseRepository.findByCustomerId(customerId));
     }
 
     @Transactional
@@ -100,8 +105,6 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     public List<OrderResponse> findWaitingOrdersBySpecialist(Long specialistId) {
         return orderMapper.toListOfResponse(baseRepository.findWaitingOrdersBySpecialist(specialistId));
     }
-
-
 
 
     //    @Override
@@ -154,36 +157,25 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Override
     public Optional<OrderResponse> choseOrder(Long orderId, Long chosenOfferId) {
-        // Validate that the IDs are not null
         if (orderId == null || chosenOfferId == null) {
             throw new IllegalArgumentException("Order ID and chosen offer ID must not be null");
         }
 
-        // Find the order by ID, throwing an exception if not found
         Order foundedOrder = baseRepository.findById(orderId)
                 .orElseThrow(() -> new ValidationException("No order with this ID found"));
 
-        // Find the offer by ID, throwing an exception if not found
         Optional<OfferResponse> foundedResponse = offerService.findById(chosenOfferId);
         if (foundedResponse.isEmpty()) {
             throw new ValidationException("No offer with this ID found");
         }
 
-        // Check if the order is in a status where it can be chosen
         boolean isChosableOrder = foundedOrder.getStatus() == OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS
                                   || foundedOrder.getStatus() == OrderStatus.WAITING_FOR_SPECIALISTS;
 
         if (isChosableOrder) {
-            // Update the order status and set the chosen offer
             foundedOrder.setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY);
             foundedOrder.setChosenOffer(offerMapper.toEnity(foundedResponse.get()));
 
-            // Save the updated order and return it
-           // return save(orderMapper.toDto(foundedOrder));
-
-            System.out.println("xxxx");
-           // OrderRequest orderRequest = orderMapper.toDto(foundedOrder);
-         //   System.out.println(orderRequest);
 
             return update(foundedOrder);
         } else {
@@ -191,8 +183,52 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
     }
 
+    @Override
+    public Optional<OrderResponse> startOrder(Long orderId) {
+        OrderStatus status = OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY;
+        Order foundedOrder = checkOrderStatus(orderId, status);
+        //finding related order
+        //get given time in offer an compare it with time of now
+        LocalDateTime offeredTimeToStart = foundedOrder.getChosenOffer().getOfferedTimeToStart();
+        if (!isBeforeCurrentTime(offeredTimeToStart)) {
+            throw new ValidationException("you are not allowed to start order before offered start time by specialist");
+        }
+        foundedOrder.setStatus(OrderStatus.BEGAN);
+        return update(foundedOrder);
+    }
+
+
+
+    @Override
+    public Optional<OrderResponse> endOrder(Long orderId) {
+        OrderStatus status = OrderStatus.BEGAN;
+        Order foundedOrder = checkOrderStatus(orderId, status);
+        LocalDateTime orderStartedAt = foundedOrder.getOrderStartedAt();
+        Duration estimatedDuration = foundedOrder.getChosenOffer().getEstimatedDuration();
+        LocalDateTime estimatedTimeToEnd = orderStartedAt.plus(estimatedDuration);
+        if (!isBeforeCurrentTime(estimatedTimeToEnd)) {
+            throw new ValidationException("you are not allowed to end order before estimated duration");
+        }
+        foundedOrder.setStatus(OrderStatus.DONE);
+
+        return update(foundedOrder);
+    }
+
 
     public Optional<OrderResponse> update(Order dto) {
-return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(dto)));
+        return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(dto)));
+    }
+
+    public boolean isBeforeCurrentTime(LocalDateTime dateTime) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        return dateTime.isBefore(currentDateTime);
+    }
+    private Order checkOrderStatus(Long orderId, OrderStatus status) {
+        Order foundedOrder = baseRepository.findById(orderId).orElseThrow(() -> new ValidationException("No order with this ID found"));
+        if (foundedOrder.getStatus() != status) {
+            throw new ValidationException("Order should be in status :" + status);
+        }
+        return foundedOrder;
     }
 }

@@ -36,6 +36,8 @@ public class Order extends BaseEntity<Long> {
     @Column
     private LocalDateTime serviceTime;
 
+    @Column
+    private LocalDateTime orderStartedAt;//todo on dtos
 
    @ManyToOne
     private Address address;

@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -16,10 +18,11 @@ import java.util.Date;
 public class Offer extends BaseEntity<Long> {
 
     @Column
-    LocalDate submitedDate;
+    LocalDateTime submittedDateTime = LocalDateTime.now();//todo carefull this changed
 
     @Column
-    LocalTime submittedTime;
+            @Future
+    LocalDateTime offeredTimeToStart;
 
     @Column
     Double suggestedPrice;
@@ -30,20 +33,9 @@ public class Offer extends BaseEntity<Long> {
     @ManyToOne
     Service service;
 
-
-    @Column
-    private Integer estimatedDays;
-
     @Column(nullable = false)
-    private Integer estimatedHours;
+    private Duration estimatedDuration;
 
-    @Column(nullable = false)
-    @NotNull
-    @Future
-    private Date proposedStartDate;
-
-    @Column(nullable = false)
-    private Integer estimatedMinutes;
 
     @ManyToOne
     @JoinColumn(name = "specialist_id", nullable = false)

@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.time.Duration;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -20,15 +21,15 @@ public interface OfferMapper {
     @Mapping(target = "specialist.id", source = "specialistId")
     Offer toEntity(OfferRequest offerRequest);
 
-    @Mapping(target = "order", source = "order.id")
-    @Mapping(target = "specialis", source = "specialist.id")
+    @Mapping(target = "orderId", source = "order.id")
+    @Mapping(target = "specialistId", source = "specialist.id")
     @Mapping(target = "serviceId", source = "service.id")
 
     OfferResponse toResponse(Offer offer);
 
     List<OfferResponse> toResponses(List<Offer> offers);
 
-    @Mapping(target = "order.id", source = "order")
+    @Mapping(target = "order.id", source = "orderId")
 
     Offer toEnity(OfferResponse offerRequest);
 
@@ -39,5 +40,8 @@ public interface OfferMapper {
         Service service = new Service();
         service.setId(serviceId);
         return service;  // Return the new Service with only the ID set
+    }
+    default Duration toDuration(int days, int hours, int minutes) {
+        return Duration.ofDays(days).plusHours(hours).plusMinutes(minutes);
     }
 }

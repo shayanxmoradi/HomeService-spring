@@ -225,11 +225,12 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner registerOffer(OfferService offerService, OfferMapper offerMapper) {
         return args -> {
-            OfferRequest offer= new OfferRequest(LocalDate.now().plusDays(2), LocalTime.now().plusHours(2),
-                    4444.2,2552l ,
-                    1102l,
-                    5,1, LocalDate.now().plusDays(2),22,1002l);
-            offerService.save(offer);
+            //todo change
+//            OfferRequest offer= new OfferRequest(LocalDate.now().plusDays(2), LocalTime.now().plusHours(2),
+//                    4444.2,2552l ,
+//                    1102l,
+//                    5,1, LocalDate.now().plusDays(2),22,1002l);
+//            offerService.save(offer);
         };
     }
 
