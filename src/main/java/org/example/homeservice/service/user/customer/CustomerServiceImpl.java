@@ -101,6 +101,21 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
        return offerService.findByOrderIdOOrderBySuggestedPrice(orderId);
     }
 
+    @Override
+    public Optional<OrderResponse> choseOrder(Long orderId, Long chosenOfferId) {
+        return orderService.choseOrder(orderId, chosenOfferId);
+    }
+
+    @Override
+    public Optional<OrderResponse> startOrder(Long orderId) {
+        return orderService.startOrder(orderId);
+    }
+
+    @Override
+    public Optional<OrderResponse> endOrder(Long orderId) {
+        return orderService.endOrder(orderId);
+    }
+
 
     @Override
     public boolean emailExists(String email) {

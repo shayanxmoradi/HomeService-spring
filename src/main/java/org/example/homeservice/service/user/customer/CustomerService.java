@@ -31,5 +31,10 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
     List<OfferResponse> findOfferByOrderId(Long orderId);
     List<OfferResponse> findByOrderIdOOrderBySuggestedPrice(Long orderId);
 
+    //order
+    Optional<OrderResponse> choseOrder(Long orderId, Long chosenOfferId);//todo in customer side should check for customer auth too?
 
+    Optional<OrderResponse> startOrder(Long orderId);
+
+    Optional<OrderResponse> endOrder(Long orderId);
 }

@@ -205,7 +205,7 @@ public class HomeServiceApplication {
                     LocalDateTime.now().plusDays(2),
                     33333.21
             );
-            orderService.save(order);
+          //  orderService.save(order);
         };
     }
     @Bean
@@ -244,7 +244,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner choseOffer(OrderService orderService, OfferMapper offerMapper) {
         return args -> {
-            orderService.choseOrder(2552l,1l);
+           // orderService.choseOrder(2552l,1l);
         };
     }
 }

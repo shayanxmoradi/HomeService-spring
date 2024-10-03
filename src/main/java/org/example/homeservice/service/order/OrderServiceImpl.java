@@ -187,8 +187,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     public Optional<OrderResponse> startOrder(Long orderId) {
         OrderStatus status = OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY;
         Order foundedOrder = checkOrderStatus(orderId, status);
-        //finding related order
-        //get given time in offer an compare it with time of now
+
         LocalDateTime offeredTimeToStart = foundedOrder.getChosenOffer().getOfferedTimeToStart();
         if (!isBeforeCurrentTime(offeredTimeToStart)) {
             throw new ValidationException("you are not allowed to start order before offered start time by specialist");

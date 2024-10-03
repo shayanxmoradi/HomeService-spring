@@ -21,5 +21,6 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
     Optional<OrderResponse> choseOrder(Long orderId, Long chosenOfferId);//todo in customer side should check for customer auth too?
 
     Optional<OrderResponse> startOrder(Long orderId);
-Optional<OrderResponse> endOrder(Long orderId);
+
+    Optional<OrderResponse> endOrder(Long orderId);
 }
