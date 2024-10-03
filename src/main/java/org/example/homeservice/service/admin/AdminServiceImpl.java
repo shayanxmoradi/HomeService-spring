@@ -91,12 +91,22 @@ public class AdminServiceImpl  implements AdminService {
     @Transactional
     @Override
     public void addingSpecialistToSubService(Long specialistId, Long subServiceId) {
+
+
         Specialist specialist = specialistRepo.findById(specialistId)
                 .orElseThrow(() -> new ValidationException("Specialist not found"));
 
         if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
             throw new ValidationException("Specialist is not approved");
         }
+
+
+        org.example.homeservice.entity.Service service = serviceService.findByIdX(subServiceId);
+        service.getAvilableSpecialists().add(specialist);
+        specialistRepo.save(specialist);
+        //todo X what should i do in this cause helpppp
+
+
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));
@@ -106,8 +116,11 @@ public class AdminServiceImpl  implements AdminService {
 //            throw new ValidationException("Specialist is already assigned to this service");
 //        }//TODO THIS IS FUCKED UP
         foundService.availableSpecialists().add(specialist.getId());
+        //todo just update method wich gets response and update it . careful
+//        foundService
+        System.out.println(foundService);
 
-        serviceService.save(serviceMapper.responeToDtoReq(foundService));
+        //serviceService.save(serviceMapper.responeToDtoReq(foundService));
     }
 
     @Override

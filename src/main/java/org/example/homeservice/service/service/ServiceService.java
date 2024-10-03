@@ -6,6 +6,7 @@ import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.entity.Service;
 import org.example.homeservice.service.baseentity.BaseEntityService;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface ServiceService extends BaseEntityService<Service,Long, ServiceR
 
     List<ServiceResponse> findRealServices();
     List<ServiceResponse> findFirstLayerServices();
+    Optional    <ServiceResponse> updateService(ServiceResponse serviceResponse);
+    Service  findByIdX(Long id);
 }

@@ -98,7 +98,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-            // adminService.addingSpecialistToSubService(1002L,1102L);
+             adminService.addingSpecialistToSubService(1102L,1352l);
 //todo FIIIIIIIIIIXXXXXX
         };
     }

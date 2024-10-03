@@ -34,6 +34,7 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
     @Override
     public Optional<ServiceResponse> save(ServiceRequest dto) {
         Optional<Service> existingService = baseRepository.findByName(dto.name());
+
         if (existingService.isPresent()) {
             throw new ValidationException("Service with name " + dto.name() + " already exists");
         }
@@ -54,6 +55,8 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
         // Convert DTO to entity and save
         return Optional.ofNullable(serviceMapper.toDto(baseRepository.save(savingService)));
     }
+
+
 
     @Override
     public List<ServiceResponse> findAllByParentId(Long parentId) {
@@ -101,6 +104,17 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
     }
 
     @Override
+    public Optional<ServiceResponse> updateService(ServiceResponse serviceResponse) {
+      //  baseRepository.save(serviceResponse)
+        return Optional.empty();
+    }
+
+    @Override
+    public Service findByIdX(Long id) {
+        return baseRepository.findById(id).get();
+    }
+
+    @Override
     protected ServiceResponse toDto(Service entity) {
         return serviceMapper.toDto(entity);
     }
@@ -109,4 +123,6 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
     protected Service toEntity(ServiceRequest dto) {
         return serviceMapper.toEntity(dto);
     }
+
+
 }
