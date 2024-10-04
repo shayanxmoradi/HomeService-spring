@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface BaseUserRepo<T extends BaseUser> extends BaseEnitityRepo<T, Long> {
     Optional<T> findByEmail(String email);
+    boolean existsByEmail(String email);
    // boolean existsByEmail(String email);
 
   //  T findByUsername(String username);

@@ -26,7 +26,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Autowired
     public CustomerServiceImpl(@Qualifier("customerRepo") CustomerRepo customerRepo,
-                               OrderRepo orderRepo, ServiceService serviceService, OrderService orderService, CustomerMapper customerMapper, OfferService offerService) {
+                              ServiceService serviceService, OrderService orderService, CustomerMapper customerMapper, OfferService offerService) {
         super(customerRepo);
         this.serviceService = serviceService;
         this.orderService = orderService;
@@ -55,12 +55,20 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Override
     public Optional<CustomerResponseDto> save(CustomerRequsetDto dto) {
-        // Check if email already exists
-        if (baseRepository.findByEmail(dto.email()).isPresent()) {
+        System.out.println("customer:");
+        if (baseRepository.existsByEmail(dto.email())) {
             throw new ValidationException("Customer with this email already exists");
         }
+        System.out.println(dto);
         Customer customer = customerMapper.toEntity(dto);
+        System.out.println(customer.getFirstName());
         Customer savedCustomer = baseRepository.save(customer);
+//        if (savedCustomer == null) {
+//            throw new ValidationException("database operation failed");
+//        }
+
+      //  System.out.println(savedCustomer.getFirstName());
+     //   System.out.println(customerMapper.toResponseDto(savedCustomer));
         return Optional.of(customerMapper.toResponseDto(savedCustomer));
     }
 

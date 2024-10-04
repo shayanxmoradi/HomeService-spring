@@ -1,14 +1,21 @@
 package org.example.homeservice.service.order;
 
 
+import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.*;
+import org.example.homeservice.dto.mapper.AddressMapper;
+import org.example.homeservice.dto.mapper.OfferMapper;
 import org.example.homeservice.dto.mapper.OrderMapper;
 import org.example.homeservice.entity.Address;
 import org.example.homeservice.entity.Customer;
 import org.example.homeservice.entity.Order;
 import org.example.homeservice.entity.Service;
+import org.example.homeservice.entity.enums.OrderStatus;
+import org.example.homeservice.entity.enums.SpecialistStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
+import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.adress.AddressService;
+import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.customer.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,16 +26,28 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceImplTest {
+    @Mock
+    private OrderRepo orderRepo;
+
     @Mock
     private CustomerService customerService;
 
@@ -39,27 +58,91 @@ class OrderServiceImplTest {
     private AddressService addressService;
 
     @Mock
+    private OfferService offerService;
+
+    @Mock
     private OrderMapper orderMapper;
 
     @Mock
-    private BaseEnitityRepo baseRepository;
+    private AddressMapper addressMapper;
+
+    @Mock
+    private OfferMapper offerMapper;
 
     @InjectMocks
     private OrderServiceImpl orderService;
+    private OrderRequest orderRequest;
+    private Order order;
+    private OrderResponse orderResponse;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }//
+        orderRequest = new OrderRequest(1L, 1L, 1L, "Order description", LocalDateTime.now(), 100.0);
+        order = new Order();
+        order.setId(1L);
+        order.setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS);
 
+        orderResponse = new OrderResponse(1L, 1l, 1l,"asdf", LocalDateTime.now().plusDays(2), 222.2);
+    }
+
+    @Test
+    void testSave_Successful() {
+        when(customerService.findById(anyLong())).thenReturn(Optional.of(new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", Date.valueOf(LocalDate.now()), Time.valueOf( LocalTime.now().now()))));
+        when(serviceService.findById(anyLong())).thenReturn(Optional.of(new ServiceResponse(1L, "Cleaning", "Description", 100f, 1l,true,null,null)));
+        when(addressService.findById(anyLong())).thenReturn(Optional.of(new AddressResponse("chamran", "Street", "City", "12345",1l)));
+        when(orderMapper.toEntity(any(OrderRequest.class))).thenReturn(order);
+        when(orderRepo.save(any(Order.class))).thenReturn(order);
+        when(orderMapper.toResponse(any(Order.class))).thenReturn(orderResponse);
+
+        Optional<OrderResponse> result = orderService.save(orderRequest);
+        assertTrue(result.isPresent());
+        assertEquals(orderResponse, result.get());
+
+        verify(orderRepo, times(1)).save(order);
+    }
+
+//
+//    @Test
+//    void testStartOrder_Successful() {
+//        when(orderRepo.findById(anyLong())).thenReturn(Optional.of(order));
+////        order.setChosenOffer(new OfferRequest(LocalDateTime.now().plusDays(2),  22.2, 1l, 1l, null,null,1l));
+////        new SpecialistResponse(1L, "Specialist", "Name", "spec@example.com", SpecialistStatus.APPROVED, 50.0, null)
+//        when(orderMapper.toResponse(any(Order.class))).thenReturn(orderResponse);
+//
+//        Optional<OrderResponse> result = orderService.startOrder(1L);
+//
+//        assertTrue(result.isPresent());
+//        assertEquals(OrderStatus.BEGAN, order.getStatus());
+//        verify(orderRepo, times(1)).save(order);
+//    }
+
+//    @Test
+//    void testStartOrder_InvalidStartTime() {
+//        order.setChosenOffer(new OfferResponse(1L, LocalDateTime.now().plusMinutes(10), Duration.ofHours(2), 100.0, new SpecialistResponse(1L, "Specialist", "Name", "spec@example.com", SpecialistStatus.APPROVED, 5.2, null)));
+//        when(orderRepo.findById(anyLong())).thenReturn(Optional.of(order));
+//
+//        assertThrows(ValidationException.class, () -> orderService.startOrder(1L));
+//    }
+
+//
 //    @Test
 //    void testSave_CustomerNotFound() {
 //        OrderRequest orderRequest = new OrderRequest(1L, 1L, 1L, "sdf", LocalDateTime.now().plusDays(1), 222.2); // Adjust parameters as needed
 //        Order order = spy(new Order());
-//        when(mockCustomerService.findById(orderRequest.customerId())).thenReturn(Optional.empty());
+//        when(customerService.findById(orderRequest.customerId())).thenReturn(Optional.empty());
 //
 //        ValidationException exception = assertThrows(ValidationException.class, () -> orderService.save(orderRequest));
 //        assertEquals("Customer with this id not found", exception.getMessage());
-  //  }
+//    }
+//    @Test
+//    void testsave_noAddresrFound() {
+//        OrderRequest orderRequest = new OrderRequest(1L, 1L, 1L, "sdf", LocalDateTime.now().plusDays(1), 222.2); // Adjust parameters as needed
+//        Order order = spy(new Order());
+//        when(addressService.findById(orderRequest.customerId())).thenReturn(Optional.empty());
+////when(customerService.findById(orderRequest.customerId())).thenReturn();
+//        ValidationException exception = assertThrows(ValidationException.class, () -> orderService.save(orderRequest));
+//        assertEquals("no address with this id found", exception.getMessage());
+//    }
 @Test
 void save_shouldReturnOrderResponse_whenValidInput() {
     // Create a sample OrderRequest

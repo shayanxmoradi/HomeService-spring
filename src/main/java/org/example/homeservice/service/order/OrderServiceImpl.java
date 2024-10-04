@@ -107,54 +107,6 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     }
 
 
-    //    @Override
-//    public Optional<OrderResponse> choseOrder(Long orderId,Long chosenOfferId) {
-//        Optional<Order> foundedOrder = baseRepository.findById(orderId);
-//        if (foundedOrder.isEmpty()) {
-//            throw new ValidationException("no order with this id found");
-//        }
-//        Optional<OfferResponse> foundedResponse = offerService.findById(chosenOfferId);
-//        if (foundedResponse.isEmpty()) {
-//            throw new ValidationException("no offer with this id found");
-//        }
-//        boolean isChosableOrder = foundedOrder.get().getStatus() == OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS || foundedOrder.get().getStatus() == OrderStatus.WAITING_FOR_SPECIALISTS;
-//        if (isChosableOrder) {
-//            foundedOrder.get().setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY);
-//            foundedOrder.get().setChosenOffer(offerMapper.toEnity(foundedResponse.get()));
-//          return   save(orderMapper.toDto(foundedOrder.get()));
-//
-//        }else throw new ValidationException("order is not in status wich you can chose it");
-//
-//    }
-
-//
-//    @Override
-//    public Optional<OrderResponse> choseOrder(Long orderId, Long chosenOfferId) {
-//        Order foundedOrder=   baseRepository.findById(orderId).get();
-//      //  Order foundedOrder = orderMapper.toEntity(findById(orderId).get());
-//        //foundedOrder.setId(1l);
-//        System.out.println("hereee");
-//        //todo why addreess is null
-//        //System.out.println(foundedOrder);
-////        //todo check there
-//////        if (foundedOrder.isEmpty()) {
-//////            throw new ValidationException("no order with this id found");
-//////        }
-//        Optional<OfferResponse> foundedResponse = offerService.findById(chosenOfferId);
-//        if (foundedResponse.isEmpty()) {
-//            throw new ValidationException("no offer with this id found");
-//        }
-//     boolean isChosableOrder = foundedOrder.getStatus() == OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS || foundedOrder.getStatus() == OrderStatus.WAITING_FOR_SPECIALISTS;
-//        if (isChosableOrder) {
-//            foundedOrder.setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY);
-//            foundedOrder.setChosenOffer(offerMapper.toEnity(foundedResponse.get()));
-//
-//            return save(orderMapper.toDto(foundedOrder));
-//            //return null;
-//        } else throw new ValidationException("order is not in status wich you can chose it");
-//    }
-
-
     @Override
     public Optional<OrderResponse> choseOrder(Long orderId, Long chosenOfferId) {
         if (orderId == null || chosenOfferId == null) {

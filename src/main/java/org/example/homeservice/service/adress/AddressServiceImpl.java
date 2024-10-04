@@ -27,12 +27,6 @@ public class AddressServiceImpl extends BaseEntityServiceImpl<Address, Long, Add
         this.addressMapper = addressMapper;
     }
 
-//    @Override
-//    public Optional<AddressResponse> save(AddressReqest dto) {
-//        return Optional.ofNullable(addressMapper.toResponseDto(baseRepository.save(addressMapper.toEntity(dto))));
-//    }
-
-
     @Override
     protected AddressResponse toDto(Address entity) {
         return addressMapper.toResponseDto(entity);

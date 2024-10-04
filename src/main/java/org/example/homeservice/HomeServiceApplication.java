@@ -47,13 +47,13 @@ public class HomeServiceApplication {
     CommandLineRunner createCustomer(CustomerService customerService, CustomerMapper customerMapper) {
         return args -> {
             Customer customer = new Customer();
-            customer.setId(1l);
-            customer.setFirstName("John");
-            customer.setLastName("Doe");
-            customer.setEmail("john.doe@example.com");
-            customer.setPassword("1234123s");
 
-            //   customerService.save(customerMapper.toDtoReq(customer));
+            customer.setFirstName("Joxxhn");
+            customer.setLastName("Doex");
+            customer.setEmail("john.dxoedsss@example.com");
+            customer.setPassword("1234323d");
+
+              customerService.save(customerMapper.toDto(customer));
         };
     }
 
@@ -98,7 +98,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-             adminService.addingSpecialistToSubService(1102L,1352l);
+//             adminService.addingSpecialistToSubService(1102L,1352l);
 //todo FIIIIIIIIIIXXXXXX
         };
     }

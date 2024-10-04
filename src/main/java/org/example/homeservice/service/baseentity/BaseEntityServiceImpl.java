@@ -26,6 +26,9 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
 
     @Override
     public Optional<RDTO> save(D dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("Entity converted from DTO cannot be null");
+        }
         T entity = toEntity(dto);
         return Optional.of(toDto(baseRepository.save(entity)));
     }
