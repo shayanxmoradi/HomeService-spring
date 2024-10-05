@@ -3,6 +3,7 @@ package org.example.homeservice.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 public record CustomerRequsetDto(
@@ -13,5 +14,7 @@ public record CustomerRequsetDto(
         @NotNull
         @Email
         String email,
+        @Size(min = 8, max = 8, message = "The length must be exactly 8 characters.")
+
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$", message = "Password must contain a combination of letters and numbers")
         String password) {}

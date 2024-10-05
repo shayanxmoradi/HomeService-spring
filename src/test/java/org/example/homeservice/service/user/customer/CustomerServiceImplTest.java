@@ -83,7 +83,7 @@ class CustomerServiceImplTest {
     }
 
 @Test
-void registerCustomer() {
+void registerCustomerTest() {
     CustomerRequsetDto customerRequestDto = new CustomerRequsetDto("John", "Doe", "john.doe@example.com", "1234323d");
 
     given(customerRepo.findByEmail(customerRequestDto.email())).willReturn(Optional.ofNullable(customer));

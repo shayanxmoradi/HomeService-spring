@@ -94,20 +94,20 @@ public class SpeciallistServiceImplTest {
         verify(specialistRepo, times(1)).findById(1L);
     }
 
-//    @Test
-//    void testSaveSpecialist_Successful() {
-//        when(specialistRepo.findByEmail(specialistRequest.email())).thenReturn(Optional.empty());
-//        when(specialistMapper.toEntity(specialistRequest)).thenReturn(specialist);
-//        when(specialistRepo.save(specialist)).thenReturn(specialist);
-//        when(specialistMapper.toDto(specialist)).thenReturn(specialistResponse);
-//
-//        Optional<SpecialistResponse> result = underTest.save(specialistRequest);
-//
-//        assertTrue(result.isPresent());
-//        assertEquals(specialistResponse, result.get());
-//        verify(specialistRepo, times(1)).findByEmail(specialistRequest.email());
-//        verify(specialistRepo, times(1)).save(specialist);
-//    }
+    @Test
+    void testSaveSpecialist_Successful() {
+        when(specialistRepo.findByEmail(specialistRequest.email())).thenReturn(Optional.empty());
+        when(specialistMapper.toEntity(specialistRequest)).thenReturn(specialist);
+        when(specialistRepo.save(specialist)).thenReturn(specialist);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistResponse);
+
+        Optional<SpecialistResponse> result = underTest.save(specialistRequest);
+
+        assertTrue(result.isPresent());
+        assertEquals(specialistResponse, result.get());
+        verify(specialistRepo, times(1)).findByEmail(specialistRequest.email());
+        verify(specialistRepo, times(1)).save(specialist);
+    }
 
     @Test
     void testSaveSpecialist_EmailAlreadyExists() {
@@ -120,23 +120,23 @@ public class SpeciallistServiceImplTest {
         verify(specialistRepo, never()).save(any());
     }
 
-//    @Test
-//    void testProcessImage_FileNotFound() {
-//        FileNotFoundException exception = assertThrows(FileNotFoundException.class, () -> underTest.processImage("invalidPath.jpg"));
-//
-//        assertEquals("Image file not found at the  path.", exception.getMessage());
-//    }
-//
-//    @Test
-//    void testProcessImage_TooLarge() {
-//        File imageFile = mock(File.class);
-//        when(imageFile.length()).thenReturn(400L * 1024); // Exceeds 300KB
-//        when(imageFile.exists()).thenReturn(true);
-//
-//        ImageTooLargeException exception = assertThrows(ImageTooLargeException.class, () -> underTest.processImage(imageFile.getPath()));
-//
-//        assertEquals("Image exceeds 300KB, cannot store it.", exception.getMessage());
-//    }
+    @Test
+    void testProcessImage_FileNotFound() {
+        FileNotFoundException exception = assertThrows(FileNotFoundException.class, () -> underTest.processImage("invalidPath.jpg"));
+
+        assertEquals("Image file not found at the  path.", exception.getMessage());
+    }
+
+    @Test
+    void testProcessImage_TooLarge() {
+        File imageFile = mock(File.class);
+        when(imageFile.length()).thenReturn(400L * 1024); // Exceeds 300KB
+        when(imageFile.exists()).thenReturn(true);
+
+        ImageTooLargeException exception = assertThrows(ImageTooLargeException.class, () -> underTest.processImage(imageFile.getPath()));
+
+        assertEquals("Image exceeds 300KB, cannot store it.", exception.getMessage());
+    }
 
     @Test
     void testGetAvailableOrders() {

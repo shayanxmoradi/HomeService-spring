@@ -72,8 +72,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         if (foundService.get().basePrice() > orderRequest.offeredPrice())
             throw new ValidationException("base price is greater than offered price");
 
-//todo saving in customer side
-        //todo tekraari
+
 
 
         return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(orderMapper.toEntity(orderRequest))));
@@ -137,6 +136,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Override
     public Optional<OrderResponse> startOrder(Long orderId) {
+
         OrderStatus status = OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY;
         Order foundedOrder = checkOrderStatus(orderId, status);
 

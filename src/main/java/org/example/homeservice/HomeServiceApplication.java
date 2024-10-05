@@ -50,10 +50,10 @@ public class HomeServiceApplication {
 
             customer.setFirstName("Joxxhn");
             customer.setLastName("Doex");
-            customer.setEmail("john.dxoedsss@example.com");
-            customer.setPassword("1234323d");
+            customer.setEmail("john.dxxdoedsss@example.com");
+            customer.setPassword("12345678");
 
-              customerService.save(customerMapper.toDto(customer));
+     //  customerService.save(customerMapper.toDto(customer));
         };
     }
 
@@ -79,7 +79,7 @@ public class HomeServiceApplication {
             specialist.setEmail("jodhss2xs2n.do22e@example.com");
             specialist.setPassword("1234123s");
 //specialist.setSpecialistStatus();//todo defalut status
-            specialist.setPersonalImage(speciallistService.processImage("/Users/shayan/Desktop/x.jpg"));
+//            specialist.setPersonalImage(speciallistService.processImage("/Users/shayan/Desktop/x.jpg"));
 
           //  speciallistService.save(specialistMapper.toDtoReq(specialist));
 
@@ -98,7 +98,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-//             adminService.addingSpecialistToSubService(1102L,1352l);
+           adminService.addingSpecialistToSubService(1102L,1352l);
 //todo FIIIIIIIIIIXXXXXX
         };
     }
@@ -142,17 +142,17 @@ public class HomeServiceApplication {
     CommandLineRunner admincreateService(AdminService adminService, ServiceMapper serviceMapper) {
 
         return args -> {
-            Long parentServiceId = 752l;
+            Long parentServiceId = 1702l;
 //todo if parent already not category cant be parent
             ServiceRequest serviceRequest = new ServiceRequest(
-                    "from adsmin",
+                    "kitchen",
                     "asdf",
                     12.2f,
                     parentServiceId,
                     false,
                     null
             );
-            //adminService.createNewService(serviceRequest);
+         //   adminService.createNewService(serviceRequest);
         };
     }
 

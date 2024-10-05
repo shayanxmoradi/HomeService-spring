@@ -88,6 +88,11 @@ public class AdminServiceImpl  implements AdminService {
         specialistRepo.save(specialist);
     }
 
+    /**
+     * when you find object its still in persitst state dont need to call update on it again
+     * @param specialistId
+     * @param subServiceId
+     */
     @Transactional
     @Override
     public void addingSpecialistToSubService(Long specialistId, Long subServiceId) {
@@ -102,25 +107,11 @@ public class AdminServiceImpl  implements AdminService {
 
 
         org.example.homeservice.entity.Service service = serviceService.findByIdX(subServiceId);
-        service.getAvilableSpecialists().add(specialist);
-        specialistRepo.save(specialist);
-        //todo X what should i do in this cause helpppp
-
-
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));
-//
-//        if (foundService.availableSpecialists().stream()
-//                .anyMatch(s -> s.getId().equals(specialist.getId()))) {
-//            throw new ValidationException("Specialist is already assigned to this service");
-//        }//TODO THIS IS FUCKED UP
-        foundService.availableSpecialists().add(specialist.getId());
-        //todo just update method wich gets response and update it . careful
-//        foundService
-        System.out.println(foundService);
+        service.getAvilableSpecialists().add(specialist);
 
-        //serviceService.save(serviceMapper.responeToDtoReq(foundService));
     }
 
     @Override

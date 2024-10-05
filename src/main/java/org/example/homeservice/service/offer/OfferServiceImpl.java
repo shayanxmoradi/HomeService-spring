@@ -41,7 +41,6 @@ public class OfferServiceImpl extends BaseEntityServiceImpl<Offer, Long, OfferRe
         if (foundedOrder.isEmpty()){
             throw new ValidationException("no order found");
         }
-// todo X am i doing right
 
         Optional<ServiceResponse> foundService = serviceService.findById(dto.serviceId());
         if (foundService.get().basePrice() > dto.suggestedPrice()) throw new ValidationException("base price is greater than offered price");
