@@ -1,13 +1,10 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.Customer;
-import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.dto.CustomerResponseDto;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.service.service.ServiceService;
-import org.example.homeservice.service.user.customer.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,26 +14,22 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/service")
 @RequiredArgsConstructor
-public class CustomerResource {
-    private final CustomerService customerService;
+public class ServiceResource {
+    private final ServiceService serviceService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
-        return ResponseEntity.ok(
-                customerService.findAll().get()
-        );
+        System.out.println(":sdf");
+        return null;
     }
-
+//todo why this cant be found!
     @PostMapping
-    public ResponseEntity<CustomerResponseDto> createCustomer(@RequestBody @Validated CustomerRequsetDto customer) {
-        Optional<CustomerResponseDto> savedCustomer = customerService.save(customer);
-        return savedCustomer
-                .map(cust -> ResponseEntity.status(HttpStatus.CREATED).body(cust))
+    public ResponseEntity<ServiceResponse> createService(@RequestBody @Validated ServiceRequest serviceRequest) {
+        System.out.println("hi");
+        Optional<ServiceResponse> savingResponse = serviceService.save(serviceRequest);
+        return savingResponse
+                .map(service -> ResponseEntity.status(HttpStatus.CREATED).body(service))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }
-
-
-
-}
+    }}

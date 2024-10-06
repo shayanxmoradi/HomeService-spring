@@ -43,8 +43,8 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
             Optional<Service> parentServiceOpt = baseRepository.findById(dto.parentServiceId()); // Fetch parent service by ID
             if (parentServiceOpt.isPresent()) {
                 Service parentService = parentServiceOpt.get();
-                if (!parentService.isCategory()) {
-                    throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " is not a category and cannot be a parent.");
+                if (!parentService.getCategory()) {
+                    throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " is not a isCategory and cannot be a parent.");
                 }
                 savingService.setParentService(parentService);
             } else {

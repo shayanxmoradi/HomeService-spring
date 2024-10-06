@@ -126,7 +126,7 @@ public class HomeServiceApplication {
 
         return args -> {
             Long parentServiceId = 1052l;
-//todo if parent already not category cant be parent
+//todo if parent already not isCategory cant be parent
             ServiceRequest serviceRequest = new ServiceRequest(
                     "kitchen",
                     "fast and ez",
@@ -146,7 +146,7 @@ public class HomeServiceApplication {
 
         return args -> {
             Long parentServiceId = 1702l;
-//todo if parent already not category cant be parent
+//todo if parent already not isCategory cant be parent
             ServiceRequest serviceRequest = new ServiceRequest(
                     "kitchen",
                     "asdf",

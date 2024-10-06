@@ -116,7 +116,7 @@ void registerCustomerTest() {
         customer.setEmail("john.doe@example.com");
         customer.setPassword("1234567d");
 
-        CustomerResponseDto customerResponseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", null, new Time(System.currentTimeMillis()));
+        CustomerResponseDto customerResponseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", LocalDateTime.now());
 
         given(customerRepo.existsByEmail(customerRequestDto.email())).willReturn(false);
         given(customerMapper.toEntity(customerRequestDto)).willReturn(customer);
@@ -154,7 +154,7 @@ void registerCustomerTest() {
     void canFindCustomerByEmail() {
         Customer customer = new Customer();
         customer.setEmail("john.doe@example.com");
-        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", null, null);
+        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", LocalDateTime.now());
 
         given(customerRepo.findByEmail("john.doe@example.com")).willReturn(Optional.of(customer));
         given(customerMapper.toResponseDto(customer)).willReturn(responseDto);
@@ -329,7 +329,7 @@ void registerCustomerTest() {
         String email = "john.doe@example.com";
         String password = "password";
         Customer customer = new Customer();
-        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", email, null, null);
+        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", email, LocalDateTime.now());
         given(customerRepo.findByEmailAndPassword(email, password)).willReturn(Optional.of(customer));
         given(customerMapper.toResponseDto(customer)).willReturn(responseDto);
 

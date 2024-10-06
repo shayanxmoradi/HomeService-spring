@@ -75,7 +75,7 @@ class OrderServiceImplTest {
 
     @Test
     void testSave_Successful() {
-        when(customerService.findById(anyLong())).thenReturn(Optional.of(new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", Date.valueOf(LocalDate.now()), Time.valueOf( LocalTime.now().now()))));
+        when(customerService.findById(anyLong())).thenReturn(Optional.of(new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com",LocalDateTime.now().plusDays(2))));
         when(serviceService.findById(anyLong())).thenReturn(Optional.of(new ServiceResponse(1L, "Cleaning", "Description", 100f, 1l,true,null,null)));
         when(addressService.findById(anyLong())).thenReturn(Optional.of(new AddressResponse("chamran", "Street", "City", "12345",1l)));
         when(orderMapper.toEntity(any(OrderRequest.class))).thenReturn(order);

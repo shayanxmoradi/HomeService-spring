@@ -60,7 +60,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         if (foundService.isEmpty()) {
             throw new ValidationException("Order cannot be null");
         } else if (foundService.get().category() == true) {
-            throw new ValidationException("chosenService is not really service its just as category for other services");
+            throw new ValidationException("chosenService is not really service its just as isCategory for other services");
 
         }
         Optional<AddressResponse> foundedAddress = addressService.findById(orderRequest.addressId());

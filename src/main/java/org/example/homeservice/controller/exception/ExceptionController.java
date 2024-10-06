@@ -61,11 +61,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleMissingRequestBody(HttpMessageNotReadableException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Invalid or missing request body");
-    }
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    public ResponseEntity<String> handleMissingRequestBody(HttpMessageNotReadableException ex) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                .body("Invalid or missing request body");
+//    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralException(Exception ex) {

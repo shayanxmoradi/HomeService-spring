@@ -54,9 +54,9 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     @Override
     public Optional<SpecialistResponse> save(SpecialistRequest request) {
         if (baseRepository.findByEmail(request.email()).isPresent()) {
-            throw new ValidationException("Customer with this email already exists");
+            throw new ValidationException("specialist with this email already exists");
         }
-        if (request.personalImage()==null) throw new ValidationException("Personal image is required");
+       // if (request.personalImage()==null) throw new ValidationException("Personal image is required");
 
         Specialist customer = SpecialistMapper.INSTANCE.toEntity(request);
         Specialist savedSpelist = baseRepository.save(customer);

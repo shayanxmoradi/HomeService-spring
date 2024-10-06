@@ -47,7 +47,7 @@ public class Service extends BaseEntity<Long> {
     private List<Specialist> avilableSpecialists = new ArrayList<>();
 
     @Column
-    private boolean category;
+    private Boolean category;
 
 
 
