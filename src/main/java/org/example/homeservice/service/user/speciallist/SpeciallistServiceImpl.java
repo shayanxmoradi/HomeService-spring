@@ -6,6 +6,7 @@ import org.example.homeservice.Exception.ImageTooLargeException;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
+import org.example.homeservice.dto.UpdatePasswordRequst;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
@@ -139,4 +140,17 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     public List<OrderResponse> getAvilableOrders(Long specialistId) {
         return orderService.findWaitingOrdersBySpecialist(specialistId  );
     }
+//    @Override
+//    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
+//
+//        Specialist specialist = baseRepository.findByEmail(updatePasswordRequst.email())
+//                .orElseThrow(() -> new ValidationException("user with this email not found"));
+//
+//        if (!specialist.getPassword().equals(updatePasswordRequst.oldPassword())) {
+//            throw new ValidationException("Incorrect password");
+//        }
+//
+//        specialist.setPassword(updatePasswordRequst.newPassword());
+//        baseRepository.save(specialist);
+//    }
 }

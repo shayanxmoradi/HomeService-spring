@@ -45,6 +45,12 @@ public class HomeServiceApplication {
 
         };
     }
+    @Bean
+    CommandLineRunner delteService(ServiceService serviceService) {
+        return args -> {
+            serviceService.deleteById(2002l);
+        };
+    }
 
     @Bean
     CommandLineRunner createCustomer(CustomerService customerService, CustomerMapper customerMapper) {

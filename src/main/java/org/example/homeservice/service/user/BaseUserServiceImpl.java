@@ -28,6 +28,7 @@ public abstract class BaseUserServiceImpl<T extends BaseUser, R extends BaseUser
 
     @Override
     public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
+
         T baseUser = baseRepository.findByEmail(updatePasswordRequst.email())
                 .orElseThrow(() -> new ValidationException("user with this email not found"));
 

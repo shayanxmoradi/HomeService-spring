@@ -11,7 +11,9 @@ public interface AddressMapper {
     @Mapping(target = "user.id", source = "userId")
 
     Address toEntity(AddressReqest dto);
+    @Mapping(target = "user.id", source = "userId")
     Address toEntity(AddressResponse dto);
+    @Mapping(target = "userId", source = "user.id")
 
     AddressResponse toResponseDto(Address address);
     AddressReqest toDtoReq(Address address);

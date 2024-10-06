@@ -19,17 +19,26 @@ import java.util.Optional;
 public class ServiceResource {
     private final ServiceService serviceService;
 
-    @GetMapping()
-    public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
-        System.out.println(":sdf");
-        return null;
+    @GetMapping("/{id}")
+    public ResponseEntity<ServiceResponse> getServiceById(@PathVariable Long id) {
+        Optional<ServiceResponse> serviceResponse = serviceService.findById(id);
+        return serviceResponse
+                .map(service -> ResponseEntity.status(HttpStatus.CREATED).body(service))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+
     }
-//todo why this cant be found!
+
     @PostMapping
     public ResponseEntity<ServiceResponse> createService(@RequestBody @Validated ServiceRequest serviceRequest) {
-        System.out.println("hi");
         Optional<ServiceResponse> savingResponse = serviceService.save(serviceRequest);
         return savingResponse
                 .map(service -> ResponseEntity.status(HttpStatus.CREATED).body(service))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }}
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteService(@PathVariable Long id) {
+        boolean deletingResult = serviceService.deleteById(id);
+        return deletingResult
+                ? ResponseEntity.ok("Successfully deleted")
+                : ResponseEntity.status(HttpStatus.NO_CONTENT).build();    }
+}

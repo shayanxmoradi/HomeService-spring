@@ -16,7 +16,7 @@ public class Offer extends BaseEntity<Long> {
     LocalDateTime submittedDateTime = LocalDateTime.now();//todo carefull this changed
 
     @Column
-            @Future
+    @Future
     LocalDateTime offeredTimeToStart;
 
     @Column
@@ -26,7 +26,7 @@ public class Offer extends BaseEntity<Long> {
     Order order;
 
     @ManyToOne
-    Service service;
+    Service service;//todo remove from here?
 
     @Column(nullable = false)
     private Duration estimatedDuration;

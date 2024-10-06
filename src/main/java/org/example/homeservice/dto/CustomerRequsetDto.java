@@ -12,7 +12,7 @@ public record CustomerRequsetDto(
 
         String lastName,
         @NotBlank(message = "email is required")
-        @Email
+        @Email(message = "you should enter valid email address")
         String email,
         @Size(min = 8, max = 8, message = "The length must be exactly 8 characters.")
         @NotBlank(message = "password is required")

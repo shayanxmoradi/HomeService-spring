@@ -1,6 +1,7 @@
 package org.example.homeservice.service.user.customer;
 
 import jakarta.validation.ValidationException;
+import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.CustomerMapper;
@@ -61,10 +62,22 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
         }
         Customer customer = customerMapper.toEntity(dto);
         Customer savedCustomer = baseRepository.save(customer);
-        
+
         return Optional.of(customerMapper.toResponseDto(savedCustomer));
     }
+    @Override
+    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
 
+        Customer specialist = baseRepository.findByEmail(updatePasswordRequst.email())
+                .orElseThrow(() -> new ValidationException("user with this email not found"));
+
+        if (!specialist.getPassword().equals(updatePasswordRequst.oldPassword())) {
+            throw new ValidationException("Incorrect password");
+        }
+
+        specialist.setPassword(updatePasswordRequst.newPassword());
+        baseRepository.save(specialist);
+    }
 
     @Override
     public Optional<CustomerResponseDto> findByEmailAndPass(String email, String password) {

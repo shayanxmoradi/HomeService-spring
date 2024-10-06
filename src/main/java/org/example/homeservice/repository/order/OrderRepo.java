@@ -1,5 +1,6 @@
 package org.example.homeservice.repository.order;
 
+import jakarta.transaction.Transactional;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
@@ -19,4 +20,13 @@ public interface OrderRepo extends BaseEnitityRepo<Order,Long> {
            "JOIN s.avilableSpecialists sp " +
            "WHERE o.status IN ('WAITING_FOR_SPECIALISTS_OFFERS', 'WAITING_FOR_SPECIALISTS') " +
            "AND sp.id = :specialistId")
-    List<Order> findWaitingOrdersBySpecialist(@Param("specialistId") Long specialistId);}
+    List<Order> findWaitingOrdersBySpecialist(@Param("specialistId") Long specialistId);
+    @Modifying
+    @Query("DELETE FROM Order o WHERE o.choosenService.id = :serviceId")
+    void deleteByServiceId(@Param("serviceId") Long serviceId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Order o SET o.choosenService = null WHERE o.choosenService.id = :serviceId")
+    void updateOrdersWithNullService(Long serviceId);
+}

@@ -1,16 +1,14 @@
 package org.example.homeservice.service.offer;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.OfferRequest;
-import org.example.homeservice.dto.OfferResponse;
-import org.example.homeservice.dto.OrderResponse;
-import org.example.homeservice.dto.ServiceResponse;
+import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.OfferMapper;
 import org.example.homeservice.domain.Offer;
 import org.example.homeservice.repository.offer.OfferRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
+import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -23,14 +21,19 @@ public class OfferServiceImpl extends BaseEntityServiceImpl<Offer, Long, OfferRe
    private  OrderService orderService;
    private final ServiceService serviceService;
    private final OfferMapper offerMapper;
+   private  SpeciallistService speciallistService;
     @Autowired
     public OfferServiceImpl(OfferRepo baseRepository, ServiceService serviceService, OfferMapper offerMapper) {
         super(baseRepository);
         this.serviceService = serviceService;
         this.offerMapper = offerMapper;
     }
-
 @Autowired
+    public void setSpeciallistService(@Lazy SpeciallistService speciallistService) {
+        this.speciallistService = speciallistService;
+    }
+
+    @Autowired
     public void setOrderService( @Lazy OrderService orderService) {
         this.orderService = orderService;
     }
@@ -42,8 +45,13 @@ public class OfferServiceImpl extends BaseEntityServiceImpl<Offer, Long, OfferRe
         if (foundedOrder.isEmpty()){
             throw new ValidationException("no order found");
         }
+        SpecialistResponse specialistResponse = speciallistService.findById(dto.specialistId())
+                .orElseThrow(() -> new ValidationException("No specialist with this ID found"));
+        //is this service is service of specialist offeredservices?
+        //todo xxxxxxxx
 
-        Optional<ServiceResponse> foundService = serviceService.findById(dto.serviceId());
+        Optional<ServiceResponse> foundService = serviceService.findById(foundedOrder.get().serviceId());
+
         if (foundService.get().basePrice() > dto.suggestedPrice()) throw new ValidationException("base price is greater than offered price");
 
 

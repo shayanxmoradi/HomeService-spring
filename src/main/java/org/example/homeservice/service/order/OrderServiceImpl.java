@@ -58,9 +58,9 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
-            throw new ValidationException("Order cannot be null");
+            throw new ValidationException("no servicee with this id : "+orderRequest.serviceId()+" found .");
         } else if (foundService.get().category() == true) {
-            throw new ValidationException("chosenService is not really service its just as isCategory for other services");
+            throw new ValidationException("chosenService is not really service its just as category for other services");
 
         }
         Optional<AddressResponse> foundedAddress = addressService.findById(orderRequest.addressId());
@@ -161,6 +161,16 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         foundedOrder.setStatus(OrderStatus.DONE);
 
         return update(foundedOrder);
+    }
+
+    @Override
+    public void deleteByServiceId(Long serviceId) {
+        baseRepository.deleteByServiceId(serviceId);
+    }
+
+    @Override
+    public void updateOrdersWithNullService(Long serviceId) {
+        baseRepository.updateOrdersWithNullService(serviceId);
     }
 
 

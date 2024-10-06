@@ -19,7 +19,7 @@ public class Order extends BaseEntity<Long> {
 
     @PrimaryKeyJoinColumn
 //todo check dont fuck oders
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private Service choosenService;
 
     @Column(nullable = false)
@@ -49,7 +49,7 @@ public class Order extends BaseEntity<Long> {
     @OneToOne
     private Specialist chosenSpecialist;
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
     private Offer chosenOffer;
 
 

@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
+import org.example.homeservice.dto.UpdatePasswordRequst;
+import org.example.homeservice.dto.UpdatePasswordResponse;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +27,10 @@ public class SpecialistResource {
                 .map(specialistResponse -> ResponseEntity.status(HttpStatus.CREATED).body(specialistResponse))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
+    @PutMapping("/password")
+    public ResponseEntity<UpdatePasswordResponse> updatePass(@RequestBody @Validated UpdatePasswordRequst updatePasswordRequst){
+        speciallistService.updatePassword(updatePasswordRequst);
+        UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse(updatePasswordRequst.email(), "password suffessfully changed for this user.");
+        return ResponseEntity.ok(updatePasswordResponse);    }
 
 }

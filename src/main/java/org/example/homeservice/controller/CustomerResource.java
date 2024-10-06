@@ -2,10 +2,7 @@ package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.domain.Customer;
-import org.example.homeservice.dto.CustomerRequsetDto;
-import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
+import org.example.homeservice.dto.*;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.customer.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -36,7 +33,10 @@ public class CustomerResource {
                 .map(cust -> ResponseEntity.status(HttpStatus.CREATED).body(cust))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
-
-
+    @PutMapping("/password")
+    public ResponseEntity<UpdatePasswordResponse> updatePass(@RequestBody @Validated UpdatePasswordRequst updatePasswordRequst){
+        customerService.updatePassword(updatePasswordRequst);
+        UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse(updatePasswordRequst.email(), "password suffessfully changed for this user.");
+        return ResponseEntity.ok(updatePasswordResponse);    }
 
 }
