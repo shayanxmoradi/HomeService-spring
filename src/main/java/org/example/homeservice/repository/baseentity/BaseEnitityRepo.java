@@ -1,6 +1,6 @@
 package org.example.homeservice.repository.baseentity;
 
-import org.example.homeservice.entity.BaseEntity;
+import org.example.homeservice.domain.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;

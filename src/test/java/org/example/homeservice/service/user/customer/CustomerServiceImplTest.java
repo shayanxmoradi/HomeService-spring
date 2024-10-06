@@ -3,7 +3,7 @@ package org.example.homeservice.service.user.customer;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.CustomerMapper;
-import org.example.homeservice.entity.Customer;
+import org.example.homeservice.domain.Customer;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.repository.user.CustomerRepo;
 import org.example.homeservice.service.offer.OfferService;
@@ -16,13 +16,10 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

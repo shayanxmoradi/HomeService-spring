@@ -1,18 +1,12 @@
 package org.example.homeservice.service.order;
 
 
-import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.AddressMapper;
 import org.example.homeservice.dto.mapper.OfferMapper;
 import org.example.homeservice.dto.mapper.OrderMapper;
-import org.example.homeservice.entity.Address;
-import org.example.homeservice.entity.Customer;
-import org.example.homeservice.entity.Order;
-import org.example.homeservice.entity.Service;
-import org.example.homeservice.entity.enums.OrderStatus;
-import org.example.homeservice.entity.enums.SpecialistStatus;
-import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
+import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.offer.OfferService;
@@ -23,12 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,10 +29,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 
 
 @ExtendWith(MockitoExtension.class)

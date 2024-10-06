@@ -1,7 +1,7 @@
 package org.example.homeservice.repository.order;
 
-import org.example.homeservice.entity.Order;
-import org.example.homeservice.entity.enums.OrderStatus;
+import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

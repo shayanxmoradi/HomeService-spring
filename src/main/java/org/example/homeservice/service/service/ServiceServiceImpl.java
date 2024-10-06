@@ -5,11 +5,10 @@ import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.entity.Service;
+import org.example.homeservice.domain.Service;
 import org.example.homeservice.repository.service.ServiceRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

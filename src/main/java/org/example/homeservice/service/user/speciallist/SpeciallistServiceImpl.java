@@ -3,9 +3,11 @@ package org.example.homeservice.service.user.speciallist;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
-import org.example.homeservice.dto.*;
+import org.example.homeservice.dto.OrderResponse;
+import org.example.homeservice.dto.SpecialistRequest;
+import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
-import org.example.homeservice.entity.Specialist;
+import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, SpecialistRepo, SpecialistRequest,SpecialistResponse> implements SpeciallistService {
+public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, SpecialistRepo, SpecialistRequest, SpecialistResponse> implements SpeciallistService {
     private final ServiceRepo serviceRepo;
     private final SpecialistMapper specialistMapper;
     private final OrderService orderService;

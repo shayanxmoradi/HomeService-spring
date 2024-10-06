@@ -2,11 +2,14 @@ package org.example.homeservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.homeservice.dto.*;
+import org.example.homeservice.domain.*;
 import org.example.homeservice.dto.mapper.*;
-import org.example.homeservice.entity.*;
 import org.example.homeservice.service.admin.AdminService;
 import org.example.homeservice.service.adress.AddressService;
+import org.example.homeservice.dto.AddressReqest;
+import org.example.homeservice.dto.OrderRequest;
+import org.example.homeservice.dto.ServiceRequest;
+import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
@@ -15,14 +18,14 @@ import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
+@EnableCaching
 public class HomeServiceApplication {
 
     public static void main(String[] args) {
@@ -98,7 +101,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-           adminService.addingSpecialistToSubService(1102L,1352l);
+         //  adminService.addingSpecialistToSubService(1102L,1352l);
 //todo FIIIIIIIIIIXXXXXX
         };
     }

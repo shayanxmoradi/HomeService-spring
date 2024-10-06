@@ -1,6 +1,6 @@
 package org.example.homeservice.repository.user;
 
-import org.example.homeservice.entity.BaseUser;
+import org.example.homeservice.domain.BaseUser;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 import org.springframework.stereotype.Repository;
 

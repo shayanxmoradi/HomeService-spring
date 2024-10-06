@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.example.homeservice.entity.BaseEntity;
+import org.example.homeservice.domain.BaseEntity;
 
 
 import java.io.Serializable;

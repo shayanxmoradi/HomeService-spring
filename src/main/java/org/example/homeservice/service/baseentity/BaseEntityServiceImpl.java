@@ -1,6 +1,6 @@
 package org.example.homeservice.service.baseentity;
 
-import org.example.homeservice.entity.BaseEntity;
+import org.example.homeservice.domain.BaseEntity;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 
 import java.io.Serializable;

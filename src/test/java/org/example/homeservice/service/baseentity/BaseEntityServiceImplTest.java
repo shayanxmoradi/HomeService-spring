@@ -1,13 +1,12 @@
 package org.example.homeservice.service.baseentity;
 
-import org.example.homeservice.entity.BaseEntity;
+import org.example.homeservice.domain.BaseEntity;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

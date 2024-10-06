@@ -3,7 +3,7 @@ package org.example.homeservice.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.hibernate.validator.constraints.Length;
 
 public record SpecialistRequest(

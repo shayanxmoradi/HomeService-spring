@@ -1,6 +1,6 @@
 package org.example.homeservice.dto;
 
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 
 public record SpecialistResponse(Long id,
                                  String firstName,

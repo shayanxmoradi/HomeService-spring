@@ -3,10 +3,9 @@ package org.example.homeservice.service.service;
 
 import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.entity.Service;
+import org.example.homeservice.domain.Service;
 import org.example.homeservice.service.baseentity.BaseEntityService;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

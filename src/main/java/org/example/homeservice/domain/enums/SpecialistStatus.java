@@ -1,4 +1,4 @@
-package org.example.homeservice.entity.enums;
+package org.example.homeservice.domain.enums;
 
 public enum SpecialistStatus {
     NEW,PENDING,APPROVED,REJECTED

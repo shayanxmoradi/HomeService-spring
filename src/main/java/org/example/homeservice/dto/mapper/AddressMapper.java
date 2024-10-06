@@ -2,11 +2,7 @@ package org.example.homeservice.dto.mapper;
 
 import org.example.homeservice.dto.AddressReqest;
 import org.example.homeservice.dto.AddressResponse;
-import org.example.homeservice.dto.CustomerRequsetDto;
-import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.entity.Address;
-import org.example.homeservice.entity.Customer;
-import org.example.homeservice.entity.Service;
+import org.example.homeservice.domain.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

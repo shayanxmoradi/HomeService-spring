@@ -1,12 +1,9 @@
 package org.example.homeservice.dto.mapper;
 
-import org.aspectj.weaver.ast.Or;
-import org.example.homeservice.dto.OrderRequest;
 import org.example.homeservice.dto.OrderResponse;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.entity.Order;
-import org.example.homeservice.entity.Service;
+import org.example.homeservice.dto.OrderRequest;
+import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.Service;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -8,16 +8,15 @@ import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
-import org.example.homeservice.entity.BaseUser;
-import org.example.homeservice.entity.Specialist;
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.BaseUser;
+import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,9 +103,9 @@ public class AdminServiceImpl  implements AdminService {
         if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
             throw new ValidationException("Specialist is not approved");
         }
+//todo check if is already adaded trow an exeption
 
-
-        org.example.homeservice.entity.Service service = serviceService.findByIdX(subServiceId);
+        org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));

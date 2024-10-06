@@ -3,8 +3,7 @@ package org.example.homeservice.service.adress;
 import org.example.homeservice.dto.AddressReqest;
 import org.example.homeservice.dto.AddressResponse;
 import org.example.homeservice.dto.mapper.AddressMapper;
-import org.example.homeservice.dto.mapper.CustomerMapper;
-import org.example.homeservice.entity.Address;
+import org.example.homeservice.domain.Address;
 import org.example.homeservice.repository.address.AddressRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 

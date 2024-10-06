@@ -1,13 +1,11 @@
 package org.example.homeservice.service.offer;
 
-import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.OfferRequest;
 import org.example.homeservice.dto.OfferResponse;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.dto.mapper.OfferMapper;
-import org.example.homeservice.entity.Offer;
-import org.example.homeservice.entity.enums.OrderStatus;
+import org.example.homeservice.domain.Offer;
 import org.example.homeservice.repository.offer.OfferRepo;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
@@ -20,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

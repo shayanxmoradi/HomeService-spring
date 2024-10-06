@@ -1,18 +1,11 @@
 package org.example.homeservice.dto.mapper;
 
-import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.entity.Service;
-import org.example.homeservice.entity.Specialist;
-import org.example.homeservice.repository.service.ServiceRepo;
-import org.mapstruct.Context;
+import org.example.homeservice.domain.Service;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {

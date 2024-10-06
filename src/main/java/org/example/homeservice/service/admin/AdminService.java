@@ -4,8 +4,8 @@ import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
-import org.example.homeservice.entity.BaseUser;
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.BaseUser;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 
 import java.util.List;
 import java.util.Optional;
