@@ -30,6 +30,7 @@ public interface OfferMapper {
     List<OfferResponse> toResponses(List<Offer> offers);
 
     @Mapping(target = "order.id", source = "orderId")
+    @Mapping(target = "specialist.id", source = "specialistId")
 
     Offer toEnity(OfferResponse offerRequest);
 

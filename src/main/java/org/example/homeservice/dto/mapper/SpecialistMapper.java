@@ -13,6 +13,7 @@ public interface SpecialistMapper {
     SpecialistMapper INSTANCE = Mappers.getMapper(SpecialistMapper.class);
 
     Specialist toEntity(SpecialistRequest request);
+    Specialist toEntity(SpecialistResponse request);
 
     //@Mapping(target = "id", source = "entity.id")
     SpecialistResponse toDto(Specialist entity);

@@ -47,7 +47,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner delteService(ServiceService serviceService) {
         return args -> {
-            serviceService.deleteById(2002l);
+         //   serviceService.deleteById(2002l);
         };
     }
 
@@ -255,7 +255,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner choseOffer(OrderService orderService, OfferMapper offerMapper) {
         return args -> {
-//            orderService.choseOrder(4402l,1802l);
+//      orderService.choseOrder(4452l,1902l);
         };
     }
 }

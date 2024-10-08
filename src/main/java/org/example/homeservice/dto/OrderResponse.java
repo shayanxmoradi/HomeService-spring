@@ -3,6 +3,7 @@ package org.example.homeservice.dto;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.example.homeservice.domain.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ public record OrderResponse(
         @Future
         LocalDateTime serviceTime,
         @Positive(message = "should be positive")
-        Double offeredPrice
+        Double offeredPrice,
+        OrderStatus status
 ) {
 }
