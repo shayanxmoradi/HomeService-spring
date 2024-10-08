@@ -3,13 +3,10 @@ package org.example.homeservice;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.example.homeservice.domain.*;
+import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.*;
 import org.example.homeservice.service.admin.AdminService;
 import org.example.homeservice.service.adress.AddressService;
-import org.example.homeservice.dto.AddressReqest;
-import org.example.homeservice.dto.OrderRequest;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
@@ -21,6 +18,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
+import javax.xml.datatype.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -235,11 +234,14 @@ public class HomeServiceApplication {
     CommandLineRunner registerOffer(OfferService offerService, OfferMapper offerMapper) {
         return args -> {
             //todo change
-//            OfferRequest offer= new OfferRequest(LocalDate.now().plusDays(2), LocalTime.now().plusHours(2),
+            OfferRequest offer= new OfferRequest(LocalDateTime.now().plusDays(1),2000.2,
+                    4402l, java.time.Duration.ofHours(2),1102l);
+
+//                    LocalDate.now().plusDays(2), LocalTime.now().plusHours(2),
 //                    4444.2,2552l ,
 //                    1102l,
 //                    5,1, LocalDate.now().plusDays(2),22,1002l);
-//            offerService.save(offer);
+           // offerService.save(offer);
         };
     }
 
@@ -247,13 +249,13 @@ public class HomeServiceApplication {
     CommandLineRunner findOffers(OfferService offerService, OfferMapper offerMapper) {
         return args -> {
             System.out.println("findOffers");
-            System.out.println(offerService.findOfferByOrderId(2552l));
+//            System.out.println(offerService.findOfferByOrderId(2552l));
         };
     }
     @Bean
     CommandLineRunner choseOffer(OrderService orderService, OfferMapper offerMapper) {
         return args -> {
-           // orderService.choseOrder(2552l,1l);
+//            orderService.choseOrder(4402l,1802l);
         };
     }
 }

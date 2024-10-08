@@ -2,7 +2,9 @@ package org.example.homeservice.repository.service;
 
 import org.example.homeservice.domain.Service;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,18 @@ public interface ServiceRepo extends BaseEnitityRepo<Service, Long>, CustomServi
     List<Service>findByParentServiceIsNull();// check id null
     List<Service> findByCategoryFalse();
     List<Service> findAllByParentServiceIsNotNull();
+
+    @Query("SELECT CASE WHEN COUNT(s) > 0 THEN TRUE ELSE FALSE END " +
+           "FROM Service srv JOIN srv.avilableSpecialists s " +
+           "WHERE srv.id = :serviceId AND s.id = :specialistId")
+    boolean isSpecialistAvailableInService(@Param("serviceId") Long serviceId, @Param("specialistId") Long specialistId);
+
+
+//native query
+//
+//    @Query(value = "SELECT COUNT(*) > 0 FROM spring.home_service.service_avilable_specialists WHERE service_id = :serviceId AND avilable_specialists_id = :specialistId", nativeQuery = true)
+//    boolean isSpecialistAvailableInService(@Param("serviceId") Long serviceId, @Param("specialistId") Long specialistId);
+
+    @Query(value = "SELECT COUNT(*) FROM spring.home_service.service_avilable_specialists WHERE service_id = :serviceId AND avilable_specialists_id = :specialistId", nativeQuery = true)
+    int countSpecialistsInService(@Param("serviceId") Long serviceId, @Param("specialistId") Long specialistId);
 }

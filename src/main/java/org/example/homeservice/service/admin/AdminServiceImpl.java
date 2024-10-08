@@ -103,13 +103,35 @@ public class AdminServiceImpl  implements AdminService {
         if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
             throw new ValidationException("Specialist is not approved");
         }
-//todo check if is already adaded trow an exeption
-
+        System.out.println("is avil"+serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
+        if (serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
+            throw new ValidationException("Specialist is already added to this service");
+        }
         org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));
         service.getAvilableSpecialists().add(specialist);
+
+    }
+@Transactional
+    @Override
+    public void deleteSpecialistFromSubService(Long specialistId, Long subServiceId) {
+        Specialist specialist = specialistRepo.findById(specialistId)
+                .orElseThrow(() -> new ValidationException("Specialist with id: "+specialistId+" found"));
+
+//        if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
+//            throw new ValidationException("Specialist is not approved");
+//        }
+        System.out.println("is avil"+serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
+        if (!serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
+            throw new ValidationException("Specialist is already not in this service ");
+        }
+        org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
+
+        ServiceResponse foundService = serviceService.findById(subServiceId)
+                .orElseThrow(() -> new ValidationException("Service not found"));
+        service.getAvilableSpecialists().remove(specialist);
 
     }
 

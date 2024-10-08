@@ -27,10 +27,19 @@ public class SpecialistResource {
                 .map(specialistResponse -> ResponseEntity.status(HttpStatus.CREATED).body(specialistResponse))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
+
     @PutMapping("/password")
-    public ResponseEntity<UpdatePasswordResponse> updatePass(@RequestBody @Validated UpdatePasswordRequst updatePasswordRequst){
+    public ResponseEntity<UpdatePasswordResponse> updatePass(@RequestBody @Validated UpdatePasswordRequst updatePasswordRequst) {
         speciallistService.updatePassword(updatePasswordRequst);
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse(updatePasswordRequst.email(), "password suffessfully changed for this user.");
-        return ResponseEntity.ok(updatePasswordResponse);    }
+        return ResponseEntity.ok(updatePasswordResponse);
+    }
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<SpecialistResponse> acceptSpecialist(@PathVariable Long id) {
+        Optional<SpecialistResponse> specialist = speciallistService.acceptSpecialist(id);
+        return specialist
+                .map(specialistResponse -> ResponseEntity.status(HttpStatus.CREATED).body(specialistResponse))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
 
 }

@@ -3,10 +3,10 @@ package org.example.homeservice.service.user.speciallist;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
-import org.example.homeservice.dto.UpdatePasswordRequst;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
@@ -42,6 +42,15 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         this.orderService = orderService;
     }
 
+
+    @Override
+    public Optional<SpecialistResponse> acceptSpecialist(Long specialistId) {
+        Specialist specialist = baseRepository.findById(specialistId)
+                .orElseThrow(() -> new ValidationException("Specialist not found"));
+
+        specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
+       return Optional.ofNullable(specialistMapper.toDto(baseRepository.save(specialist)));
+    }
 
 
     @Override

@@ -1,5 +1,7 @@
 package org.example.homeservice.service.baseentity;
 
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.example.homeservice.domain.BaseEntity;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 
@@ -54,6 +56,10 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
     @Override
     public Optional<RDTO> findById(ID id) {
 
+        if (baseRepository.findById(id).isEmpty()) {
+
+            throw new ValidationException(   "entitny from class :"+ this.getClass().getSimpleName()+ " with id : " + id + " not found!");
+        }
         return baseRepository.findById(id).map(this::toDto);
     }
 

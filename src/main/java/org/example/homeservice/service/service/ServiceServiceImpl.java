@@ -140,6 +140,12 @@ orderService.updateOrdersWithNullService(aLong);
     }
 
     @Override
+    public boolean isSpecialistAvailableInService(Long serviceId, Long specialistId) {
+
+      return   baseRepository.isSpecialistAvailableInService(serviceId, specialistId);
+    }
+
+    @Override
     protected ServiceResponse toDto(Service entity) {
         return serviceMapper.toDto(entity);
     }

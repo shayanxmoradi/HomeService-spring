@@ -65,17 +65,18 @@ public class Order extends BaseEntity<Long> {
 
     @Override
     public String toString() {
-        return "Order{" +
-               "choosenService=" + choosenService +
-               ", orderDescription='" + orderDescription + '\'' +
-               ", offeredPrice=" + offeredPrice +
-               ", serviceTime=" + serviceTime +
-               ", address=" + address +
-               ", status=" + status +
-               ", speclistsWhoOffered=" + speclistsWhoOffered +
-               ", chosenSpecialist=" + chosenSpecialist +
-              // getCustomer()+
-               '}';
+        return "problem with to string";
+//        Order{" +
+//               "choosenService=" + choosenService +
+//               ", orderDescription='" + orderDescription + '\'' +
+//               ", offeredPrice=" + offeredPrice +
+//               ", serviceTime=" + serviceTime +
+//               ", address=" + address +
+//               ", status=" + status +
+//               ", speclistsWhoOffered=" + speclistsWhoOffered +
+//               ", chosenSpecialist=" + chosenSpecialist +
+//              // getCustomer()+
+//               '}';
     }
 
 }

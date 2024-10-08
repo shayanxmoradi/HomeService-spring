@@ -9,5 +9,6 @@ public interface OfferRepo extends BaseEnitityRepo<Offer,Long> {
 
     List<Offer> findByOrderId(Long orderId);
     List<Offer> findByOrderIdOrderBySuggestedPrice(Long orderId);
+    List<Offer> findBySpecialistIdAndOrderId(Long specialistId, Long orderId);
 
 }

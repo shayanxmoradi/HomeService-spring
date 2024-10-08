@@ -18,6 +18,7 @@ public interface AdminService  {
     List<BaseUser> getAllUsers();
     void acceptSpecialist(Long specialistId);
     void addingSpecialistToSubService(Long specialistId, Long subServiceId);
+    void deleteSpecialistFromSubService(Long specialistId, Long subServiceId);
      Optional<ServiceResponse> createNewService(ServiceRequest dto);
     Optional<SpecialistResponse> addSpeciliast(SpecialistRequest request);
     void deleteSpecialist(Long specialistId);
