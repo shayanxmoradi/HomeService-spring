@@ -1,16 +1,11 @@
-package org.example.homeservice.entity;
+package org.example.homeservice.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.sql.Time;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "offer")
@@ -21,7 +16,7 @@ public class Offer extends BaseEntity<Long> {
     LocalDateTime submittedDateTime = LocalDateTime.now();//todo carefull this changed
 
     @Column
-            @Future
+    @Future
     LocalDateTime offeredTimeToStart;
 
     @Column
@@ -31,7 +26,7 @@ public class Offer extends BaseEntity<Long> {
     Order order;
 
     @ManyToOne
-    Service service;
+    Service service;//todo remove from here?
 
     @Column(nullable = false)
     private Duration estimatedDuration;

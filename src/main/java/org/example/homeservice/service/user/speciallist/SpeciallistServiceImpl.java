@@ -3,9 +3,12 @@ package org.example.homeservice.service.user.speciallist;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
-import org.example.homeservice.dto.*;
+import org.example.homeservice.domain.enums.SpecialistStatus;
+import org.example.homeservice.dto.OrderResponse;
+import org.example.homeservice.dto.SpecialistRequest;
+import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
-import org.example.homeservice.entity.Specialist;
+import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
@@ -24,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, SpecialistRepo, SpecialistRequest,SpecialistResponse> implements SpeciallistService {
+public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, SpecialistRepo, SpecialistRequest, SpecialistResponse> implements SpeciallistService {
     private final ServiceRepo serviceRepo;
     private final SpecialistMapper specialistMapper;
     private final OrderService orderService;
@@ -40,6 +43,15 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     }
 
 
+    @Override
+    public Optional<SpecialistResponse> acceptSpecialist(Long specialistId) {
+        Specialist specialist = baseRepository.findById(specialistId)
+                .orElseThrow(() -> new ValidationException("Specialist not found"));
+
+        specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
+       return Optional.ofNullable(specialistMapper.toDto(baseRepository.save(specialist)));
+    }
+
 
     @Override
     public Optional<SpecialistResponse> findById(Long id) {
@@ -52,9 +64,9 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     @Override
     public Optional<SpecialistResponse> save(SpecialistRequest request) {
         if (baseRepository.findByEmail(request.email()).isPresent()) {
-            throw new ValidationException("Customer with this email already exists");
+            throw new ValidationException("specialist with this email already exists");
         }
-        if (request.personalImage()==null) throw new ValidationException("Personal image is required");
+       // if (request.personalImage()==null) throw new ValidationException("Personal image is required");
 
         Specialist customer = SpecialistMapper.INSTANCE.toEntity(request);
         Specialist savedSpelist = baseRepository.save(customer);
@@ -137,4 +149,17 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     public List<OrderResponse> getAvilableOrders(Long specialistId) {
         return orderService.findWaitingOrdersBySpecialist(specialistId  );
     }
+//    @Override
+//    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
+//
+//        Specialist specialist = baseRepository.findByEmail(updatePasswordRequst.email())
+//                .orElseThrow(() -> new ValidationException("user with this email not found"));
+//
+//        if (!specialist.getPassword().equals(updatePasswordRequst.oldPassword())) {
+//            throw new ValidationException("Incorrect password");
+//        }
+//
+//        specialist.setPassword(updatePasswordRequst.newPassword());
+//        baseRepository.save(specialist);
+//    }
 }

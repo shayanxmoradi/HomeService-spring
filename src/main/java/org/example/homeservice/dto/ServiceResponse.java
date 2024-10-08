@@ -1,10 +1,5 @@
 package org.example.homeservice.dto;
 
-import jakarta.validation.constraints.*;
-import org.example.homeservice.entity.Specialist;
-import org.example.homeservice.entity.enums.SpecialistStatus;
-import org.hibernate.validator.constraints.Length;
-
 import java.util.ArrayList;
 import java.util.List;
 

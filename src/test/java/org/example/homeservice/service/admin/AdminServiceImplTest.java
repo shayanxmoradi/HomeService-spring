@@ -2,21 +2,18 @@ package org.example.homeservice.service.admin;
 
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
-import org.example.homeservice.entity.Specialist;
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

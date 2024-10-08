@@ -2,8 +2,8 @@ package org.example.homeservice.dto.mapper;
 
 import org.example.homeservice.dto.OfferRequest;
 import org.example.homeservice.dto.OfferResponse;
-import org.example.homeservice.entity.Offer;
-import org.example.homeservice.entity.Service;
+import org.example.homeservice.domain.Offer;
+import org.example.homeservice.domain.Service;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

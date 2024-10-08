@@ -1,11 +1,12 @@
 package org.example.homeservice.service.user.customer;
 
 import jakarta.validation.ValidationException;
+import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.CustomerMapper;
-import org.example.homeservice.entity.Customer;
+import org.example.homeservice.domain.Customer;
 import org.example.homeservice.repository.user.CustomerRepo;
-import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
@@ -55,23 +56,28 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Override
     public Optional<CustomerResponseDto> save(CustomerRequsetDto dto) {
-        System.out.println("customer:");
+
         if (baseRepository.existsByEmail(dto.email())) {
             throw new ValidationException("Customer with this email already exists");
         }
-        System.out.println(dto);
         Customer customer = customerMapper.toEntity(dto);
-        System.out.println(customer.getFirstName());
         Customer savedCustomer = baseRepository.save(customer);
-//        if (savedCustomer == null) {
-//            throw new ValidationException("database operation failed");
-//        }
 
-      //  System.out.println(savedCustomer.getFirstName());
-     //   System.out.println(customerMapper.toResponseDto(savedCustomer));
         return Optional.of(customerMapper.toResponseDto(savedCustomer));
     }
+    @Override
+    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
 
+        Customer specialist = baseRepository.findByEmail(updatePasswordRequst.email())
+                .orElseThrow(() -> new ValidationException("user with this email not found"));
+
+        if (!specialist.getPassword().equals(updatePasswordRequst.oldPassword())) {
+            throw new ValidationException("Incorrect password");
+        }
+
+        specialist.setPassword(updatePasswordRequst.newPassword());
+        baseRepository.save(specialist);
+    }
 
     @Override
     public Optional<CustomerResponseDto> findByEmailAndPass(String email, String password) {

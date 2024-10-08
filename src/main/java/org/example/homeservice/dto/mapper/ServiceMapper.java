@@ -1,27 +1,25 @@
 package org.example.homeservice.dto.mapper;
 
-import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.entity.Service;
-import org.example.homeservice.entity.Specialist;
-import org.example.homeservice.repository.service.ServiceRepo;
-import org.mapstruct.Context;
+import org.example.homeservice.domain.Service;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {
+    @Mapping(target = "category",source = "isCategory")
+//    @Mapping(target = "parentService.id",source = "parentServiceId")
     Service toEntity(ServiceRequest serviceRequestDto);
 //
 //    @Mapping(target = "parentServiceId", source = "parentService.id")
 //    @Mapping(target = "availableSpecialists", source = "avilableSpecialists")
 //    @Mapping(target = "subServices", source = "subServices")
-    ServiceResponse toDto(Service service);
+@Mapping(target = "parentServiceId",source = "parentService.id")
+ServiceResponse toDto(Service service);
 
     List<ServiceResponse> toDto(List<Service> service);
 
@@ -77,5 +75,5 @@ public interface ServiceMapper {
 //        return serviceRepository.findById(parentServiceId)
 //                .orElseThrow(() -> new ValidationException("Parent service not found"));
 //    }
-//
+
 //    }

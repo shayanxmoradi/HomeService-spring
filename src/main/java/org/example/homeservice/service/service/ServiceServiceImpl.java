@@ -1,15 +1,18 @@
 package org.example.homeservice.service.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
+import org.example.homeservice.domain.Order;
 import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.ServiceRequest;
 import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.entity.Service;
+import org.example.homeservice.domain.Service;
 import org.example.homeservice.repository.service.ServiceRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
+import org.example.homeservice.service.order.OrderService;
+import org.springframework.context.annotation.Lazy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,11 +20,13 @@ import java.util.stream.Collectors;
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, ServiceRepo, ServiceRequest, ServiceResponse> implements ServiceService {
     private final ServiceMapper serviceMapper;
+    private  OrderService orderService;
 
 
-    public ServiceServiceImpl(ServiceRepo baseRepository, ServiceMapper serviceMapper) {
+    public ServiceServiceImpl(ServiceRepo baseRepository, ServiceMapper serviceMapper, @Lazy OrderService orderService) {
         super(baseRepository);
         this.serviceMapper = serviceMapper;
+        this.orderService = orderService;
     }
 
     @Override
@@ -44,8 +49,8 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
             Optional<Service> parentServiceOpt = baseRepository.findById(dto.parentServiceId()); // Fetch parent service by ID
             if (parentServiceOpt.isPresent()) {
                 Service parentService = parentServiceOpt.get();
-                if (!parentService.isCategory()) {
-                    throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " is not a category and cannot be a parent.");
+                if (!parentService.getCategory()) {
+                    throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " is not a isCategory and cannot be a parent.");
                 }
                 savingService.setParentService(parentService);
             } else {
@@ -56,7 +61,27 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
         return Optional.ofNullable(serviceMapper.toDto(baseRepository.save(savingService)));
     }
 
+    /**
+     * watch out first all orrders wich have chosen service in it be deleted.
+     * @param aLong
+     * @return
+     */
+    @Override
+    @Transactional
 
+    public boolean deleteById(Long aLong) {
+        baseRepository.findById(aLong).orElseThrow( ()->new  ValidationException("no service with this id : " + aLong+" found"));
+
+
+
+
+     //   orderService.deleteByServiceId(aLong);
+
+
+orderService.updateOrdersWithNullService(aLong);
+      //   baseRepository.deleteById(aLong);
+         return true;
+    }
 
     @Override
     public List<ServiceResponse> findAllByParentId(Long parentId) {
@@ -112,6 +137,12 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
     @Override
     public Service findByIdX(Long id) {
         return baseRepository.findById(id).get();
+    }
+
+    @Override
+    public boolean isSpecialistAvailableInService(Long serviceId, Long specialistId) {
+
+      return   baseRepository.isSpecialistAvailableInService(serviceId, specialistId);
     }
 
     @Override

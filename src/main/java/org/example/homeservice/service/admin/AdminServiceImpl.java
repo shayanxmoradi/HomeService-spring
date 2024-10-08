@@ -8,16 +8,15 @@ import org.example.homeservice.dto.mapper.ServiceMapper;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
-import org.example.homeservice.entity.BaseUser;
-import org.example.homeservice.entity.Specialist;
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.BaseUser;
+import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,13 +103,35 @@ public class AdminServiceImpl  implements AdminService {
         if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
             throw new ValidationException("Specialist is not approved");
         }
-
-
-        org.example.homeservice.entity.Service service = serviceService.findByIdX(subServiceId);
+        System.out.println("is avil"+serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
+        if (serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
+            throw new ValidationException("Specialist is already added to this service");
+        }
+        org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));
         service.getAvilableSpecialists().add(specialist);
+
+    }
+@Transactional
+    @Override
+    public void deleteSpecialistFromSubService(Long specialistId, Long subServiceId) {
+        Specialist specialist = specialistRepo.findById(specialistId)
+                .orElseThrow(() -> new ValidationException("Specialist with id: "+specialistId+" found"));
+
+//        if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
+//            throw new ValidationException("Specialist is not approved");
+//        }
+        System.out.println("is avil"+serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
+        if (!serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
+            throw new ValidationException("Specialist is already not in this service ");
+        }
+        org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
+
+        ServiceResponse foundService = serviceService.findById(subServiceId)
+                .orElseThrow(() -> new ValidationException("Service not found"));
+        service.getAvilableSpecialists().remove(specialist);
 
     }
 

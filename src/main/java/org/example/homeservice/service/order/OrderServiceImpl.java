@@ -6,9 +6,8 @@ import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.AddressMapper;
 import org.example.homeservice.dto.mapper.OfferMapper;
 import org.example.homeservice.dto.mapper.OrderMapper;
-import org.example.homeservice.entity.Address;
-import org.example.homeservice.entity.Order;
-import org.example.homeservice.entity.enums.OrderStatus;
+import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
@@ -20,7 +19,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +58,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
-            throw new ValidationException("Order cannot be null");
+            throw new ValidationException("no servicee with this id : "+orderRequest.serviceId()+" found .");
         } else if (foundService.get().category() == true) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
@@ -163,6 +161,16 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         foundedOrder.setStatus(OrderStatus.DONE);
 
         return update(foundedOrder);
+    }
+
+    @Override
+    public void deleteByServiceId(Long serviceId) {
+        baseRepository.deleteByServiceId(serviceId);
+    }
+
+    @Override
+    public void updateOrdersWithNullService(Long serviceId) {
+        baseRepository.updateOrdersWithNullService(serviceId);
     }
 
 

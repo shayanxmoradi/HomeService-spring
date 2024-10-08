@@ -2,8 +2,8 @@ package org.example.homeservice.service.user.customer;
 
 
 
+import org.example.homeservice.domain.Customer;
 import org.example.homeservice.dto.*;
-import org.example.homeservice.entity.Customer;
 import org.example.homeservice.service.user.BaseUserService;
 
 import java.util.List;

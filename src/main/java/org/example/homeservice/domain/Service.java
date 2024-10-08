@@ -1,4 +1,4 @@
-package org.example.homeservice.entity;
+package org.example.homeservice.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -47,7 +47,7 @@ public class Service extends BaseEntity<Long> {
     private List<Specialist> avilableSpecialists = new ArrayList<>();
 
     @Column
-    private boolean category;
+    private Boolean category;
 
 
 

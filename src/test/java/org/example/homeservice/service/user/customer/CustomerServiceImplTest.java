@@ -3,7 +3,7 @@ package org.example.homeservice.service.user.customer;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.CustomerMapper;
-import org.example.homeservice.entity.Customer;
+import org.example.homeservice.domain.Customer;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.repository.user.CustomerRepo;
 import org.example.homeservice.service.offer.OfferService;
@@ -16,13 +16,10 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -119,7 +116,7 @@ void registerCustomerTest() {
         customer.setEmail("john.doe@example.com");
         customer.setPassword("1234567d");
 
-        CustomerResponseDto customerResponseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", null, new Time(System.currentTimeMillis()));
+        CustomerResponseDto customerResponseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", LocalDateTime.now());
 
         given(customerRepo.existsByEmail(customerRequestDto.email())).willReturn(false);
         given(customerMapper.toEntity(customerRequestDto)).willReturn(customer);
@@ -157,7 +154,7 @@ void registerCustomerTest() {
     void canFindCustomerByEmail() {
         Customer customer = new Customer();
         customer.setEmail("john.doe@example.com");
-        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", null, null);
+        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", "john.doe@example.com", LocalDateTime.now());
 
         given(customerRepo.findByEmail("john.doe@example.com")).willReturn(Optional.of(customer));
         given(customerMapper.toResponseDto(customer)).willReturn(responseDto);
@@ -332,7 +329,7 @@ void registerCustomerTest() {
         String email = "john.doe@example.com";
         String password = "password";
         Customer customer = new Customer();
-        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", email, null, null);
+        CustomerResponseDto responseDto = new CustomerResponseDto(1L, "John", "Doe", email, LocalDateTime.now());
         given(customerRepo.findByEmailAndPassword(email, password)).willReturn(Optional.of(customer));
         given(customerMapper.toResponseDto(customer)).willReturn(responseDto);
 

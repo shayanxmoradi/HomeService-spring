@@ -1,6 +1,7 @@
 package org.example.homeservice.dto;
 
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -13,9 +14,12 @@ public record OrderRequest(
         Long serviceId,
         @NotNull
         Long addressId,
+        @NotBlank
         String orderDescription,
         @Future
+        @NotNull
         LocalDateTime serviceTime,
         @Positive(message = "should be positive")
+        @NotNull
         Double offeredPrice) {
 }

@@ -1,8 +1,8 @@
-package org.example.homeservice.entity;
+package org.example.homeservice.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.homeservice.entity.enums.SpecialistStatus;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.example.homeservice.entity;
+package org.example.homeservice.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
