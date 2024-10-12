@@ -55,4 +55,13 @@ public class OrderResource {
                 .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
+
+    @PutMapping("/onlinePayment")
+    public ResponseEntity<OrderResponse> endOrder(@RequestParam String card, Long orderId) {
+        //todo save paied card?
+        Optional<OrderResponse> savingResponse = orderService.setOnlinePaied(orderId);
+        return savingResponse
+                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
 }

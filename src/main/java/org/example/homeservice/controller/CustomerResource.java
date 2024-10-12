@@ -48,4 +48,6 @@ public class CustomerResource {
         return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email));
     }
 
+
+
 }

@@ -195,6 +195,15 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         baseRepository.updateOrdersWithNullService(serviceId);
     }
 
+    @Override
+    public Optional<OrderResponse> setOnlinePaied(Long orderId) {
+        OrderStatus status = OrderStatus.DONE;
+        Order foundedOrder = checkOrderStatus(orderId, status);
+//todo working right?
+        foundedOrder.setStatus(OrderStatus.PAID);
+        return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
+    }
+
 
     public Optional<OrderResponse> update(Order dto) {
         return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(dto)));
