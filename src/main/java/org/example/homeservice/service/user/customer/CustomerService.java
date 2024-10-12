@@ -37,4 +37,6 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
     Optional<OrderResponse> startOrder(Long orderId);
 
     Optional<OrderResponse> endOrder(Long orderId);
+
+    List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email);
 }

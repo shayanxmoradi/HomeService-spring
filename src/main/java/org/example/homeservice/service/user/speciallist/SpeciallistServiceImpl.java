@@ -12,10 +12,13 @@ import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
+import org.example.homeservice.repository.user.SpecialistSpecification;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -50,6 +53,21 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
 
         specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
        return Optional.ofNullable(specialistMapper.toDto(baseRepository.save(specialist)));
+    }
+
+    @Override
+    public List<Specialist> filterSpecialists(String name,String lastName, String email, String serviceName, String sortBy, boolean ascending) {
+        Specification<Specialist> spec = Specification.where(SpecialistSpecification.filterByName(name))
+                .and(SpecialistSpecification.filterByLastName(lastName))
+                .and(SpecialistSpecification.filterByEmail(email))
+                .and(SpecialistSpecification.filterByServiceName(serviceName));
+
+        if (ascending) {
+
+            return baseRepository.findAll(spec, Sort.by(sortBy).ascending());
+        } else {
+            return baseRepository.findAll(spec, Sort.by(sortBy).descending());
+        }
     }
 
 

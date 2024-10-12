@@ -6,12 +6,16 @@ import org.example.homeservice.domain.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,componentModel = "spring")
 public interface CustomerMapper {
     CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
     Customer toEntity(CustomerRequsetDto dto);
     CustomerResponseDto toResponseDto(Customer customer);
+    List<CustomerResponseDto> toResponseDto(List<Customer> customer);
     CustomerRequsetDto toDto(Customer entity);
 
 }

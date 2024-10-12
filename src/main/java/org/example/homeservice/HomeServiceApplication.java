@@ -258,4 +258,11 @@ public class HomeServiceApplication {
 //      orderService.choseOrder(4452l,1902l);
         };
     }
+
+    @Bean
+    CommandLineRunner spefilter(SpeciallistService speciallistService, OfferMapper offerMapper) {
+        return args -> {
+//speciallistService.filterSpecialists("","","","rate",true);
+        };
+    }
 }

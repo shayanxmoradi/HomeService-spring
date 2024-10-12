@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,6 +41,17 @@ public class SpecialistResource {
         return specialist
                 .map(specialistResponse -> ResponseEntity.status(HttpStatus.CREATED).body(specialistResponse))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+    @GetMapping("/filter")
+    public List<Specialist> filterSpecialists(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String serviceName,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending) {
+
+        return speciallistService.filterSpecialists(name,lastName, email, serviceName, "rate", ascending);
     }
 
 }
