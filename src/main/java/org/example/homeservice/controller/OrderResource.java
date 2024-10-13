@@ -3,7 +3,6 @@ package org.example.homeservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.dto.OrderRequest;
 import org.example.homeservice.dto.OrderResponse;
-import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.service.order.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,10 +55,11 @@ public class OrderResource {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
-    @PutMapping("/onlinePayment")
-    public ResponseEntity<OrderResponse> endOrder(@RequestParam String card, Long orderId) {
+    @PutMapping("/onlinePayment/{id}")
+    public ResponseEntity<OrderResponse> onlinePayment(Long orderId) {
         //todo save paied card?
-        Optional<OrderResponse> savingResponse = orderService.setOnlinePaied(orderId);
+        Optional<OrderResponse> savingResponse = orderService.onlinePayment(orderId);
+
         return savingResponse
                 .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());

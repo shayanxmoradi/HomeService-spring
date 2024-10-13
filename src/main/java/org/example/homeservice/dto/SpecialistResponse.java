@@ -1,5 +1,6 @@
 package org.example.homeservice.dto;
 
+import org.example.homeservice.domain.Wallet;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 
 public record SpecialistResponse(Long id,
@@ -8,5 +9,6 @@ public record SpecialistResponse(Long id,
                                  String email,
                                  SpecialistStatus specialistStatus,
                                  Double rate,
-                                 byte[] personalImage
+                                 byte[] personalImage,
+                                 Long walletId
 ) {}

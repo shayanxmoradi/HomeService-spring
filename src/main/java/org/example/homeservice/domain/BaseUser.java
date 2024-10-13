@@ -50,5 +50,5 @@ public class BaseUser extends BaseEntity<Long> {
     private String password;
 
     @OneToOne
-    Wallet wallet;
+    Wallet wallet=new Wallet(0);
 }

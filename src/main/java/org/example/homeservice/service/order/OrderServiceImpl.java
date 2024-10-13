@@ -2,6 +2,7 @@ package org.example.homeservice.service.order;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
+import lombok.RequiredArgsConstructor;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.AddressMapper;
 import org.example.homeservice.dto.mapper.OfferMapper;
@@ -10,6 +11,7 @@ import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.repository.order.OrderRepo;
+import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.offer.OfferService;
@@ -37,9 +39,10 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     private final OfferMapper offerMapper;
     private SpeciallistService speciallistService;
     private final SpecialistMapper specialistMapper;
+    private final WalletService walletService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, AddressMapper addressMapper, OfferService offerService, OfferMapper offerMapper, SpecialistMapper specialistMapper) {
+    public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, AddressMapper addressMapper, OfferService offerService, OfferMapper offerMapper, SpecialistMapper specialistMapper, @Lazy WalletService walletService) {
         super(baseRepository);
         this.serviceService = serviceService;
         this.addressService = addressService;
@@ -48,7 +51,9 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         this.offerService = offerService;
         this.offerMapper = offerMapper;
         this.specialistMapper = specialistMapper;
+        this.walletService = walletService;
     }
+
 
     @Autowired
     public void setSpeciallistService(@Lazy SpeciallistService speciallistService) {
@@ -194,13 +199,25 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     public void updateOrdersWithNullService(Long serviceId) {
         baseRepository.updateOrdersWithNullService(serviceId);
     }
-
+@Transactional
     @Override
-    public Optional<OrderResponse> setOnlinePaied(Long orderId) {
+    public Optional<OrderResponse> onlinePayment(Long orderId) {
         OrderStatus status = OrderStatus.DONE;
         Order foundedOrder = checkOrderStatus(orderId, status);
-//todo working right?
+
         foundedOrder.setStatus(OrderStatus.PAID);
+
+    //add 70% money to specilist wallet
+    SpecialistResponse specialistResponse = speciallistService.findById(foundedOrder.getChosenSpecialist().getId()).orElseThrow(() -> new ValidationException("No specialist with this ID found"));
+    Long walletId = specialistResponse.walletId();
+    double specilistProfit = foundedOrder.getOfferedPrice() * 0.7;
+    walletService.addMoneyToWallet(walletId, specilistProfit );
+
+    //todo wallet repo
+    //todo wallte
+    //reduce specilist rating if delayed
+
+
         return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
     }
 

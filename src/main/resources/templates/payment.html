@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
-        /* Body and container styling */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
@@ -89,7 +88,6 @@
             margin-bottom: 15px;
         }
 
-        /* Media Query for responsiveness */
         @media (max-width: 480px) {
             .payment-container {
                 padding: 15px 20px;
@@ -106,13 +104,13 @@
 <div class="payment-container">
     <h2>Secure Payment</h2>
 
-    <!-- Countdown Timer -->
     <div id="timer">Time Remaining: 10:00</div>
 
-    <!-- Server-side error messages -->
     <div id="error"></div>
 
     <form action="/processPayment" method="post" onsubmit="return validateForm()">
+        <input type="hidden" name="orderId" th:value="${orderId}"/>
+
         <div class="input-group">
             <label for="cardNumber">Card Number</label>
             <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9123 4567" required>
@@ -126,7 +124,6 @@
             <input type="text" id="cvv" name="cvv" placeholder="123" required>
         </div>
 
-        <!-- Google reCAPTCHA -->
         <div class="g-recaptcha" data-sitekey="6LcyY18qAAAAAMz01YWASTBzeKx5-ftXFD_8a_es"></div>
 
         <button type="submit">Pay</button>
@@ -134,7 +131,6 @@
 </div>
 
 <script>
-    // Countdown timer for 10 minutes
     function startTimer(duration, display) {
         let timer = duration, minutes, seconds;
         let countdown = setInterval(function () {
@@ -155,12 +151,11 @@
     }
 
     window.onload = function () {
-        const tenMinutes = 60 * 10; // 10 minutes in seconds
+        const tenMinutes = 60 * 10;
         const display = document.getElementById('timer');
         startTimer(tenMinutes, display);
     };
 
-    // Client-side validation (same as before)
     function validateForm() {
         const cardNumber = document.getElementById("cardNumber").value;
         const expiryDate = document.getElementById("expiryDate").value;
@@ -168,28 +163,23 @@
         const recaptchaResponse = grecaptcha.getResponse();
         let isValid = true;
 
-        // Clear previous error messages
         document.getElementById("error").innerHTML = "";
 
-        // Validate card number (16 digits)
         if (!/^\d{16}$/.test(cardNumber)) {
             document.getElementById("error").innerHTML += "<p>Invalid card number. Please enter a 16-digit number.</p>";
             isValid = false;
         }
 
-        // Validate expiration date (MM/YY format)
         if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
             document.getElementById("error").innerHTML += "<p>Invalid expiration date. Please use MM/YY format.</p>";
             isValid = false;
         }
 
-        // Validate CVV (3 digits)
         if (!/^\d{3}$/.test(cvv)) {
             document.getElementById("error").innerHTML += "<p>Invalid CVV. Please enter a 3-digit number.</p>";
             isValid = false;
         }
 
-        // Validate reCAPTCHA
         if (recaptchaResponse.length === 0) {
             document.getElementById("error").innerHTML += "<p>Please complete the reCAPTCHA challenge.</p>";
             isValid = false;
