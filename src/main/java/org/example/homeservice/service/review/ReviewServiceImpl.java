@@ -5,6 +5,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.mapper.ReviewMapper;
@@ -15,6 +16,8 @@ import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,34 +42,48 @@ public class ReviewServiceImpl implements ReviewService {
 
         Long orderId = review.orderId();
         OrderResponse orderResponse = orderService.findById(orderId).orElseThrow(ValidationException::new);
+//        orderstartedat-servicetime / h = reduced rate
+
+        int delayedHours = (int) calculateHoursDifference(orderResponse.serviceTime(), orderResponse.orderStartedAt());
+        if (delayedHours < -10) delayedHours = -10;
+
 //
         Long specialistId = orderResponse.chosenSpecialistId();
-        System.out.println("xx"+specialistId);
+        System.out.println("xx" + specialistId);
 //        SpecialistResponse specialistResponse = speciallistService.findById(specialistId).orElseThrow(ValidationException::new);
-        updateSpecialistRate(specialistId, review.rating());
+        updateSpecialistRate(specialistId, review.rating() - delayedHours);
     }
-@Transactional
+
+    @Transactional
     void updateSpecialistRate(Long specialistId, int rate) {
-    System.out.println("rate " + rate);
+        System.out.println("rate " + rate);
 
-    Specialist specialist = speciallistService.findByIdX(specialistId)
-            .orElseThrow(() -> new ValidationException("Specialist does not exist"));
+        Specialist specialist = speciallistService.findByIdX(specialistId)
+                .orElseThrow(() -> new ValidationException("Specialist does not exist"));
 
-    Double pastRate = specialist.getRate() == null ? 0 : specialist.getRate();
-    System.out.println("pastRate " + pastRate);
+        Double pastRate = specialist.getRate() == null ? 0 : specialist.getRate();
+        System.out.println("pastRate " + pastRate);
 
-    int pastNumberOfRate = specialist.getNumberOfRate();
-    System.out.println("pastNumberOfRate " + pastNumberOfRate);
+        int pastNumberOfRate = specialist.getNumberOfRate();
+        System.out.println("pastNumberOfRate " + pastNumberOfRate);
 
-    // Increment the number of ratings
-    specialist.setNumberOfRate(pastNumberOfRate + 1);
+        // Increment the number of ratings
+        specialist.setNumberOfRate(pastNumberOfRate + 1);
 
-    // Correct calculation of new average rate
-    double newAverageRate = ((pastRate * pastNumberOfRate) + rate) / (pastNumberOfRate + 1);
+        // Correct calculation of new average rate
+        double newAverageRate = ((pastRate * pastNumberOfRate) + rate) / (pastNumberOfRate + 1);
 
-    System.out.println("new score " + newAverageRate);
+        System.out.println("new score " + newAverageRate);
 
-    // Update the specialist's rate
-    specialist.setRate(newAverageRate);
+        // Update the specialist's rate
+        specialist.setRate(newAverageRate);
+        if (newAverageRate < 0) {
+            specialist.setSpecialistStatus(SpecialistStatus.REJECTED);
+        }
+    }
+
+    public static long calculateHoursDifference(LocalDateTime start, LocalDateTime end) {
+        Duration duration = Duration.between(start, end);
+        return duration.toHours(); //
     }
 }

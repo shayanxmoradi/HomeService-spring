@@ -1,5 +1,5 @@
 package org.example.homeservice.domain.enums;
 
 public enum SpecialistStatus {
-    NEW,PENDING,APPROVED,REJECTED
+    NEW,PENDING,APPROVED,REJECTED,BLOCKED,DELETED
 }

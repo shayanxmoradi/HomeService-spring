@@ -19,6 +19,8 @@ public record OrderResponse(
         String orderDescription,
         @Future
         LocalDateTime serviceTime,
+        LocalDateTime orderStartedAt,
+
         @Positive(message = "should be positive")
         Double offeredPrice,
         OrderStatus status,

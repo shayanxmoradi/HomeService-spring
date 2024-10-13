@@ -70,7 +70,7 @@ class OrderServiceImplTest {
         order.setId(1L);
         order.setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS);
 
-        orderResponse = new OrderResponse(1L, 1l, 1l,"asdf", LocalDateTime.now().plusDays(2), 222.2);
+//        orderResponse = new OrderResponse(1L, 1l, 1l,"asdf", LocalDateTime.now().plusDays(2), 222.2);
     }
 
     @Test

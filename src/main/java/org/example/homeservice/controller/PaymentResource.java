@@ -13,6 +13,7 @@ import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.review.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,19 +129,23 @@ public class PaymentResource {
         ModelAndView modelAndView = new ModelAndView("thankYou");
         modelAndView.addObject("orderId", orderId);
 
-        // give rating to specialist
-        int reducByDelay=0;
-        int finalRating = rating - reducByDelay;
+
         ReviewRequest reviewRequest= new ReviewRequest(
                 orderId,
-                finalRating,
+                rating,
                 comments
         )        ;
 
 
-        System.out.println(orderId+"\n"+rating+comments);
-        reviewService.addReview(reviewRequest);
-        //update specialist rating
+        try {
+            System.out.println(orderId + "\n" + rating + comments);
+            reviewService.addReview(reviewRequest);
+            modelAndView.addObject("message", "Thank you for your feedback!"); // Successful submission message
+        } catch (DataIntegrityViolationException e) {
+            // This exception is thrown when there's a duplicate key violation
+            modelAndView.setViewName("error"); // You can redirect to an error page or stay on the same page
+            modelAndView.addObject("errorMessage", "A review for this order has already been submitted.");
+        }
 
         return modelAndView;
     }
