@@ -1,16 +1,19 @@
 package org.example.homeservice.controller;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
+import lombok.*;
 import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.dto.validator.ReviewRequest;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.review.ReviewService;
+import org.hibernate.validator.constraints.CreditCardNumber;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -35,6 +40,10 @@ public class PaymentResource {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
 
     private final ReviewService reviewService;
 
@@ -95,13 +104,36 @@ public class PaymentResource {
             return "redirect:/payment";
         }
 
+        System.out.println(expiryDate);
+        System.out.println("20" + expiryDate.substring(3, 5));
+        System.out.println(expiryDate.substring(0, 2));
+        // Prepare card object for validation
+        Card cardRequest = new Card(cardNumber,LocalDate.of(Integer.parseInt("20"+expiryDate.substring(3,5)),Integer.parseInt( expiryDate.substring(0,2)),20), cvv); // Create a DTO for the request
+        System.out.println("checkedCard"+cardRequest);
+        // Call Bank API to validate the card
+        String bankApiUrl = "http://localhost:8085/bank/valid";
+        ResponseEntity<Boolean> response = restTemplate.postForEntity(bankApiUrl, cardRequest, Boolean.class);
+        System.out.println(response.getBody());
+
+
+        if (response.getBody() == null || !response.getBody()) {
+            System.out.println("errorMessage");
+            model.addAttribute("errorMessage", "Invalid card details. Please check your information.");
+            model.addAttribute("orderId", orderId);
+            return "error";
+        }
+
+
         if (!errors.isEmpty()) {
-            model.addAttribute("errors", errors);
-            return "payment";
+            model.addAttribute("errorMessage", errors);
+            model.addAttribute("orderId", orderId);
+            return "error";
         }
         paiedOrderSetup(orderId);
-        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
-        redirectAttributes.addFlashAttribute("orderId", orderId); // Add the order ID here
+//        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
+//        redirectAttributes.addFlashAttribute("orderId", orderId);
+        model.addAttribute("orderId", orderId);
+
 
         return "/payment_sucess";
     }
@@ -110,11 +142,14 @@ public class PaymentResource {
     @GetMapping("/paymentSuccess")
     public String showSuccessPage(Model model, @RequestParam Long orderId) {
         model.addAttribute("orderId", orderId);
+        System.out.println("asldkfjasldkfj"+orderId);
+
         return "payment_sucess";
     }
 
     @GetMapping("/submitRating")
     public String getRatingPage(Model model, @RequestParam Long orderId) {
+        System.out.println("asldkfjasldkfj"+orderId);
         model.addAttribute("orderId", orderId);
         return "rating";
     }
@@ -215,4 +250,27 @@ class ReceiptDto implements Serializable {
     private Long orderId;
     private Long customerId;
     private Long specialistId;
+}
+@AllArgsConstructor
+@Setter
+@Getter
+ class Card {
+
+
+//    @Length(min = 16, max = 16, message = "should be 16 digits")
+    private String cardNumber;
+    //    @NotBlank(message = "cant be null")
+
+    private LocalDate expirationDate;
+
+    private String cvv;
+
+    @Override
+    public String toString() {
+        return "Card{" +
+               "cardNumber='" + cardNumber + '\'' +
+               ", expirationDate=" + expirationDate +
+               ", cvv='" + cvv + '\'' +
+               '}';
+    }
 }

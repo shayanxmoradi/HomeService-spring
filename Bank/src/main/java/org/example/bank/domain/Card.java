@@ -21,7 +21,7 @@ public class Card {
     private Long id;
     @NotBlank
     @Column(nullable = false, unique = true)
-@CreditCardNumber
+    @CreditCardNumber
 //    @Length(min = 16, max = 16, message = "should be 16 digits")
     private String cardNumber;
     //    @NotBlank(message = "cant be null")
@@ -37,11 +37,13 @@ public class Card {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Card card)) return false;
-        return Objects.equals(cardHolderName, card.cardHolderName) && Objects.equals(expirationDate, card.expirationDate) && Objects.equals(cvv, card.cvv);
+        return Objects.equals(cardNumber, card.cardNumber) && Objects.equals(expirationDate.getYear(), card.expirationDate.getYear())
+               && Objects.equals(expirationDate.getMonth(), card.expirationDate.getMonth())
+               && Objects.equals(cvv, card.cvv);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardHolderName, expirationDate, cvv);
+        return Objects.hash(cardNumber, expirationDate, cvv);
     }
 }

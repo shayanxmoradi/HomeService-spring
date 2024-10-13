@@ -21,11 +21,11 @@ public class BankResource {
         return "saved successfully";
     }
     @PostMapping("valid")
-    public String validateCard(@RequestBody Card card) {
+    public boolean validateCard(@RequestBody Card card) {
         if (bankService.validateCard(card)) {
-            return "validated successfully";
+            return true;
         }
-        else return "invalid";
+        else return false;
 
     }
 }
