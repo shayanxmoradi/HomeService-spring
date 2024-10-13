@@ -81,6 +81,11 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     return 0;
     }
 
+    @Override
+    public Optional<Specialist> findByIdX(Long specialistId) {
+        return baseRepository.findById(specialistId);
+    }
+
 
     @Override
     public Optional<SpecialistResponse> findById(Long id) {

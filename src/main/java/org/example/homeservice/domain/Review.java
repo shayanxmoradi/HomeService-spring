@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name = Review.TABLE_NAME)
 @Data
 public class Review extends BaseEntity<Long> {
-    public static final String TABLE_NAME = "comment";
+    public static final String TABLE_NAME = "review";
 
 
     @OneToOne()

@@ -41,6 +41,8 @@ public interface OrderMapper {
     @Mapping(target = "customerId", source = "customer.id")
     @Mapping(target = "serviceId", source = "choosenService.id")
     @Mapping(target = "addressId", source = "address.id")
+    @Mapping(source = "chosenSpecialist.id",target = "chosenSpecialistId")
+
     OrderResponse toResponse(Order order);
 
     List<OrderResponse> toListOfResponse(List<Order> order);

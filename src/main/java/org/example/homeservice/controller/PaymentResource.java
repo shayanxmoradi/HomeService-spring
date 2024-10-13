@@ -4,9 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.OrderResponse;
+import org.example.homeservice.dto.validator.ReviewRequest;
 import org.example.homeservice.service.order.OrderService;
+import org.example.homeservice.service.review.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -25,11 +29,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-
+@RequiredArgsConstructor
 public class PaymentResource {
 
     @Autowired
     private OrderService orderService;
+
+    private final ReviewService reviewService;
+
     @Value("${recaptcha.secret}")
     private String recaptchaSecret = "6LcyY18qAAAAAOii_eFrl7pb1F_T7aQuhJgbLJ1Y";
 
@@ -124,6 +131,15 @@ public class PaymentResource {
         // give rating to specialist
         int reducByDelay=0;
         int finalRating = rating - reducByDelay;
+        ReviewRequest reviewRequest= new ReviewRequest(
+                orderId,
+                finalRating,
+                comments
+        )        ;
+
+
+        System.out.println(orderId+"\n"+rating+comments);
+        reviewService.addReview(reviewRequest);
         //update specialist rating
 
         return modelAndView;

@@ -9,6 +9,7 @@ public record SpecialistResponse(Long id,
                                  String email,
                                  SpecialistStatus specialistStatus,
                                  Double rate,
+                                 int numberOfRate,
                                  byte[] personalImage,
                                  Long walletId
 ) {}

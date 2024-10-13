@@ -17,8 +17,10 @@ public class Specialist extends BaseUser {
     @Enumerated(EnumType.STRING)
     private SpecialistStatus specialistStatus=SpecialistStatus.PENDING;
 
-    @Column
+    @Column(name = "total_rate")
     private Double rate=0.0;
+    @Column(name = "number_of_rate")
+    private int numberOfRate=0;
 
     @OneToMany
     List<Service > workServices;
