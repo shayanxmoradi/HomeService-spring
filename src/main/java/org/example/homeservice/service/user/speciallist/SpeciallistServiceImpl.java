@@ -1,5 +1,6 @@
 package org.example.homeservice.service.user.speciallist;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
@@ -68,6 +69,16 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         } else {
             return baseRepository.findAll(spec, Sort.by(sortBy).descending());
         }
+    }
+@Transactional
+    @Override
+    public Integer submitRating(Long specialsitId, Integer rate) {
+        if (rate>5) {
+            throw new ValidationException("Rate must be under 5");
+        }
+    Double oldRate = findById(specialsitId).get().rate();
+
+    return 0;
     }
 
 

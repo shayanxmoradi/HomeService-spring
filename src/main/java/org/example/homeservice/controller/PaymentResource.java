@@ -16,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.Serializable;
@@ -53,9 +54,8 @@ public class PaymentResource {
             return "payment";
         }
 
-        // If the order doesn't exist, redirect to an error page or show an error
         model.addAttribute("error", "Order not found.");
-        return "error"; // Your error page view
+        return "error";
     }
 
 
@@ -92,10 +92,43 @@ public class PaymentResource {
             return "payment";
         }
         paiedOrderSetup(orderId);
-        System.out.println(orderId);
         redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
+        redirectAttributes.addFlashAttribute("orderId", orderId); // Add the order ID here
+
         return "/payment_sucess";
     }
+
+
+    @GetMapping("/paymentSuccess")
+    public String showSuccessPage(Model model, @RequestParam Long orderId) {
+        model.addAttribute("orderId", orderId);
+        return "payment_sucess";
+    }
+
+    @GetMapping("/submitRating")
+    public String getRatingPage(Model model, @RequestParam Long orderId) {
+        model.addAttribute("orderId", orderId);
+        return "rating";
+    }
+
+
+    @PostMapping("/submitRating")
+    public ModelAndView submitRating(
+            @RequestParam("orderId") Long orderId,
+            @RequestParam("rating") int rating,
+            @RequestParam(value = "comments", required = false) String comments) {
+
+        ModelAndView modelAndView = new ModelAndView("thankYou");
+        modelAndView.addObject("orderId", orderId);
+
+        // give rating to specialist
+        int reducByDelay=0;
+        int finalRating = rating - reducByDelay;
+        //update specialist rating
+
+        return modelAndView;
+    }
+
 
     private void paiedOrderSetup(Long orderId) {
         //first set status to online paied
@@ -105,16 +138,14 @@ public class PaymentResource {
         //reduce specilist rating if delayed
     }
 
-    @GetMapping("/paymentSuccess")
-    public String showSuccessPage() {
-        return "paymentSuccess";  // Success page HTML
-    }
+
+
+
 
 
     private boolean verifyCaptcha(String captchaResponse) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // Prepare parameters for the reCAPTCHA request
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("secret", recaptchaSecret);
         params.add("response", captchaResponse);
@@ -124,7 +155,6 @@ public class PaymentResource {
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
 
-        // Call Google's API
         ResponseEntity<Map> response = restTemplate.exchange(
                 RECAPTCHA_VERIFY_URL,
                 HttpMethod.POST,
@@ -132,7 +162,6 @@ public class PaymentResource {
                 Map.class
         );
 
-        // Extract the response body and check if captcha is successful
         Map<String, Object> body = response.getBody();
         System.out.println(response.getStatusCode());
         return (Boolean) body.get("success");
@@ -165,5 +194,4 @@ class ReceiptDto implements Serializable {
     private Long orderId;
     private Long customerId;
     private Long specialistId;
-
 }

@@ -18,4 +18,5 @@ public interface SpeciallistService extends BaseUserService<Specialist, Speciali
  List<OrderResponse> getAvilableOrders(Long SpecialistId);
  Optional<SpecialistResponse> acceptSpecialist(Long specialistId);
  public List<Specialist> filterSpecialists(String name,String lastName, String email, String serviceName, String sortBy, boolean ascending) ;
+ public Integer submitRating(Long specialsitId,Integer rate);
  }

@@ -4,65 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Success</title>
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background: #f3f4f6;
+            background-color: #f4f4f4;
+            text-align: center;
         }
-
-        .card {
-            padding: 20px;
+        .container {
+            background-color: #fff;
+            padding: 30px;
             border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
         }
-
         h2 {
-            font-size: 2.5rem;
-            color: #26a69a;
+            color: #4CAF50;
         }
-
-        p {
-            font-size: 1.2rem;
-            color: #424242;
+        .success-message {
+            margin: 20px 0;
         }
-
-        .success-icon {
-            font-size: 5rem;
-            color: #66bb6a;
-        }
-
-        .btn-home {
+        .btn {
             margin-top: 20px;
-            background-color: #26a69a;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1rem;
         }
-
-
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="row">
-        <div class="col s12 m8 offset-m2 l6 offset-l3">
-            <div class="card z-depth-3 center-align">
-                <i class="material-icons success-icon">check_circle</i>
-                <h2>Payment Successful!</h2>
-                <p>Your payment was processed successfully. Thank you!</p>
-            </div>
-        </div>
-    </div>
+    <h2>Payment Successful!</h2>
+    <p class="success-message">Your payment was processed successfully. Thank you!</p>
+    <a th:href="@{/submitRating(orderId=${orderId})}" class="btn waves-effect waves-light green">Rate Your Experience</a>
+<!--    <a href="/submitRating?orderId=${orderId}" class="btn waves-effect waves-light green">Rate Your Experience</a>-->
 </div>
-
+submitRating
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
