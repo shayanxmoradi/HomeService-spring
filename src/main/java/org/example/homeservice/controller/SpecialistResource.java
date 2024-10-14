@@ -1,11 +1,13 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.UpdatePasswordRequst;
 import org.example.homeservice.dto.UpdatePasswordResponse;
+import org.example.homeservice.dto.review.SpecialistRateRespone;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +54,15 @@ public class SpecialistResource {
             @RequestParam(defaultValue = "true") boolean ascending) {
 
         return speciallistService.filterSpecialists(name,lastName, email, serviceName, "rate", ascending);
+    }
+
+    @GetMapping("{id}/rate")
+    public Double rateSpecialist(@PathVariable Long id) {
+       return speciallistService.showRating(id);
+    }
+    @GetMapping("{id}/rates")
+    public List<SpecialistRateRespone> ratingListSpecialist(@PathVariable Long id) {
+        return speciallistService.showReviews(id);
     }
 
 }

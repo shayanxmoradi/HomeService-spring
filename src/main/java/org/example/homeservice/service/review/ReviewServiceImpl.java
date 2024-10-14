@@ -7,9 +7,10 @@ import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.dto.OrderResponse;
-import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.mapper.ReviewMapper;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
+import org.example.homeservice.dto.review.SpecialistRateRespone;
+import org.example.homeservice.dto.review.SpecialistRateResponeMapper;
 import org.example.homeservice.dto.validator.ReviewRequest;
 import org.example.homeservice.repository.ReviewRepo;
 import org.example.homeservice.service.order.OrderService;
@@ -29,6 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final OrderService orderService;
     private final SpeciallistService service;
     private final ReviewMapper reviewMapper;
+    private final SpecialistRateResponeMapper specialistRateResponeMapper;
 
     @Transactional
     public void addReview(ReviewRequest review) {
@@ -45,13 +47,26 @@ public class ReviewServiceImpl implements ReviewService {
 //        orderstartedat-servicetime / h = reduced rate
 
         int delayedHours = (int) calculateHoursDifference(orderResponse.serviceTime(), orderResponse.orderStartedAt());
+        System.out.println(delayedHours);
         if (delayedHours < -10) delayedHours = -10;
 
-//
+        System.out.println(delayedHours);
+        System.out.println("sumbited rate");
+        System.out.println(review.rating());
+
         Long specialistId = orderResponse.chosenSpecialistId();
         System.out.println("xx" + specialistId);
 //        SpecialistResponse specialistResponse = speciallistService.findById(specialistId).orElseThrow(ValidationException::new);
-        updateSpecialistRate(specialistId, review.rating() - delayedHours);
+        int finalRate = review.rating();
+        if (delayedHours<0){
+            finalRate=review.rating() + delayedHours;
+        }
+        updateSpecialistRate(specialistId, finalRate);
+    }
+
+    @Override
+    public List<SpecialistRateRespone> getRatingsBySpecialistId(Long specialistId) {
+        return specialistRateResponeMapper.reviewToDto(reviewRepository.findRatingsBySpecialistId(specialistId));
     }
 
     @Transactional

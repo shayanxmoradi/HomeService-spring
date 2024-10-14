@@ -145,6 +145,8 @@ orderService.updateOrdersWithNullService(aLong);
       return   baseRepository.isSpecialistAvailableInService(serviceId, specialistId);
     }
 
+
+
     @Override
     protected ServiceResponse toDto(Service entity) {
         return serviceMapper.toDto(entity);

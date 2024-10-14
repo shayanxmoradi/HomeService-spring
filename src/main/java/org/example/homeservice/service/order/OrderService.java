@@ -1,5 +1,6 @@
 package org.example.homeservice.service.order;
 
+import org.example.homeservice.domain.Review;
 import org.example.homeservice.dto.OrderRequest;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.domain.Order;
@@ -26,4 +27,5 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
 
 
     Optional<OrderResponse> onlinePayment(Long orderId);
+    public List<Review> getRatingsBySpecialistId(Long specialistId);
 }

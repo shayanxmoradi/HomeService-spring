@@ -2,7 +2,7 @@ package org.example.homeservice.service.order;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import lombok.RequiredArgsConstructor;
+import org.example.homeservice.domain.Review;
 import org.example.homeservice.dto.*;
 import org.example.homeservice.dto.mapper.AddressMapper;
 import org.example.homeservice.dto.mapper.OfferMapper;
@@ -238,5 +238,10 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
             throw new ValidationException("Order should be in status :" + status);
         }
         return foundedOrder;
+    }
+
+    public List<Review> getRatingsBySpecialistId(Long specialistId) {
+//        return baseRepository.findRatingsBySpecialistId(specialistId);
+    return null;
     }
 }

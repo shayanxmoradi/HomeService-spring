@@ -33,6 +33,9 @@ public class WalletServiceImpl implements WalletService {
     public Optional<Wallet> removeMoneyFromWallet(Long walletId, Double money) {
         Wallet byWalletId = getByWalletId(walletId);
         double newAmount = byWalletId.getCreditAmount() - money;
+        if (newAmount < 0) {
+            throw new ValidationException("not enough credit amount");//fixme watchout
+        }
         byWalletId.setCreditAmount(newAmount);
         return newAmount > byWalletId.getCreditAmount() ? Optional.of(byWalletId) : Optional.empty();
     }

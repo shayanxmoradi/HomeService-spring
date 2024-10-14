@@ -8,10 +8,13 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.enums.OrderStatus;
+import org.example.homeservice.dto.CustomerResponseDto;
 import org.example.homeservice.dto.OrderResponse;
 import org.example.homeservice.dto.validator.ReviewRequest;
+import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.review.ReviewService;
+import org.example.homeservice.service.user.customer.CustomerService;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +43,12 @@ public class PaymentResource {
 
     @Autowired
     private OrderService orderService;
-
+    @Autowired
+    private CustomerService customerService;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    WalletService walletService;
 
 
     private final ReviewService reviewService;
@@ -75,6 +81,35 @@ public class PaymentResource {
         return "error";
     }
 
+    @GetMapping("/paywithwallet")
+    public String processPayment(@RequestParam Long orderId, Model model) {
+
+        OrderResponse orderResponse = orderService.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        Long customerId = orderResponse.customerId();
+        CustomerResponseDto customerResponseDto = customerService.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        Long walletId = customerResponseDto.walletId();
+        boolean hasEnoughCreditCards = false;
+        try {
+
+            walletService.removeMoneyFromWallet(walletId,orderResponse.offeredPrice());
+            hasEnoughCreditCards = true;
+        }catch (Exception e){
+
+        }
+
+        if (hasEnoughCreditCards) {
+            paiedOrderSetup(orderId);
+//        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
+//        redirectAttributes.addFlashAttribute("orderId", orderId);
+            model.addAttribute("orderId", orderId);
+
+            return "/payment_sucess";
+        }
+        System.out.println("not enough credit cards");
+        model.addAttribute("errorMessage", "not enough money in wallet!");
+        model.addAttribute("orderId", orderId);
+        return "error";
+    }
 
     @PostMapping("/processPayment")
     public String processPayment(@RequestParam("cardNumber") @NotBlank @Pattern(regexp = "\\d{16}") String cardNumber,
@@ -108,8 +143,8 @@ public class PaymentResource {
         System.out.println("20" + expiryDate.substring(3, 5));
         System.out.println(expiryDate.substring(0, 2));
         // Prepare card object for validation
-        Card cardRequest = new Card(cardNumber,LocalDate.of(Integer.parseInt("20"+expiryDate.substring(3,5)),Integer.parseInt( expiryDate.substring(0,2)),20), cvv); // Create a DTO for the request
-        System.out.println("checkedCard"+cardRequest);
+        Card cardRequest = new Card(cardNumber, LocalDate.of(Integer.parseInt("20" + expiryDate.substring(3, 5)), Integer.parseInt(expiryDate.substring(0, 2)), 20), cvv); // Create a DTO for the request
+        System.out.println("checkedCard" + cardRequest);
         // Call Bank API to validate the card
         String bankApiUrl = "http://localhost:8085/bank/valid";
         ResponseEntity<Boolean> response = restTemplate.postForEntity(bankApiUrl, cardRequest, Boolean.class);
@@ -142,14 +177,14 @@ public class PaymentResource {
     @GetMapping("/paymentSuccess")
     public String showSuccessPage(Model model, @RequestParam Long orderId) {
         model.addAttribute("orderId", orderId);
-        System.out.println("asldkfjasldkfj"+orderId);
+        System.out.println("asldkfjasldkfj" + orderId);
 
         return "payment_sucess";
     }
 
     @GetMapping("/submitRating")
     public String getRatingPage(Model model, @RequestParam Long orderId) {
-        System.out.println("asldkfjasldkfj"+orderId);
+        System.out.println("asldkfjasldkfj" + orderId);
         model.addAttribute("orderId", orderId);
         return "rating";
     }
@@ -165,11 +200,11 @@ public class PaymentResource {
         modelAndView.addObject("orderId", orderId);
 
 
-        ReviewRequest reviewRequest= new ReviewRequest(
+        ReviewRequest reviewRequest = new ReviewRequest(
                 orderId,
                 rating,
                 comments
-        )        ;
+        );
 
 
         try {
@@ -193,10 +228,6 @@ public class PaymentResource {
         //todo wallte
         //reduce specilist rating if delayed
     }
-
-
-
-
 
 
     private boolean verifyCaptcha(String captchaResponse) {
@@ -251,13 +282,14 @@ class ReceiptDto implements Serializable {
     private Long customerId;
     private Long specialistId;
 }
+
 @AllArgsConstructor
 @Setter
 @Getter
- class Card {
+class Card {
 
 
-//    @Length(min = 16, max = 16, message = "should be 16 digits")
+    //    @Length(min = 16, max = 16, message = "should be 16 digits")
     private String cardNumber;
     //    @NotBlank(message = "cant be null")
 

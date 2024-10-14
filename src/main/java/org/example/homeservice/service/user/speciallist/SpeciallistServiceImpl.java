@@ -10,14 +10,17 @@ import org.example.homeservice.dto.SpecialistRequest;
 import org.example.homeservice.dto.SpecialistResponse;
 import org.example.homeservice.dto.mapper.SpecialistMapper;
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.dto.review.SpecialistRateRespone;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
 import org.example.homeservice.repository.user.SpecialistSpecification;
 import org.example.homeservice.service.order.OrderService;
+import org.example.homeservice.service.review.ReviewService;
 import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -35,15 +38,17 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     private final ServiceRepo serviceRepo;
     private final SpecialistMapper specialistMapper;
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
 
     @Autowired
-    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService) {
+    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService,@Lazy ReviewService reviewService) {
         super(baseRepo);
         this.serviceRepo = serviceRepo;
         this.specialistMapper = specialistMapper;
 
         this.orderService = orderService;
+        this.reviewService = reviewService;
     }
 
 
@@ -84,6 +89,17 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     @Override
     public Optional<Specialist> findByIdX(Long specialistId) {
         return baseRepository.findById(specialistId);
+    }
+
+    @Override
+    public double showRating(Long specialistId) {
+        return findById(specialistId).orElseThrow(()-> new ValidationException("no specilist with this id.")).rate();
+    }
+
+    @Override
+    public List<SpecialistRateRespone> showReviews(Long specialistId) {
+//        return orderService.getRatingsBySpecialistId(specialistId);
+        return reviewService.getRatingsBySpecialistId(specialistId);
     }
 
 

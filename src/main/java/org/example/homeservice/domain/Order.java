@@ -19,7 +19,7 @@ public class Order extends BaseEntity<Long> {
 
     @PrimaryKeyJoinColumn
 //todo check dont fuck oders
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Service choosenService;
 
     @Column(nullable = false)
@@ -36,11 +36,11 @@ public class Order extends BaseEntity<Long> {
     @Column
     private LocalDateTime orderStartedAt;//todo on dtos
 
-   @ManyToOne
+    @ManyToOne
     private Address address;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Customer customer ;
+    private Customer customer;
 
     @OneToMany
 //            (fetch = FetchType.LAZY)
@@ -49,9 +49,11 @@ public class Order extends BaseEntity<Long> {
     @OneToOne
     private Specialist chosenSpecialist;
 
-    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Offer chosenOffer;
 
+//    @OneToOne
+//    Review review;
 
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -61,7 +63,7 @@ public class Order extends BaseEntity<Long> {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private OrderStatus status= org.example.homeservice.domain.enums.OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS;
+    private OrderStatus status = org.example.homeservice.domain.enums.OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS;
 
     @Override
     public String toString() {
