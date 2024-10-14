@@ -1,4 +1,4 @@
-package org.example.homeservice.dto.validator;
+package org.example.homeservice.dto.review;
 
 public record ReviewRequest(
         Long orderId,

@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.address;
 
 import jakarta.validation.constraints.Pattern;
 

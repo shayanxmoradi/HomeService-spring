@@ -1,9 +1,8 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.Address;
-import org.example.homeservice.dto.AddressReqest;
-import org.example.homeservice.dto.AddressResponse;
+import org.example.homeservice.dto.address.AddressReqest;
+import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.service.adress.AddressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

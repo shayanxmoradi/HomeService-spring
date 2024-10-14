@@ -1,7 +1,7 @@
-package org.example.homeservice.dto.mapper;
+package org.example.homeservice.dto.offer;
 
-import org.example.homeservice.dto.OfferRequest;
-import org.example.homeservice.dto.OfferResponse;
+import org.example.homeservice.dto.offer.OfferRequest;
+import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.domain.Offer;
 import org.example.homeservice.domain.Service;
 import org.mapstruct.Mapper;

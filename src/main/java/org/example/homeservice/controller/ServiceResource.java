@@ -2,9 +2,8 @@ package org.example.homeservice.controller;
 
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
+import org.example.homeservice.dto.service.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.service.admin.AdminService;
 import org.example.homeservice.service.service.ServiceService;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.service;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.example.homeservice.service.review;
 
 import org.example.homeservice.dto.review.SpecialistRateRespone;
-import org.example.homeservice.dto.validator.ReviewRequest;
+import org.example.homeservice.dto.review.ReviewRequest;
 
 import java.util.List;
 

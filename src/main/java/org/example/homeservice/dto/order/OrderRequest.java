@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.order;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;

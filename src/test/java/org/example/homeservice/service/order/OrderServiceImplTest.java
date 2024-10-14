@@ -1,12 +1,15 @@
 package org.example.homeservice.service.order;
 
 
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.mapper.AddressMapper;
-import org.example.homeservice.dto.mapper.OfferMapper;
-import org.example.homeservice.dto.mapper.OrderMapper;
+import org.example.homeservice.dto.address.AddressResponse;
+import org.example.homeservice.dto.address.AddressMapper;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
+import org.example.homeservice.dto.offer.OfferMapper;
+import org.example.homeservice.dto.order.OrderMapper;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.offer.OfferService;
@@ -19,11 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

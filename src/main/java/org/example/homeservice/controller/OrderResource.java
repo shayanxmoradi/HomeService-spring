@@ -1,8 +1,8 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.dto.OrderRequest;
-import org.example.homeservice.dto.OrderResponse;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.service.order.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

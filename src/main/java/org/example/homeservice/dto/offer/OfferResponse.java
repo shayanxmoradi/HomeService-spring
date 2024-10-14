@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.offer;
 
 import java.time.Duration;
 import java.time.LocalDate;

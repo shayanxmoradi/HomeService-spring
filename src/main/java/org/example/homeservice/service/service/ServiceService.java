@@ -1,11 +1,10 @@
 package org.example.homeservice.service.service;
 
 
-import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.dto.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.service.ServiceRequest;
 import org.example.homeservice.domain.Service;
 import org.example.homeservice.service.baseentity.BaseEntityService;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;

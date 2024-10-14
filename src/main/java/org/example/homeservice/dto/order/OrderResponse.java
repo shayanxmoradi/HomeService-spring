@@ -1,9 +1,8 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.order;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.domain.enums.OrderStatus;
 
 import java.time.LocalDateTime;

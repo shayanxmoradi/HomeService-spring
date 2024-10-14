@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.service;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

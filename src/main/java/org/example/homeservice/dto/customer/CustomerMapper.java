@@ -1,7 +1,5 @@
-package org.example.homeservice.dto.mapper;
+package org.example.homeservice.dto.customer;
 
-import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.dto.CustomerRequsetDto;
 import org.example.homeservice.domain.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

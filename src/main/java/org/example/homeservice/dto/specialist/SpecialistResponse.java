@@ -1,6 +1,5 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.specialist;
 
-import org.example.homeservice.domain.Wallet;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 
 public record SpecialistResponse(Long id,

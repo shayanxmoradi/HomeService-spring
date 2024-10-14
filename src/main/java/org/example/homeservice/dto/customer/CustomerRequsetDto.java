@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.customer;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;

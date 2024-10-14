@@ -1,4 +1,4 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.updatepassword;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

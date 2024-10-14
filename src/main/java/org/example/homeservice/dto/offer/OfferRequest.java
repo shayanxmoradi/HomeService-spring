@@ -1,14 +1,11 @@
-package org.example.homeservice.dto;
+package org.example.homeservice.dto.offer;
 
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public record OfferRequest(
         @Future(message = "chosen date shoul be in future")

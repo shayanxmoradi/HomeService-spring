@@ -1,12 +1,11 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.Specialist;
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.SpecialistResponse;
-import org.example.homeservice.dto.UpdatePasswordRequst;
-import org.example.homeservice.dto.UpdatePasswordResponse;
+import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistResponse;
+import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
+import org.example.homeservice.dto.updatepassword.UpdatePasswordResponse;
 import org.example.homeservice.dto.review.SpecialistRateRespone;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.http.HttpStatus;
@@ -37,6 +36,7 @@ public class SpecialistResource {
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse(updatePasswordRequst.email(), "password suffessfully changed for this user.");
         return ResponseEntity.ok(updatePasswordResponse);
     }
+
     @PutMapping("/accept/{id}")
     public ResponseEntity<SpecialistResponse> acceptSpecialist(@PathVariable Long id) {
         Optional<SpecialistResponse> specialist = speciallistService.acceptSpecialist(id);
@@ -44,6 +44,7 @@ public class SpecialistResource {
                 .map(specialistResponse -> ResponseEntity.status(HttpStatus.CREATED).body(specialistResponse))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
+
     @GetMapping("/filter")
     public List<Specialist> filterSpecialists(
             @RequestParam(required = false) String name,
@@ -53,13 +54,14 @@ public class SpecialistResource {
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "true") boolean ascending) {
 
-        return speciallistService.filterSpecialists(name,lastName, email, serviceName, "rate", ascending);
+        return speciallistService.filterSpecialists(name, lastName, email, serviceName, "rate", ascending);
     }
 
     @GetMapping("{id}/rate")
     public Double rateSpecialist(@PathVariable Long id) {
-       return speciallistService.showRating(id);
+        return speciallistService.showRating(id);
     }
+
     @GetMapping("{id}/rates")
     public List<SpecialistRateRespone> ratingListSpecialist(@PathVariable Long id) {
         return speciallistService.showReviews(id);

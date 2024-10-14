@@ -1,7 +1,5 @@
-package org.example.homeservice.dto.mapper;
+package org.example.homeservice.dto.address;
 
-import org.example.homeservice.dto.AddressReqest;
-import org.example.homeservice.dto.AddressResponse;
 import org.example.homeservice.domain.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

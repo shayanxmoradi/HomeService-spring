@@ -1,10 +1,6 @@
-package org.example.homeservice.dto.mapper;
+package org.example.homeservice.dto.review;
 
 import org.example.homeservice.domain.Review;
-import org.example.homeservice.domain.Service;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.dto.validator.ReviewRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

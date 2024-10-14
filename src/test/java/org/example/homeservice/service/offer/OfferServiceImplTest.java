@@ -1,10 +1,10 @@
 //package org.example.homeservice.service.offer;
 //
-//import org.example.homeservice.dto.OfferRequest;
-//import org.example.homeservice.dto.OfferResponse;
-//import org.example.homeservice.dto.OrderResponse;
-//import org.example.homeservice.dto.ServiceResponse;
-//import org.example.homeservice.dto.mapper.OfferMapper;
+//import org.example.homeservice.dto.offer.OfferRequest;
+//import org.example.homeservice.dto.offer.OfferResponse;
+//import org.example.homeservice.dto.order.OrderResponse;
+//import org.example.homeservice.dto.service.ServiceResponse;
+//import org.example.homeservice.dto.offer.OfferMapper;
 //import org.example.homeservice.domain.Offer;
 //import org.example.homeservice.repository.offer.OfferRepo;
 //import org.example.homeservice.service.order.OrderService;

@@ -1,8 +1,8 @@
 package org.example.homeservice.service.admin;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.mapper.SpecialistMapper;
+import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistMapper;
 import org.example.homeservice.domain.Specialist;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.repository.user.SpecialistRepo;

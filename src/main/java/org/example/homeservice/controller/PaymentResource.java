@@ -1,22 +1,15 @@
 package org.example.homeservice.controller;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.enums.OrderStatus;
-import org.example.homeservice.dto.CustomerResponseDto;
-import org.example.homeservice.dto.OrderResponse;
-import org.example.homeservice.dto.validator.ReviewRequest;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.review.ReviewRequest;
 import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.review.ReviewService;
 import org.example.homeservice.service.user.customer.CustomerService;
-import org.hibernate.validator.constraints.CreditCardNumber;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

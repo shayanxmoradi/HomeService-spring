@@ -1,11 +1,8 @@
-package org.example.homeservice.dto.mapper;
+package org.example.homeservice.dto.service;
 
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
 import org.example.homeservice.domain.Service;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
 

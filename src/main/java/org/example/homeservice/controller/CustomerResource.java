@@ -2,9 +2,10 @@ package org.example.homeservice.controller;
 
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.Customer;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.service.service.ServiceService;
+import org.example.homeservice.dto.customer.CustomerRequsetDto;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
+import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
+import org.example.homeservice.dto.updatepassword.UpdatePasswordResponse;
 import org.example.homeservice.service.user.customer.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

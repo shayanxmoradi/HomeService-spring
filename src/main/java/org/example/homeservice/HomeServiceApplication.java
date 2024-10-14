@@ -3,8 +3,15 @@ package org.example.homeservice;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.example.homeservice.domain.*;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.mapper.*;
+import org.example.homeservice.dto.address.AddressReqest;
+import org.example.homeservice.dto.customer.CustomerMapper;
+import org.example.homeservice.dto.offer.OfferMapper;
+import org.example.homeservice.dto.offer.OfferRequest;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.service.ServiceMapper;
+import org.example.homeservice.dto.service.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.specialist.SpecialistMapper;
 import org.example.homeservice.service.admin.AdminService;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.offer.OfferService;
@@ -18,8 +25,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
-import javax.xml.datatype.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

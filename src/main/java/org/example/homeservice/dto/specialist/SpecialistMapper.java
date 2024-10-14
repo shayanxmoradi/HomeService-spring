@@ -1,7 +1,6 @@
-package org.example.homeservice.dto.mapper;
+package org.example.homeservice.dto.specialist;
 
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.SpecialistResponse;
+import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.domain.Specialist;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
