@@ -3,7 +3,12 @@ package org.example.homeservice.service.user.customer;
 
 
 import org.example.homeservice.domain.Customer;
-import org.example.homeservice.dto.*;
+import org.example.homeservice.dto.customer.CustomerRequsetDto;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
+import org.example.homeservice.dto.offer.OfferResponse;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.service.user.BaseUserService;
 
 import java.util.List;
@@ -37,4 +42,6 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
     Optional<OrderResponse> startOrder(Long orderId);
 
     Optional<OrderResponse> endOrder(Long orderId);
+
+    List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email);
 }

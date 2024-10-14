@@ -1,11 +1,9 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.dto.OfferRequest;
-import org.example.homeservice.dto.OfferResponse;
-import org.example.homeservice.dto.OrderResponse;
+import org.example.homeservice.dto.offer.OfferRequest;
+import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.service.offer.OfferService;
-import org.example.homeservice.service.user.customer.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

@@ -2,18 +2,27 @@ package org.example.homeservice.service.order;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.mapper.AddressMapper;
-import org.example.homeservice.dto.mapper.OfferMapper;
-import org.example.homeservice.dto.mapper.OrderMapper;
+import org.example.homeservice.domain.Review;
+import org.example.homeservice.dto.address.AddressResponse;
+import org.example.homeservice.dto.address.AddressMapper;
+import org.example.homeservice.dto.offer.OfferMapper;
+import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
+import org.example.homeservice.dto.order.OrderMapper;
+import org.example.homeservice.dto.specialist.SpecialistMapper;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.repository.order.OrderRepo;
+import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.customer.CustomerService;
+import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -33,9 +42,12 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     private final AddressMapper addressMapper;
     private final OfferService offerService;
     private final OfferMapper offerMapper;
+    private SpeciallistService speciallistService;
+    private final SpecialistMapper specialistMapper;
+    private final WalletService walletService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, AddressMapper addressMapper, OfferService offerService, OfferMapper offerMapper) {
+    public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, AddressMapper addressMapper, OfferService offerService, OfferMapper offerMapper, SpecialistMapper specialistMapper, @Lazy WalletService walletService) {
         super(baseRepository);
         this.serviceService = serviceService;
         this.addressService = addressService;
@@ -43,6 +55,14 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         this.addressMapper = addressMapper;
         this.offerService = offerService;
         this.offerMapper = offerMapper;
+        this.specialistMapper = specialistMapper;
+        this.walletService = walletService;
+    }
+
+
+    @Autowired
+    public void setSpeciallistService(@Lazy SpeciallistService speciallistService) {
+        this.speciallistService = speciallistService;
     }
 
     @Autowired
@@ -58,7 +78,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
-            throw new ValidationException("no servicee with this id : "+orderRequest.serviceId()+" found .");
+            throw new ValidationException("no servicee with this id : " + orderRequest.serviceId() + " found .");
         } else if (foundService.get().category() == true) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
@@ -69,8 +89,6 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
         if (foundService.get().basePrice() > orderRequest.offeredPrice())
             throw new ValidationException("base price is greater than offered price");
-
-
 
 
         return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(orderMapper.toEntity(orderRequest))));
@@ -112,8 +130,11 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
         Order foundedOrder = baseRepository.findById(orderId)
                 .orElseThrow(() -> new ValidationException("No order with this ID found"));
+        System.out.println("input order :");
+        System.out.println(foundedOrder.getChoosenService().getId());
 
         Optional<OfferResponse> foundedResponse = offerService.findById(chosenOfferId);
+        System.out.println(foundedResponse);
         if (foundedResponse.isEmpty()) {
             throw new ValidationException("No offer with this ID found");
         }
@@ -123,15 +144,24 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
         if (isChosableOrder) {
             foundedOrder.setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_DELIVERY);
+//            System.out.println(offerMapper.toEnity(foundedResponse.get()));
             foundedOrder.setChosenOffer(offerMapper.toEnity(foundedResponse.get()));
+            Long specialistId = foundedResponse.get().specialistId();
+            SpecialistResponse specialistResponse = speciallistService.findById(specialistId).get();
+            foundedOrder.setChosenSpecialist(specialistMapper.toEntity(specialistResponse));
+            foundedOrder.setAcceptedPrice(foundedResponse.get().suggestedPrice());
 
+            System.out.println("output order :");
+            System.out.println(foundedOrder.getChoosenService().getId());
 
+//return null;
             return update(foundedOrder);
         } else {
             throw new ValidationException("Order is not in a status where you can choose it");
         }
     }
 
+    @Transactional
     @Override
     public Optional<OrderResponse> startOrder(Long orderId) {
 
@@ -142,12 +172,14 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         if (!isBeforeCurrentTime(offeredTimeToStart)) {
             throw new ValidationException("you are not allowed to start order before offered start time by specialist");
         }
+        foundedOrder.setOrderStartedAt(LocalDateTime.now());
         foundedOrder.setStatus(OrderStatus.BEGAN);
-        return update(foundedOrder);
+        //return update(foundedOrder);
+        return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
     }
 
 
-
+    @Transactional
     @Override
     public Optional<OrderResponse> endOrder(Long orderId) {
         OrderStatus status = OrderStatus.BEGAN;
@@ -159,8 +191,9 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
             throw new ValidationException("you are not allowed to end order before estimated duration");
         }
         foundedOrder.setStatus(OrderStatus.DONE);
+        return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
 
-        return update(foundedOrder);
+//        return update(foundedOrder);
     }
 
     @Override
@@ -171,6 +204,27 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     @Override
     public void updateOrdersWithNullService(Long serviceId) {
         baseRepository.updateOrdersWithNullService(serviceId);
+    }
+@Transactional
+    @Override
+    public Optional<OrderResponse> onlinePayment(Long orderId) {
+        OrderStatus status = OrderStatus.DONE;
+        Order foundedOrder = checkOrderStatus(orderId, status);
+
+        foundedOrder.setStatus(OrderStatus.PAID);
+
+    //add 70% money to specilist wallet
+    SpecialistResponse specialistResponse = speciallistService.findById(foundedOrder.getChosenSpecialist().getId()).orElseThrow(() -> new ValidationException("No specialist with this ID found"));
+    Long walletId = specialistResponse.walletId();
+    double specilistProfit = foundedOrder.getAcceptedPrice() * 0.7;
+    walletService.addMoneyToWallet(walletId, specilistProfit );
+
+    //todo wallet repo
+    //todo wallte
+    //reduce specilist rating if delayed
+
+
+        return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
     }
 
 
@@ -183,6 +237,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
         return dateTime.isBefore(currentDateTime);
     }
+
     private Order checkOrderStatus(Long orderId, OrderStatus status) {
         Order foundedOrder = baseRepository.findById(orderId).orElseThrow(() -> new ValidationException("No order with this ID found"));
         if (foundedOrder.getStatus() != status) {
@@ -190,4 +245,5 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
         return foundedOrder;
     }
+
 }

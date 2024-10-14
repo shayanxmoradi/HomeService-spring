@@ -1,18 +1,24 @@
 package org.example.homeservice.service.user.customer;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.domain.Specialist;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.mapper.CustomerMapper;
+import org.example.homeservice.dto.customer.CustomerMapper;
 import org.example.homeservice.domain.Customer;
+import org.example.homeservice.dto.customer.CustomerRequsetDto;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
+import org.example.homeservice.dto.offer.OfferResponse;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
 import org.example.homeservice.repository.user.CustomerRepo;
+import org.example.homeservice.repository.user.UserSpecification;
 import org.example.homeservice.service.offer.OfferService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.service.ServiceService;
 import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.domain.Specification;
 
 
 import java.util.List;
@@ -128,6 +134,16 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
     @Override
     public Optional<OrderResponse> endOrder(Long orderId) {
         return orderService.endOrder(orderId);
+    }
+
+    @Override
+    public List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email) {
+        Specification<Customer> spec = Specification.where(UserSpecification.filterByFirstName(firstName))
+                .and(UserSpecification.filterByLastName(lastName))
+                .and(UserSpecification.filterByEmail(email));
+
+        return customerMapper.toResponseDto(baseRepository.findAll(spec));
+
     }
 
 

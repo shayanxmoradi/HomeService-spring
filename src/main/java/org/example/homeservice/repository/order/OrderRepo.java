@@ -2,6 +2,7 @@ package org.example.homeservice.repository.order;
 
 import jakarta.transaction.Transactional;
 import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,4 +30,12 @@ public interface OrderRepo extends BaseEnitityRepo<Order,Long> {
     @Modifying
     @Query("UPDATE Order o SET o.choosenService = null WHERE o.choosenService.id = :serviceId")
     void updateOrdersWithNullService(Long serviceId);
+
+
+//    @Query("SELECT o.review.rating FROM Order o WHERE o.chosenSpecialist.id = :specialistId")
+//    List<Integer> findRatingsBySpecialistId(@Param("specialistId") Long specialistId);
+
+//    @Query("SELECT o.review FROM Order o WHERE o.chosenSpecialist.id = :specialistId")
+//    List<Review> findRatingsBySpecialistId(@Param("specialistId") Long specialistId);
+
 }

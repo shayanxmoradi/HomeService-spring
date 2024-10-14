@@ -3,10 +3,9 @@ package org.example.homeservice.service.service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import org.example.homeservice.domain.Order;
-import org.example.homeservice.dto.mapper.ServiceMapper;
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
+import org.example.homeservice.dto.service.ServiceMapper;
+import org.example.homeservice.dto.service.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.domain.Service;
 import org.example.homeservice.repository.service.ServiceRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
@@ -144,6 +143,8 @@ orderService.updateOrdersWithNullService(aLong);
 
       return   baseRepository.isSpecialistAvailableInService(serviceId, specialistId);
     }
+
+
 
     @Override
     protected ServiceResponse toDto(Service entity) {

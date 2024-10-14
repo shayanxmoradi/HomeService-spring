@@ -3,8 +3,17 @@ package org.example.homeservice;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.example.homeservice.domain.*;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.mapper.*;
+import org.example.homeservice.dto.address.AddressReqest;
+import org.example.homeservice.dto.customer.CustomerMapper;
+import org.example.homeservice.dto.offer.OfferMapper;
+import org.example.homeservice.dto.offer.OfferRequest;
+import org.example.homeservice.dto.order.OrderMapper;
+import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.ServiceMapper;
+import org.example.homeservice.dto.service.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.specialist.SpecialistMapper;
 import org.example.homeservice.service.admin.AdminService;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.offer.OfferService;
@@ -18,10 +27,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
-import javax.xml.datatype.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 @EnableCaching
@@ -47,7 +55,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner delteService(ServiceService serviceService) {
         return args -> {
-            serviceService.deleteById(2002l);
+         //   serviceService.deleteById(2002l);
         };
     }
 
@@ -255,7 +263,20 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner choseOffer(OrderService orderService, OfferMapper offerMapper) {
         return args -> {
-//            orderService.choseOrder(4402l,1802l);
+//      orderService.choseOrder(4452l,1902l);
+        };
+    }    @Bean
+    CommandLineRunner startOrder(OrderService orderService, OfferMapper offerMapper) {
+        return args -> {
+//            Optional<OrderResponse> savingResponse = orderService.startOrder(4452l);
+        };
+    }
+
+
+    @Bean
+    CommandLineRunner spefilter(SpeciallistService speciallistService, OfferMapper offerMapper) {
+        return args -> {
+//speciallistService.filterSpecialists("","","","rate",true);
         };
     }
 }

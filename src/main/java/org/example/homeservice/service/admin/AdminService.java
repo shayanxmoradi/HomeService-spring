@@ -1,9 +1,9 @@
 package org.example.homeservice.service.admin;
 
-import org.example.homeservice.dto.ServiceRequest;
-import org.example.homeservice.dto.ServiceResponse;
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.SpecialistResponse;
+import org.example.homeservice.dto.service.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.domain.BaseUser;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 

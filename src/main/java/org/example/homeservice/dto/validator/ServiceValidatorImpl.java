@@ -3,7 +3,7 @@ package org.example.homeservice.dto.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.example.homeservice.dto.ServiceRequest;
+import org.example.homeservice.dto.service.ServiceRequest;
 
 public class ServiceValidatorImpl implements ConstraintValidator<ServiceValidator, ServiceRequest> {
 

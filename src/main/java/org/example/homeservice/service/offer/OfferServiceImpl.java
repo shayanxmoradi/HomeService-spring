@@ -1,9 +1,13 @@
 package org.example.homeservice.service.offer;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.*;
-import org.example.homeservice.dto.mapper.OfferMapper;
+import org.example.homeservice.dto.offer.OfferMapper;
 import org.example.homeservice.domain.Offer;
+import org.example.homeservice.dto.offer.OfferRequest;
+import org.example.homeservice.dto.offer.OfferResponse;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.repository.offer.OfferRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.order.OrderService;

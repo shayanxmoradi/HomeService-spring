@@ -70,6 +70,7 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
     }
 
 
+
     @Override
     public boolean existsByAttribute(String attributeName, Object attributeValue) {
         return false;

@@ -1,9 +1,9 @@
 package org.example.homeservice.service.adress;
 
 import jakarta.validation.ValidationException;
-import org.example.homeservice.dto.AddressReqest;
-import org.example.homeservice.dto.AddressResponse;
-import org.example.homeservice.dto.mapper.AddressMapper;
+import org.example.homeservice.dto.address.AddressReqest;
+import org.example.homeservice.dto.address.AddressResponse;
+import org.example.homeservice.dto.address.AddressMapper;
 import org.example.homeservice.domain.Address;
 import org.example.homeservice.repository.address.AddressRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;

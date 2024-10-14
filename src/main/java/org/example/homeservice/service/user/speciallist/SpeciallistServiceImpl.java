@@ -1,21 +1,28 @@
 package org.example.homeservice.service.user.speciallist;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
 import org.example.homeservice.domain.enums.SpecialistStatus;
-import org.example.homeservice.dto.OrderResponse;
-import org.example.homeservice.dto.SpecialistRequest;
-import org.example.homeservice.dto.SpecialistResponse;
-import org.example.homeservice.dto.mapper.SpecialistMapper;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistResponse;
+import org.example.homeservice.dto.specialist.SpecialistMapper;
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.dto.review.SpecialistRateRespone;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;
 
+import org.example.homeservice.repository.user.SpecialistSpecification;
 import org.example.homeservice.service.order.OrderService;
+import org.example.homeservice.service.review.ReviewService;
 import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,15 +38,17 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     private final ServiceRepo serviceRepo;
     private final SpecialistMapper specialistMapper;
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
 
     @Autowired
-    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService) {
+    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService,@Lazy ReviewService reviewService) {
         super(baseRepo);
         this.serviceRepo = serviceRepo;
         this.specialistMapper = specialistMapper;
 
         this.orderService = orderService;
+        this.reviewService = reviewService;
     }
 
 
@@ -50,6 +59,47 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
 
         specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
        return Optional.ofNullable(specialistMapper.toDto(baseRepository.save(specialist)));
+    }
+
+    @Override
+    public List<Specialist> filterSpecialists(String name,String lastName, String email, String serviceName, String sortBy, boolean ascending) {
+        Specification<Specialist> spec = Specification.where(SpecialistSpecification.filterByName(name))
+                .and(SpecialistSpecification.filterByLastName(lastName))
+                .and(SpecialistSpecification.filterByEmail(email))
+                .and(SpecialistSpecification.filterByServiceName(serviceName));
+
+        if (ascending) {
+
+            return baseRepository.findAll(spec, Sort.by(sortBy).ascending());
+        } else {
+            return baseRepository.findAll(spec, Sort.by(sortBy).descending());
+        }
+    }
+@Transactional
+    @Override
+    public Integer submitRating(Long specialsitId, Integer rate) {
+        if (rate>5) {
+            throw new ValidationException("Rate must be under 5");
+        }
+    Double oldRate = findById(specialsitId).get().rate();
+
+    return 0;
+    }
+
+    @Override
+    public Optional<Specialist> findByIdX(Long specialistId) {
+        return baseRepository.findById(specialistId);
+    }
+
+    @Override
+    public double showRating(Long specialistId) {
+        return findById(specialistId).orElseThrow(()-> new ValidationException("no specilist with this id.")).rate();
+    }
+
+    @Override
+    public List<SpecialistRateRespone> showReviews(Long specialistId) {
+//        return orderService.getRatingsBySpecialistId(specialistId);
+        return reviewService.getRatingsBySpecialistId(specialistId);
     }
 
 
