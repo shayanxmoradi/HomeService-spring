@@ -149,6 +149,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
             Long specialistId = foundedResponse.get().specialistId();
             SpecialistResponse specialistResponse = speciallistService.findById(specialistId).get();
             foundedOrder.setChosenSpecialist(specialistMapper.toEntity(specialistResponse));
+            foundedOrder.setAcceptedPrice(foundedResponse.get().suggestedPrice());
 
             System.out.println("output order :");
             System.out.println(foundedOrder.getChoosenService().getId());
@@ -215,7 +216,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     //add 70% money to specilist wallet
     SpecialistResponse specialistResponse = speciallistService.findById(foundedOrder.getChosenSpecialist().getId()).orElseThrow(() -> new ValidationException("No specialist with this ID found"));
     Long walletId = specialistResponse.walletId();
-    double specilistProfit = foundedOrder.getOfferedPrice() * 0.7;
+    double specilistProfit = foundedOrder.getAcceptedPrice() * 0.7;
     walletService.addMoneyToWallet(walletId, specilistProfit );
 
     //todo wallet repo
@@ -245,8 +246,4 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         return foundedOrder;
     }
 
-    public List<Review> getRatingsBySpecialistId(Long specialistId) {
-//        return baseRepository.findRatingsBySpecialistId(specialistId);
-    return null;
-    }
 }

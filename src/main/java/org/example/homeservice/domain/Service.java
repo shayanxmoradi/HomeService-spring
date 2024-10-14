@@ -43,7 +43,8 @@ public class Service extends BaseEntity<Long> {
     @Positive
     private Float basePrice;
 
-    @OneToMany
+    //todo should be many to many?
+    @ManyToMany
     private List<Specialist> avilableSpecialists = new ArrayList<>();
 
     @Column

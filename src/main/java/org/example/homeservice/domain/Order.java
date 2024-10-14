@@ -28,6 +28,10 @@ public class Order extends BaseEntity<Long> {
     @Column
     private Double offeredPrice;
 
+    @Column(name = "accepted_price")
+    private Double acceptedPrice;
+
+
 
     @Future
     @Column

@@ -2,6 +2,7 @@ package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
@@ -65,6 +66,10 @@ public class SpecialistResource {
     @GetMapping("{id}/rates")
     public List<SpecialistRateRespone> ratingListSpecialist(@PathVariable Long id) {
         return speciallistService.showReviews(id);
+    }
+    @GetMapping("/{id}/orders")
+    public List<OrderResponse> orderListSpecialist(@PathVariable Long id) {
+        return speciallistService.getAvilableOrders(id);
     }
 
 }

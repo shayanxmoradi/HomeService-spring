@@ -27,5 +27,4 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
 
 
     Optional<OrderResponse> onlinePayment(Long orderId);
-    public List<Review> getRatingsBySpecialistId(Long specialistId);
 }

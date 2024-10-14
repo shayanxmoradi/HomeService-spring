@@ -9,6 +9,7 @@ import org.example.homeservice.dto.offer.OfferMapper;
 import org.example.homeservice.dto.offer.OfferRequest;
 import org.example.homeservice.dto.order.OrderMapper;
 import org.example.homeservice.dto.order.OrderRequest;
+import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.ServiceMapper;
 import org.example.homeservice.dto.service.ServiceRequest;
 import org.example.homeservice.dto.service.ServiceResponse;
@@ -28,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 @EnableCaching
@@ -263,7 +265,13 @@ public class HomeServiceApplication {
         return args -> {
 //      orderService.choseOrder(4452l,1902l);
         };
+    }    @Bean
+    CommandLineRunner startOrder(OrderService orderService, OfferMapper offerMapper) {
+        return args -> {
+//            Optional<OrderResponse> savingResponse = orderService.startOrder(4452l);
+        };
     }
+
 
     @Bean
     CommandLineRunner spefilter(SpeciallistService speciallistService, OfferMapper offerMapper) {
