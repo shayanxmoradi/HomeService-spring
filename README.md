@@ -11,6 +11,7 @@ The **Home Services Platform** simplifies the process of discovering, booking, a
 - 🔍 **Service Browsing**: Easily navigate through various home service categories.
 - 👷‍♂️ **Specialist Selection**: Choose from vetted specialists with customer reviews and ratings.
 - 📅 **Appointment Booking**: Seamlessly book services at a convenient time.
+- 💳 Payment Integration: Secure payment options for booking services.
 - ⭐ **Review System**: Rate and provide feedback after each service to ensure quality.
 
 ## 🚀 Getting Started
