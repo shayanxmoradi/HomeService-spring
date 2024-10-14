@@ -17,7 +17,7 @@ The **Home Services Platform** simplifies the process of discovering, booking, a
 
 ### Prerequisites
 
-- **Java 17+**
+- **Java 23**
 - **Maven**
 - **PostgreSQL/MySQL** for the database
 
