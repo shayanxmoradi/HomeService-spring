@@ -1,5 +1,6 @@
 package org.example.homeservice.service.offer;
 
+import org.example.homeservice.dto.offer.OfferRequest;
 import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.domain.Offer;
 import org.example.homeservice.service.baseentity.BaseEntityService;
