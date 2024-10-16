@@ -49,6 +49,7 @@ public class BaseUser extends BaseEntity<Long> {
     @Column(nullable = false,name = PASSWORD)
     private String password;
 
-    @OneToOne
-    Wallet wallet=new Wallet(0);
+    @OneToOne(cascade = CascadeType.PERSIST)
+
+    Wallet wallet=new Wallet();
 }

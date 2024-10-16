@@ -69,7 +69,7 @@ public class HomeServiceApplication {
             customer.setEmail("john.dxxdoedsss@example.com");
             customer.setPassword("12345678");
 
-     //  customerService.save(customerMapper.toDto(customer));
+//       customerService.save(customerMapper.toDto(customer));
         };
     }
 
@@ -272,7 +272,11 @@ public class HomeServiceApplication {
         };
     }
 
-
+    CommandLineRunner paiedOrder(OrderService orderService, OfferMapper offerMapper) {
+        return args -> {
+            Optional<OrderResponse> savingResponse = orderService.setOnlinePaied(4452l);
+        };
+    }
     @Bean
     CommandLineRunner spefilter(SpeciallistService speciallistService, OfferMapper offerMapper) {
         return args -> {

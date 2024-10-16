@@ -134,7 +134,7 @@ public class PaymentResource {
         System.out.println(expiryDate);
         System.out.println("20" + expiryDate.substring(3, 5));
         System.out.println(expiryDate.substring(0, 2));
-        // Prepare card object for validation
+
         Card cardRequest = new Card(cardNumber, LocalDate.of(Integer.parseInt("20" + expiryDate.substring(3, 5)), Integer.parseInt(expiryDate.substring(0, 2)), 20), cvv); // Create a DTO for the request
         System.out.println("checkedCard" + cardRequest);
         // Call Bank API to validate the card
@@ -156,6 +156,7 @@ public class PaymentResource {
             model.addAttribute("orderId", orderId);
             return "error";
         }
+        System.out.println(orderId);
         paiedOrderSetup(orderId);
 //        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
 //        redirectAttributes.addFlashAttribute("orderId", orderId);
@@ -216,9 +217,7 @@ public class PaymentResource {
     private void paiedOrderSetup(Long orderId) {
         //first set status to online paied
         orderService.onlinePayment(orderId);
-        // add 70% money to specilist wallet
-        //todo wallte
-        //reduce specilist rating if delayed
+
     }
 
 

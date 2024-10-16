@@ -205,26 +205,44 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     public void updateOrdersWithNullService(Long serviceId) {
         baseRepository.updateOrdersWithNullService(serviceId);
     }
-@Transactional
+
+    @Transactional
     @Override
     public Optional<OrderResponse> onlinePayment(Long orderId) {
+        try {
+            OrderStatus status = OrderStatus.DONE;
+            Order foundedOrder = checkOrderStatus(orderId, status);
+            System.out.println(foundedOrder);
+
+//            foundedOrder.setStatus(OrderStatus.PAID);
+//todo wtf
+
+
+            //add 70% money to specilist wallet
+            SpecialistResponse specialistResponse = speciallistService.findById(foundedOrder.getChosenSpecialist().getId()).orElseThrow(() -> new ValidationException("No specialist with this ID found"));
+            Long walletId = specialistResponse.walletId();
+            double specilistProfit = foundedOrder.getAcceptedPrice() * 0.7;
+            walletService.addMoneyToWallet(walletId, specilistProfit);
+
+
+            return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
+    @Transactional
+    @Override
+    public Optional<OrderResponse> setOnlinePaied(Long orderId) {
         OrderStatus status = OrderStatus.DONE;
         Order foundedOrder = checkOrderStatus(orderId, status);
+        System.out.println(foundedOrder);
 
         foundedOrder.setStatus(OrderStatus.PAID);
-
-    //add 70% money to specilist wallet
-    SpecialistResponse specialistResponse = speciallistService.findById(foundedOrder.getChosenSpecialist().getId()).orElseThrow(() -> new ValidationException("No specialist with this ID found"));
-    Long walletId = specialistResponse.walletId();
-    double specilistProfit = foundedOrder.getAcceptedPrice() * 0.7;
-    walletService.addMoneyToWallet(walletId, specilistProfit );
-
-    //todo wallet repo
-    //todo wallte
-    //reduce specilist rating if delayed
-
-
         return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
+
     }
 
 

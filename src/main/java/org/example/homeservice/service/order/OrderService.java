@@ -27,4 +27,6 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
 
 
     Optional<OrderResponse> onlinePayment(Long orderId);
-}
+    public Optional<OrderResponse> setOnlinePaied(Long orderId) ;
+
+    }

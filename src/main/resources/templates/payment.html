@@ -107,8 +107,9 @@
     <div id="timer">Time Remaining: 10:00</div>
 
     <div id="error"></div>
-
     <form action="/processPayment" method="post" onsubmit="return validateForm()">
+
+<!--    <form action="/payment_sucess" method="post" onsubmit="return validateForm()">-->
         <input type="hidden" name="orderId" th:value="${orderId}"/>
 
         <div class="input-group">
