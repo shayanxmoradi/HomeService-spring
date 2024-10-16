@@ -208,13 +208,12 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Transactional
     @Override
-    public Optional<OrderResponse> onlinePayment(Long orderId) {
+    public Optional<OrderResponse> onlinePayment(Long orderId,OrderStatus orderStatus) {
         try {
             OrderStatus status = OrderStatus.DONE;
             Order foundedOrder = checkOrderStatus(orderId, status);
-            System.out.println(foundedOrder);
 
-//            foundedOrder.setStatus(OrderStatus.PAID);
+            foundedOrder.setStatus(orderStatus);
 //todo wtf
 
 

@@ -55,13 +55,13 @@ public class OrderResource {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
-    @PutMapping("/onlinePayment/{id}")
-    public ResponseEntity<OrderResponse> onlinePayment(Long orderId) {
-        //todo save paied card?
-        Optional<OrderResponse> savingResponse = orderService.onlinePayment(orderId);
-
-        return savingResponse
-                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }
+//    @PutMapping("/onlinePayment/{id}")
+//    public ResponseEntity<OrderResponse> onlinePayment(Long orderId) {
+//        //todo save paied card?
+//        Optional<OrderResponse> savingResponse = orderService.onlinePayment(orderId);
+//
+//        return savingResponse
+//                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
+//                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+//    }
 }

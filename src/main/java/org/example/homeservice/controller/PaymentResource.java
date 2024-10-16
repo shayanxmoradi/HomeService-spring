@@ -33,35 +33,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PaymentResource {
 
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    WalletService walletService;
+
+    private final OrderService orderService;
+    private final CustomerService customerService;
+
+    private final RestTemplate restTemplate;
+
+   private final WalletService walletService;
 
 
     private final ReviewService reviewService;
 
     @Value("${recaptcha.secret}")
-    private String recaptchaSecret = "6LcyY18qAAAAAOii_eFrl7pb1F_T7aQuhJgbLJ1Y";
+    private String recaptchaSecret ;
 
     private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
-//    @GetMapping("/payment/{id}")
-//    public String showPaymentForm(Model model) {
-//        model.addAttribute("paymentRequest", new PaymentRequest());
-//        return "payment";
-//    }
+    private static final String ERROR_PAGE = "error";
+    private static final String SUCCESS_PAGE = "payment_success";
+
 
     @GetMapping("/payment")
     public String showPaymentForm(@RequestParam Long orderId, Model model) {
         // Fetch the order details using the orderId
         Optional<OrderResponse> orderResponse = orderService.findById(orderId);
         if (orderResponse.get().status() != OrderStatus.DONE) {
-            model.addAttribute("error", "order is not in done status! you cant pay now");
-            return "error";
+            model.addAttribute(ERROR_PAGE, "order is not in done status! you cant pay now");
+            return ERROR_PAGE;
         }
         if (orderResponse.isPresent()) {
             model.addAttribute("orderId", orderId);
@@ -69,8 +66,8 @@ public class PaymentResource {
             return "payment";
         }
 
-        model.addAttribute("error", "Order not found.");
-        return "error";
+        model.addAttribute(ERROR_PAGE, "Order not found.");
+        return ERROR_PAGE;
     }
 
     @GetMapping("/paywithwallet")
@@ -90,7 +87,7 @@ public class PaymentResource {
         }
 
         if (hasEnoughCreditCards) {
-            paiedOrderSetup(orderId);
+            paiedOrderSetup(orderId,OrderStatus.PAIED_WITH_WALLET);
 //        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
 //        redirectAttributes.addFlashAttribute("orderId", orderId);
             model.addAttribute("orderId", orderId);
@@ -100,7 +97,7 @@ public class PaymentResource {
         System.out.println("not enough credit cards");
         model.addAttribute("errorMessage", "not enough money in wallet!");
         model.addAttribute("orderId", orderId);
-        return "error";
+        return ERROR_PAGE;
     }
 
     @PostMapping("/processPayment")
@@ -147,17 +144,17 @@ public class PaymentResource {
             System.out.println("errorMessage");
             model.addAttribute("errorMessage", "Invalid card details. Please check your information.");
             model.addAttribute("orderId", orderId);
-            return "error";
+            return ERROR_PAGE;
         }
 
 
         if (!errors.isEmpty()) {
             model.addAttribute("errorMessage", errors);
             model.addAttribute("orderId", orderId);
-            return "error";
+            return ERROR_PAGE;
         }
         System.out.println(orderId);
-        paiedOrderSetup(orderId);
+        paiedOrderSetup(orderId,OrderStatus.PAID);
 //        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
 //        redirectAttributes.addFlashAttribute("orderId", orderId);
         model.addAttribute("orderId", orderId);
@@ -206,7 +203,7 @@ public class PaymentResource {
             modelAndView.addObject("message", "Thank you for your feedback!"); // Successful submission message
         } catch (DataIntegrityViolationException e) {
             // This exception is thrown when there's a duplicate key violation
-            modelAndView.setViewName("error"); // You can redirect to an error page or stay on the same page
+            modelAndView.setViewName(ERROR_PAGE); // You can redirect to an error page or stay on the same page
             modelAndView.addObject("errorMessage", "A review for this order has already been submitted.");
         }
 
@@ -214,9 +211,9 @@ public class PaymentResource {
     }
 
 
-    private void paiedOrderSetup(Long orderId) {
+    private void paiedOrderSetup(Long orderId,OrderStatus orderStatus) {
         //first set status to online paied
-        orderService.onlinePayment(orderId);
+        orderService.onlinePayment(orderId,orderStatus);
 
     }
 

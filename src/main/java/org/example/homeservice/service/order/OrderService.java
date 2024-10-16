@@ -1,6 +1,7 @@
 package org.example.homeservice.service.order;
 
 import org.example.homeservice.domain.Review;
+import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.order.OrderRequest;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.domain.Order;
@@ -26,7 +27,7 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
     void updateOrdersWithNullService(Long serviceId);
 
 
-    Optional<OrderResponse> onlinePayment(Long orderId);
+    Optional<OrderResponse> onlinePayment(Long orderId, OrderStatus orderStatus);
     public Optional<OrderResponse> setOnlinePaied(Long orderId) ;
 
     }
