@@ -2,6 +2,7 @@ package org.example.homeservice.controller;
 
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @RestController
 @RequestMapping("/customer")
 @RequiredArgsConstructor
@@ -23,9 +24,9 @@ public class CustomerResource {
 
     @GetMapping("/all")
     public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
-        return ResponseEntity.ok(
-                customerService.findAll().get()
-        );
+        return customerService.findAll()
+                .map(customers -> ResponseEntity.ok(customers))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
@@ -33,11 +34,11 @@ public class CustomerResource {
         Optional<CustomerResponseDto> savedCustomer = customerService.save(customer);
         return savedCustomer
                 .map(cust -> ResponseEntity.status(HttpStatus.CREATED).body(cust))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
     @PutMapping("/password")
-    public ResponseEntity<UpdatePasswordResponse> updatePass(@RequestBody @Validated UpdatePasswordRequst updatePasswordRequst) {
+    public ResponseEntity<UpdatePasswordResponse> updatePassword(@RequestBody @Validated UpdatePasswordRequst updatePasswordRequst) {
         customerService.updatePassword(updatePasswordRequst);
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse(updatePasswordRequst.email(), "password suffessfully changed for this user.");
         return ResponseEntity.ok(updatePasswordResponse);

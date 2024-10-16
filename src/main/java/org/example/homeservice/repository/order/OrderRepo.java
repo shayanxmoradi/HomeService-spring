@@ -3,18 +3,24 @@ package org.example.homeservice.repository.order;
 import jakarta.transaction.Transactional;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.Review;
+import org.example.homeservice.domain.Service;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-public interface OrderRepo extends BaseEnitityRepo<Order,Long> {
+public interface OrderRepo extends BaseEnitityRepo<Order, Long> {
     List<Order> findByCustomerId(Long customerId);
+
     List<Order> findByStatus(OrderStatus orderStatus);
+
     List<Order> findByStatusIn(List<OrderStatus> orderStatus);
+
     @Modifying
     @Query("SELECT o FROM Order o " +
            "JOIN FETCH o.choosenService s " +
@@ -22,6 +28,7 @@ public interface OrderRepo extends BaseEnitityRepo<Order,Long> {
            "WHERE o.status IN ('WAITING_FOR_SPECIALISTS_OFFERS', 'WAITING_FOR_SPECIALISTS') " +
            "AND sp.id = :specialistId")
     List<Order> findWaitingOrdersBySpecialist(@Param("specialistId") Long specialistId);
+
     @Modifying
     @Query("DELETE FROM Order o WHERE o.choosenService.id = :serviceId")
     void deleteByServiceId(@Param("serviceId") Long serviceId);
@@ -32,10 +39,7 @@ public interface OrderRepo extends BaseEnitityRepo<Order,Long> {
     void updateOrdersWithNullService(Long serviceId);
 
 
-//    @Query("SELECT o.review.rating FROM Order o WHERE o.chosenSpecialist.id = :specialistId")
-//    List<Integer> findRatingsBySpecialistId(@Param("specialistId") Long specialistId);
-
-//    @Query("SELECT o.review FROM Order o WHERE o.chosenSpecialist.id = :specialistId")
-//    List<Review> findRatingsBySpecialistId(@Param("specialistId") Long specialistId);
-
+    //    Order findOrderByCustomerIdAndStatusAAndChoosenService(Long customerId, OrderStatus orderStatus, Service chosenService);
+    Optional<Order> findOrderByCustomerIdAndChoosenServiceIdAndServiceTime(Long customerId, Long chosenService, LocalDateTime serviceTime);
+List<Order> findOrderByAddressId(Long addressId);
 }

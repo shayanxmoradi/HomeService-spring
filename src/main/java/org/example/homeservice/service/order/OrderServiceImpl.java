@@ -2,7 +2,6 @@ package org.example.homeservice.service.order;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import org.example.homeservice.domain.Review;
 import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.dto.address.AddressMapper;
 import org.example.homeservice.dto.offer.OfferMapper;
@@ -73,6 +72,10 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Override
     public Optional<OrderResponse> save(OrderRequest orderRequest) {
+        boolean isDuplicateOrder= isDuplicatedOrder(orderRequest);
+        if (isDuplicateOrder) {
+            throw new ValidationException("this order already exists");
+        }
         if (customerService.findById(orderRequest.customerId()).isEmpty()) {
             throw new ValidationException("Customer with this id not found");
         }
@@ -92,6 +95,15 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
 
         return Optional.ofNullable(orderMapper.toResponse(baseRepository.save(orderMapper.toEntity(orderRequest))));
+    }
+
+    private boolean isDuplicatedOrder(OrderRequest orderRequest) {
+        Long serviceId = orderRequest.serviceId();
+        Long customerId = orderRequest.customerId();
+        LocalDateTime serviceTime = orderRequest.serviceTime();
+        if (baseRepository.findOrderByCustomerIdAndChoosenServiceIdAndServiceTime(customerId,serviceId,serviceTime).isPresent()) {
+            return true;
+        }return false;
     }
 
     @Override
@@ -242,6 +254,11 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         foundedOrder.setStatus(OrderStatus.PAID);
         return Optional.ofNullable(orderMapper.toResponse(foundedOrder));
 
+    }
+
+    @Override
+    public List<Order> findByAdrressId(Long adrressId) {
+        return baseRepository.findOrderByAddressId(adrressId);
     }
 
 

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import lombok.Data;
 import org.example.homeservice.domain.enums.OrderStatus;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +34,6 @@ public class Order extends BaseEntity<Long> {
     private Double acceptedPrice;
 
 
-
     @Future
     @Column
     private LocalDateTime serviceTime;
@@ -40,7 +41,14 @@ public class Order extends BaseEntity<Long> {
     @Column
     private LocalDateTime orderStartedAt;//todo on dtos
 
+
+    //uncoment this line to delete order it completely
+//    @ManyToOne(cascade = {CascadeType.REMOVE}) // Ensure the cascade option is set
+//    @JoinColumn(nullable = true)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Address address;
 
     @ManyToOne(fetch = FetchType.EAGER)

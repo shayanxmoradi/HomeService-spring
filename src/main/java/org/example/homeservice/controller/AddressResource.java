@@ -25,4 +25,32 @@ public class AddressResource {
                 .map(add-> ResponseEntity.status(HttpStatus.CREATED).body(add))
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<AddressResponse> getAddressById(@PathVariable Long id) {
+        Optional<AddressResponse> addressResponse = addressService.findById(id);
+        return addressResponse
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id,
+                                                         @RequestBody @Validated AddressReqest addressRequest) {
+        Optional<AddressResponse> updatedAddressResponse = addressService.update( addressRequest);
+        return updatedAddressResponse
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
+        boolean deleted = addressService.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }

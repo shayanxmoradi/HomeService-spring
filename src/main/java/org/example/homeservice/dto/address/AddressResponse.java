@@ -3,7 +3,7 @@ package org.example.homeservice.dto.address;
 import jakarta.validation.constraints.Pattern;
 
 public record AddressResponse(
-
+Long id,
         String street,
         String city,
         String state,

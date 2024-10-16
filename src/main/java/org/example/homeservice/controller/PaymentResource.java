@@ -54,7 +54,6 @@ public class PaymentResource {
 
     @GetMapping("/payment")
     public String showPaymentForm(@RequestParam Long orderId, Model model) {
-        // Fetch the order details using the orderId
         Optional<OrderResponse> orderResponse = orderService.findById(orderId);
         if (orderResponse.get().status() != OrderStatus.DONE) {
             model.addAttribute(ERROR_PAGE, "order is not in done status! you cant pay now");
@@ -88,8 +87,7 @@ public class PaymentResource {
 
         if (hasEnoughCreditCards) {
             paiedOrderSetup(orderId,OrderStatus.PAIED_WITH_WALLET);
-//        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
-//        redirectAttributes.addFlashAttribute("orderId", orderId);
+
             model.addAttribute("orderId", orderId);
 
             return "/payment_sucess";
@@ -128,20 +126,17 @@ public class PaymentResource {
             return "redirect:/payment";
         }
 
-        System.out.println(expiryDate);
-        System.out.println("20" + expiryDate.substring(3, 5));
-        System.out.println(expiryDate.substring(0, 2));
+
 
         Card cardRequest = new Card(cardNumber, LocalDate.of(Integer.parseInt("20" + expiryDate.substring(3, 5)), Integer.parseInt(expiryDate.substring(0, 2)), 20), cvv); // Create a DTO for the request
-        System.out.println("checkedCard" + cardRequest);
+//        System.out.println("checkedCard" + cardRequest);
         // Call Bank API to validate the card
         String bankApiUrl = "http://localhost:8085/bank/valid";
         ResponseEntity<Boolean> response = restTemplate.postForEntity(bankApiUrl, cardRequest, Boolean.class);
-        System.out.println(response.getBody());
+//        System.out.println(response.getBody());
 
 
         if (response.getBody() == null || !response.getBody()) {
-            System.out.println("errorMessage");
             model.addAttribute("errorMessage", "Invalid card details. Please check your information.");
             model.addAttribute("orderId", orderId);
             return ERROR_PAGE;
@@ -155,8 +150,7 @@ public class PaymentResource {
         }
         System.out.println(orderId);
         paiedOrderSetup(orderId,OrderStatus.PAID);
-//        redirectAttributes.addFlashAttribute("successMessage", "Payment processed successfully!");
-//        redirectAttributes.addFlashAttribute("orderId", orderId);
+
         model.addAttribute("orderId", orderId);
 
 
@@ -200,10 +194,10 @@ public class PaymentResource {
         try {
             System.out.println(orderId + "\n" + rating + comments);
             reviewService.addReview(reviewRequest);
-            modelAndView.addObject("message", "Thank you for your feedback!"); // Successful submission message
+            modelAndView.addObject("message", "Thank you for your feedback!");
         } catch (DataIntegrityViolationException e) {
             // This exception is thrown when there's a duplicate key violation
-            modelAndView.setViewName(ERROR_PAGE); // You can redirect to an error page or stay on the same page
+            modelAndView.setViewName(ERROR_PAGE);
             modelAndView.addObject("errorMessage", "A review for this order has already been submitted.");
         }
 

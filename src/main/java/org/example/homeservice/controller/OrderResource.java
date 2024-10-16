@@ -22,7 +22,7 @@ public class OrderResource {
         Optional<OrderResponse> serviceResponse = orderService.findById(id);
         return serviceResponse
                 .map(service -> ResponseEntity.status(HttpStatus.CREATED).body(service))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
@@ -31,37 +31,29 @@ public class OrderResource {
         //todo check duplicate
         return savingResponse
                 .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
     @PutMapping("/{id}/{offer}")
     public ResponseEntity<OrderResponse> choseOrder(@PathVariable Long id, @PathVariable Long offer) {
         Optional<OrderResponse> savingResponse = orderService.choseOrder(id, offer);
         return savingResponse
-                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .map(o -> ResponseEntity.status(HttpStatus.ACCEPTED).body(o))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
     @PutMapping("/start/{id}")
     public ResponseEntity<OrderResponse> startOrder(@PathVariable Long id) {
         Optional<OrderResponse> savingResponse = orderService.startOrder(id);
         return savingResponse
-                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .map(o -> ResponseEntity.status(HttpStatus.ACCEPTED).body(o))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
     @PutMapping("/end/{id}")
     public ResponseEntity<OrderResponse> endOrder(@PathVariable Long id) {
         Optional<OrderResponse> savingResponse = orderService.endOrder(id);
         return savingResponse
-                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .map(o -> ResponseEntity.status(HttpStatus.ACCEPTED).body(o))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-//    @PutMapping("/onlinePayment/{id}")
-//    public ResponseEntity<OrderResponse> onlinePayment(Long orderId) {
-//        //todo save paied card?
-//        Optional<OrderResponse> savingResponse = orderService.onlinePayment(orderId);
 //
-//        return savingResponse
-//                .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
-//                .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-//    }
 }
