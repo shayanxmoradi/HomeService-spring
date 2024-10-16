@@ -43,8 +43,8 @@ class AddressServiceImplTest {
         address.setId(1L);
         address.setStreet("123 Main St");
 
-        addressReqest = new AddressReqest("123 Main St", "City", "State", "12345",2l);
-        addressResponse = new AddressResponse("123 Main St", "123 Main St", "City", "State", 2l);
+//        addressReqest = new AddressReqest("123 Main St", "City", "State", "12345",2l);
+//        addressResponse = new AddressResponse("123 Main St", "123 Main St", "City", "State", 2l);
     }
 
 //    @Test

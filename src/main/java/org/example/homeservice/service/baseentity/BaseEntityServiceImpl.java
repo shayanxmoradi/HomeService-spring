@@ -49,6 +49,9 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
 
     @Override
     public boolean deleteById(ID id) {
+        if (baseRepository.findById(id).isEmpty()) {
+            return false;
+        }
         baseRepository.deleteById(id);
         return true;
     }

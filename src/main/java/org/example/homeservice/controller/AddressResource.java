@@ -38,7 +38,8 @@ public class AddressResource {
     @PutMapping("/{id}")
     public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id,
                                                          @RequestBody @Validated AddressReqest addressRequest) {
-        Optional<AddressResponse> updatedAddressResponse = addressService.update( addressRequest);
+
+        Optional<AddressResponse> updatedAddressResponse = addressService.update( addressRequest.withId(id));
         return updatedAddressResponse
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

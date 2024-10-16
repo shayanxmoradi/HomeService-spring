@@ -200,12 +200,12 @@ public class HomeServiceApplication {
 //            address.setCity("San Francisco");
 //            address.setState("CA");
 //            address.setZip("12345");
-            AddressReqest addressReqest = new AddressReqest(
-                    "emil moog",
-                    "dortmund",
-                    "NRW",
-                    "12345",
-                    952l);
+//            AddressReqest addressReqest = new AddressReqest(
+//                    "emil moog",
+//                    "dortmund",
+//                    "NRW",
+//                    "12345",
+//                    952l);
             //  addressService.save(addressReqest);
         };
     }

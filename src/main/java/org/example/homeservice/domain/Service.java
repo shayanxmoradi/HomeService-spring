@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,10 @@ public class Service extends BaseEntity<Long> {
     private Float basePrice;
 
     //todo should be many to many?
-    @ManyToMany
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+
     private List<Specialist> avilableSpecialists = new ArrayList<>();
 
     @Column

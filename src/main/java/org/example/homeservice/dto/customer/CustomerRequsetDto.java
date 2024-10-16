@@ -1,9 +1,11 @@
 package org.example.homeservice.dto.customer;
 
 import jakarta.validation.constraints.*;
+import lombok.With;
 import org.hibernate.validator.constraints.Length;
 
 public record CustomerRequsetDto(
+        @With Long id,
         @Length(min = 2, max = 50, message = "should be at least 2 char and max 50")
         @NotBlank(message = "first name is required")
         String firstName,

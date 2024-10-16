@@ -3,6 +3,8 @@ package org.example.homeservice.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,18 +24,22 @@ public class Offer extends BaseEntity<Long> {
     @Column
     Double suggestedPrice;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn( nullable = true)
     Order order;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(nullable = true)
     Service service;//todo remove from here?
 
     @Column(nullable = false)
     private Duration estimatedDuration;
 
-
-    @ManyToOne
-    @JoinColumn(name = "specialist_id", nullable = false)
+    @ManyToOne(cascade = {CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "specialist_id", nullable = true)
     private Specialist specialist;
 
 }

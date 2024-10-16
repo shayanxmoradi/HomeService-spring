@@ -51,26 +51,27 @@ public class Order extends BaseEntity<Long> {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Address address;
 
+    //            (fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private List<Specialist> speclistsWhoOffered;
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
 
-    @OneToMany
-//            (fetch = FetchType.LAZY)
-    private List<Specialist> speclistsWhoOffered;
 
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     @OneToOne
     private Specialist chosenSpecialist;
 
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Offer chosenOffer;
 
-//    @OneToOne
-//    Review review;
-
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "status_id", nullable = true)
-//    private OrderStatus status;
 
 
     @Enumerated(EnumType.STRING)

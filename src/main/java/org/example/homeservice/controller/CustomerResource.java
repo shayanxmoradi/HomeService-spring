@@ -49,7 +49,29 @@ public class CustomerResource {
                                           @Email @Validated @RequestParam(required = false) String email) {
         return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponseDto> getCustomerById(@PathVariable Long id) {
+        Optional<CustomerResponseDto> customer = customerService.findById(id);
+        return customer.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable Long id,
+                                                              @RequestBody @Validated CustomerRequsetDto customerRequestDto) {
+        Optional<CustomerResponseDto> updatedCustomer = customerService.update( customerRequestDto.withId(id));
+        return updatedCustomer
+                .map(cust -> ResponseEntity.ok(cust))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        if (customerService.deleteById(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 
 }

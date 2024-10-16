@@ -1,10 +1,9 @@
 package org.example.homeservice.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = Review.TABLE_NAME)
@@ -13,7 +12,9 @@ public class Review extends BaseEntity<Long> {
     public static final String TABLE_NAME = "review";
 
 
-    @OneToOne
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.REMOVE})
     Order order;
 
     @Column(nullable = true)

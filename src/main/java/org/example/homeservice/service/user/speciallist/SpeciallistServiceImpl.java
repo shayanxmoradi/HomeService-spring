@@ -196,8 +196,20 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     }
 
     @Override
+    protected Specialist toEntity(SpecialistRequest dto) {
+        return specialistMapper.toEntity(dto);
+    }
+
+    @Override
+    protected SpecialistResponse toDto(Specialist entity) {
+        return specialistMapper.toDto(entity);
+    }
+
+    @Override
     public List<OrderResponse> getAvilableOrders(Long specialistId) {
         return orderService.findWaitingOrdersBySpecialist(specialistId  );
+
+
     }
 //    @Override
 //    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {

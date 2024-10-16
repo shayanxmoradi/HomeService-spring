@@ -3,6 +3,8 @@ package org.example.homeservice.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.homeservice.domain.enums.SpecialistStatus;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -15,19 +17,21 @@ public class Specialist extends BaseUser {
 
     @Column(nullable = true)
     @Enumerated(EnumType.STRING)
-    private SpecialistStatus specialistStatus=SpecialistStatus.PENDING;
+    private SpecialistStatus specialistStatus = SpecialistStatus.PENDING;
 
     @Column(name = "total_rate")
-    private Double rate=0.0;
+    private Double rate = 0.0;
     @Column(name = "number_of_rate")
-    private int numberOfRate=0;
+    private int numberOfRate = 0;
 
-    @OneToMany
-    List<Service > workServices;
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+    List<Service> workServices;
 
 
     // @Lob //todo whgat is this
-    @Column(name = "image_data",length = 300000)
+    @Column(name = "image_data", length = 300000)
     private byte[] personalImage;
 
     @Override

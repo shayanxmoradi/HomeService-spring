@@ -3,6 +3,8 @@ package org.example.homeservice.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Table(name = Address.TABLE_NAME)
 @Data
@@ -20,6 +22,9 @@ public class Address extends BaseEntity<Long> {
     @Pattern(regexp = "^\\d{5}$", message = "Postal code must be a 5-digit number")
 
     private String zip;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.REMOVE})
     BaseUser user;
 }

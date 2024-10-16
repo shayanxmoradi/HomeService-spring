@@ -2,6 +2,8 @@ package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.dto.customer.CustomerRequsetDto;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
@@ -70,6 +72,22 @@ public class SpecialistResource {
     @GetMapping("/{id}/orders")
     public List<OrderResponse> orderListSpecialist(@PathVariable Long id) {
         return speciallistService.getAvilableOrders(id);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSpecialist(@PathVariable Long id) {
+        if (speciallistService.deleteById(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<SpecialistResponse> updateSpecialist(@PathVariable Long id,
+                                                              @RequestBody @Validated SpecialistRequest specialistRequest) {
+        Optional<SpecialistResponse> updatedCustomer = speciallistService.update( specialistRequest.withId(id));
+        return updatedCustomer
+                .map(cust -> ResponseEntity.ok(cust))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
 }
