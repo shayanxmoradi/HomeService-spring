@@ -31,15 +31,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF using the new method
                 .csrf(csrf -> csrf.disable())
                 // Configure the authorization for requests
                 .authorizeHttpRequests(auth -> auth
                         // Allow access to /authenticate without requiring authentication
                         .requestMatchers("/login").permitAll()
 //                        .requestMatchers("/**").permitAll()
-                        .requestMatchers("/**").hasAuthority("CUSTOMER")
-                        // Any other request must be authenticated
+                        .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
+                        .requestMatchers("/speciallist/**").hasAuthority("SPECIALIST")
+                        .requestMatchers("/**").hasAuthority("ADMIN")
+                        .requestMatchers("/**").hasAuthority("GOD")
+
                         .anyRequest().authenticated()
                 )
                 // Set session management to stateless (because we use JWTs)

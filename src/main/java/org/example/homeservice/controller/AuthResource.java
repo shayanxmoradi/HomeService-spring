@@ -1,7 +1,7 @@
 package org.example.homeservice.controller;
 
 import lombok.Data;
-import org.example.homeservice.controller.config.JwtTokenUtil;
+import lombok.RequiredArgsConstructor;
 import org.example.homeservice.controller.config.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +14,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serial;
-import java.io.Serializable;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthResource {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+
+    private final JwtUtil jwtUtil;
+
+
 
 
 
