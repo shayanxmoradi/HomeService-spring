@@ -19,6 +19,8 @@ import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
     private final OrderService orderService;
     private final CustomerMapper customerMapper;
     private final OfferService offerService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public CustomerServiceImpl(@Qualifier("customerRepo") CustomerRepo customerRepo,
@@ -144,6 +148,13 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
         return customerMapper.toResponseDto(baseRepository.findAll(spec));
 
+    }
+
+    @Override
+    public Optional<CustomerResponseDto> addCustomer(CustomerRequsetDto customerRequsetDto) {
+        String password = passwordEncoder.encode(customerRequsetDto.password());
+        CustomerRequsetDto updatedCustomer = CustomerRequsetDto.updatePassword(customerRequsetDto, password);
+        return save(updatedCustomer);
     }
 
 

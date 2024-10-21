@@ -8,8 +8,10 @@ import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordResponse;
 import org.example.homeservice.service.user.customer.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerResource {
     private final CustomerService customerService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
     public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
@@ -31,7 +35,9 @@ public class CustomerResource {
 
     @PostMapping
     public ResponseEntity<CustomerResponseDto> createCustomer(@RequestBody @Validated CustomerRequsetDto customer) {
-        Optional<CustomerResponseDto> savedCustomer = customerService.save(customer);
+//        CustomerRequsetDto customerRequsetDto = CustomerRequsetDto.updatePassword(customer, passwordEncoder.encode(customer.password()));
+//        System.out.println(customerRequsetDto);
+        Optional<CustomerResponseDto> savedCustomer = customerService.addCustomer(customer);
         return savedCustomer
                 .map(cust -> ResponseEntity.status(HttpStatus.CREATED).body(cust))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
