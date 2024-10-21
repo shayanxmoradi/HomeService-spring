@@ -38,7 +38,6 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     private final ServiceService serviceService;
     private final AddressService addressService;
     private final OrderMapper orderMapper;
-    private final AddressMapper addressMapper;
     private final OfferService offerService;
     private final OfferMapper offerMapper;
     private SpeciallistService speciallistService;
@@ -46,12 +45,11 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
     private final WalletService walletService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, AddressMapper addressMapper, OfferService offerService, OfferMapper offerMapper, SpecialistMapper specialistMapper, @Lazy WalletService walletService) {
+    public OrderServiceImpl(OrderRepo baseRepository, ServiceService serviceService, AddressService addressService, OrderMapper orderMapper, OfferService offerService, OfferMapper offerMapper, SpecialistMapper specialistMapper, @Lazy WalletService walletService) {
         super(baseRepository);
         this.serviceService = serviceService;
         this.addressService = addressService;
         this.orderMapper = orderMapper;
-        this.addressMapper = addressMapper;
         this.offerService = offerService;
         this.offerMapper = offerMapper;
         this.specialistMapper = specialistMapper;
@@ -82,7 +80,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
             throw new ValidationException("no servicee with this id : " + orderRequest.serviceId() + " found .");
-        } else if (foundService.get().category() == true) {
+        } else if (foundService.get().category() ) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
         }
@@ -101,9 +99,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         Long serviceId = orderRequest.serviceId();
         Long customerId = orderRequest.customerId();
         LocalDateTime serviceTime = orderRequest.serviceTime();
-        if (baseRepository.findOrderByCustomerIdAndChoosenServiceIdAndServiceTime(customerId,serviceId,serviceTime).isPresent()) {
-            return true;
-        }return false;
+        return baseRepository.findOrderByCustomerIdAndChoosenServiceIdAndServiceTime(customerId, serviceId, serviceTime).isPresent();
     }
 
     @Override
@@ -142,11 +138,9 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
         Order foundedOrder = baseRepository.findById(orderId)
                 .orElseThrow(() -> new ValidationException("No order with this ID found"));
-        System.out.println("input order :");
-        System.out.println(foundedOrder.getChoosenService().getId());
 
         Optional<OfferResponse> foundedResponse = offerService.findById(chosenOfferId);
-        System.out.println(foundedResponse);
+
         if (foundedResponse.isEmpty()) {
             throw new ValidationException("No offer with this ID found");
         }

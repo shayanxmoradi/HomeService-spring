@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Specialist extends BaseUser {
+
     public static final String TABLE_NAME = "specialist";
 
     @Column(nullable = true)

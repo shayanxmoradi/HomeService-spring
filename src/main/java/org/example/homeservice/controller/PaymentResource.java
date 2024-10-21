@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Controller
-@RequiredArgsConstructor
+@Controller("/customer")
+@RequiredArgsConstructor()
 public class PaymentResource {
 
 

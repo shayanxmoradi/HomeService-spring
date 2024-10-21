@@ -10,10 +10,10 @@ import org.hibernate.validator.constraints.Length;
 public record SpecialistRequest(
         @With Long id,
         @NotBlank(message = "firstname is required")
-        @Length(min = 2, max = 50,message = "should be at least 2 char and max 50")
+        @Length(min = 2, max = 50, message = "should be at least 2 char and max 50")
         String firstName,
         @NotBlank(message = "lastname is required")
-        @Length(min = 2, max = 50,message = "should be at least 2 char and max 50")
+        @Length(min = 2, max = 50, message = "should be at least 2 char and max 50")
         String lastName,
         @Email
         @NotBlank(message = "email is required")
@@ -21,8 +21,9 @@ public record SpecialistRequest(
         @NotBlank(message = "password is required")
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$", message = "Password must contain a combination of letters and numbers")
         String password,
-                                SpecialistStatus specialistStatus,
-                                Double rate,
-                                byte[] personalImage
+        @With
+        SpecialistStatus specialistStatus,
+        Double rate,
+        byte[] personalImage
 ) {
 }

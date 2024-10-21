@@ -25,7 +25,7 @@ public class CustomerResource {
     @GetMapping("/all")
     public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
         return customerService.findAll()
-                .map(customers -> ResponseEntity.ok(customers))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 

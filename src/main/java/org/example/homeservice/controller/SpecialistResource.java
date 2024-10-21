@@ -2,6 +2,7 @@ package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
@@ -27,7 +28,7 @@ public class SpecialistResource {
 
     @PostMapping
     public ResponseEntity<SpecialistResponse> createSpecialist(@Validated @RequestBody SpecialistRequest specialistRequest) {
-        Optional<SpecialistResponse> specialist = speciallistService.save(specialistRequest);
+        Optional<SpecialistResponse> specialist = speciallistService.save(specialistRequest.withSpecialistStatus(SpecialistStatus.PENDING));
         return specialist
                 .map(specialistResponse -> ResponseEntity.status(HttpStatus.CREATED).body(specialistResponse))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
