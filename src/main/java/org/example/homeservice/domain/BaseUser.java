@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.homeservice.domain.enums.UserRole;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -55,4 +56,6 @@ public class BaseUser extends BaseEntity<Long> {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToOne(cascade = CascadeType.PERSIST)
     Wallet wallet=new Wallet();
+    @Enumerated(EnumType.STRING)
+    UserRole userRole;
 }

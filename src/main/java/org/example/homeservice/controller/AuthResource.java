@@ -36,23 +36,44 @@ public class AuthResource {
 
 
 
+//
+//    @PostMapping("/authenticate")
+//    public String createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
+//        System.out.printf(username + " " + password);
+//        try {
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//        } catch (AuthenticationException e) {
+//            throw new Exception("Invalid credentials", e);
+//        }
+//
+//        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//        final String jwt = jwtTokenUtil.generateToken(userDetails);
+//        //change here
+//
+//        return jwt;  // Return JWT to the client
+//    }
 
-    @PostMapping("/authenticate")
-    public String createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
-        System.out.printf(username + " " + password);
+    // Login endpoint to authenticate users and issue JWT
+    @PostMapping("/login")
+    public String  createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
         try {
+            // Authenticate user with email and password
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (AuthenticationException e) {
-            throw new Exception("Invalid credentials", e);
+
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect email or password", e);
         }
 
+        // If authentication is successful, generate JWT
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
-        return jwt;  // Return JWT to the client
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername(), userDetails.getAuthorities().stream()
+                .findFirst().get().getAuthority());
+
+        // Return the JWT token in the response
+        return jwt;
     }
 
-
-
-
+    public record AuthenticationRequest(String email, String password) {}
 }
