@@ -1,6 +1,7 @@
 package org.example.homeservice.controller.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.homeservice.controller.exception.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,9 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,36 +21,55 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 
 public class SecurityConfig {
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     private final JwtRequestFilter jwtRequestFilter;
 
 //    private final UserDetailsService userDetailsService;
 
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable())
+//                // Configure the authorization for requests
+//                .authorizeHttpRequests(auth -> auth
+//                        // Allow access to /authenticate without requiring authentication
+//                        .requestMatchers("/login").permitAll()
+////                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
+//                        .requestMatchers("/speciallist/**").hasAuthority("SPECIALIST")
+//                        .requestMatchers("/**").hasAuthority("ADMIN")
+//                        .requestMatchers("/**").hasAuthority("GOD")
+//
+//                        .anyRequest().authenticated()
+//                )
+//                // Set session management to stateless (because we use JWTs)
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                );
+//
+//        // Add the JWT filter to validate tokens with each request
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                // Configure the authorization for requests
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Allow access to /authenticate without requiring authentication
                         .requestMatchers("/login").permitAll()
-//                        .requestMatchers("/**").permitAll()
-                        .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
-                        .requestMatchers("/speciallist/**").hasAuthority("SPECIALIST")
-                        .requestMatchers("/**").hasAuthority("ADMIN")
-                        .requestMatchers("/**").hasAuthority("GOD")
-
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // Require authentication for other requests
                 )
-                // Set session management to stateless (because we use JWTs)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint) // Set custom entry point
+                )
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
-        // Add the JWT filter to validate tokens with each request
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 

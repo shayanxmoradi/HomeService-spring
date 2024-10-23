@@ -22,6 +22,7 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
 
     Optional<CustomerResponseDto> getCustomerByEmail(String email);
     Optional<CustomerResponseDto> findByEmailAndPass(String username, String password);
+    Optional<CustomerResponseDto> findByEmail(String email);
 
   //  public void updatePassword(UpdatePasswordRequst updatePasswordRequst);
 

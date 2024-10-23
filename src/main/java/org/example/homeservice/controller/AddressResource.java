@@ -6,6 +6,7 @@ import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.service.adress.AddressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AddressResource {
     private final AddressService addressService;
+    @PreAuthorize("hasAuthority('CUSTOMER')")
 
     @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody @Validated AddressReqest address) {
@@ -25,6 +27,7 @@ public class AddressResource {
                 .map(add-> ResponseEntity.status(HttpStatus.CREATED).body(add))
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<AddressResponse> getAddressById(@PathVariable Long id) {
         Optional<AddressResponse> addressResponse = addressService.findById(id);
@@ -34,6 +37,7 @@ public class AddressResource {
     }
 
 
+    @PreAuthorize("hasAuthority('CUSTOMER') ")
 
     @PutMapping("/{id}")
     public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id,
@@ -44,6 +48,7 @@ public class AddressResource {
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+    @PreAuthorize("hasAuthority('CUSTOMER') ")
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {

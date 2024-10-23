@@ -14,6 +14,7 @@ import org.example.homeservice.dto.review.SpecialistRateRespone;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,7 @@ public class SpecialistResource {
     }
 
     @PutMapping("/accept/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<SpecialistResponse> acceptSpecialist(@PathVariable Long id) {
         Optional<SpecialistResponse> specialist = speciallistService.acceptSpecialist(id);
         return specialist
@@ -50,6 +52,8 @@ public class SpecialistResource {
     }
 
     @GetMapping("/filter")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public List<Specialist> filterSpecialists(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String lastName,
@@ -62,19 +66,27 @@ public class SpecialistResource {
     }
 
     @GetMapping("{id}/rate")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public Double rateSpecialist(@PathVariable Long id) {
         return speciallistService.showRating(id);
     }
 
     @GetMapping("{id}/rates")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+
     public List<SpecialistRateRespone> ratingListSpecialist(@PathVariable Long id) {
         return speciallistService.showReviews(id);
     }
     @GetMapping("/{id}/orders")
+    @PreAuthorize("hasAuthority('SPECIALIST')")
+
     public List<OrderResponse> orderListSpecialist(@PathVariable Long id) {
         return speciallistService.getAvilableOrders(id);
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<Void> deleteSpecialist(@PathVariable Long id) {
         if (speciallistService.deleteById(id)) {
             return ResponseEntity.noContent().build();
@@ -83,6 +95,8 @@ public class SpecialistResource {
         }
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<SpecialistResponse> updateSpecialist(@PathVariable Long id,
                                                               @RequestBody @Validated SpecialistRequest specialistRequest) {
         Optional<SpecialistResponse> updatedCustomer = speciallistService.update( specialistRequest.withId(id));

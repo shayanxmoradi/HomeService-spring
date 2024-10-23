@@ -2,6 +2,7 @@ package org.example.homeservice.service.user.speciallist;
 
 
 import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
@@ -32,4 +33,6 @@ public interface SpeciallistService extends BaseUserService<Specialist, Speciali
     List<SpecialistRateRespone> showReviews(Long specialistId);
 
     Optional<SpecialistResponse> activateSpecialist(Long userId);
+    Optional<SpecialistResponse> findByEmail(String email);
+
 }

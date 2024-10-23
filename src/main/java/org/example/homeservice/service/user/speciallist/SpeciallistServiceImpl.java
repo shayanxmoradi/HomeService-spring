@@ -111,6 +111,12 @@ specialist.setIsActive(true);
         return Optional.ofNullable(specialistMapper.toDto(specialist));
     }
 
+    @Override
+    public Optional<SpecialistResponse> findByEmail(String email) {
+        return baseRepository.findByEmail(email)
+                .map(specialistMapper::toDto);
+    }
+
     Optional<Specialist> findId(long id){
         return Optional.ofNullable(baseRepository.findById(id).orElseThrow(() -> new ValidationException("Customer not found")));
     }

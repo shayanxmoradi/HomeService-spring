@@ -1,6 +1,8 @@
 package org.example.homeservice.controller.config;
 
 import io.jsonwebtoken.*;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +16,11 @@ public class JwtUtil {
 
 
 
-    private String SECRET_KEY = "mykeaskdjfhlasdjflaksdjfasdfasdfasdfasdfjjjjjjjasdfasjdlfjaslkdjfalsdfasdfasdfasdfsadfy";
-        private long expirationTime = 86400000; // 1 day
+//    private String SECRET_KEY = "mykeaskdjfhlasdjflaksdjfasdfasdfasdfasdfjjjjjjjasdfasjdlfjaslkdjfalsdfasdfasdfasdfsadfy";
+
+    @Value("${secret-key}")
+    private String SECRET_KEY;
+    private long expirationTime = 86400000; // 1 day
 
         public String generateToken(String username,String roles) {
             Map<String, Object> claims = new HashMap<>();
@@ -30,17 +35,6 @@ public class JwtUtil {
                     .compact();
         }
 
-//    public String generateToken(UserDetails userDetails) {
-//        Map<String, Object> claims = new HashMap<>();
-//        // Add role with the prefix "ROLE_"
-//        String role = userDetails.getAuthorities().stream()
-//                .findFirst()
-//                .get()
-//                .getAuthority(); // e.g., "ROLE_CUSTOMER"
-//
-//        claims.put("roles", role); // Store "ROLE_CUSTOMER" instead of just "CUSTOMER"
-//        return doGenerateToken(claims, userDetails.getUsername());
-//    }
 
         public Boolean validateToken(String token, String username) {
             final String extractedUsername = extractUsername(token);
@@ -58,4 +52,19 @@ public class JwtUtil {
         private Boolean isTokenExpired(String token) {
             return extractAllClaims(token).getExpiration().before(new Date());
         }
+    public String getCurrentUserEmail(HttpServletRequest request) {
+        String token = extractTokenFromRequest(request);
+        if (token != null) {
+            return  extractUsername(token);
+        }
+        throw new RuntimeException("User not authenticated");
+    }
+
+    private String extractTokenFromRequest(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
+    }
     }

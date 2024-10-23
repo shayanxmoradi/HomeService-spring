@@ -60,17 +60,17 @@ public class AuthResource {
         }
         Long userId = verificationToken.getUser().getId();
 
-try {
+        try {
 
-    customerService.activateCustomer(userId);
-}catch (Exception e) {
+            customerService.activateCustomer(userId);
+        } catch (Exception e) {
 
-    speciallistService.activateSpecialist(userId);
-}
+            speciallistService.activateSpecialist(userId);
+        }
 
 
-            verificationToken.setIsUsed(true);
-            verificationService.save(verificationToken);
+        verificationToken.setIsUsed(true);
+        verificationService.save(verificationToken);
 
 
         return "activated";
@@ -80,7 +80,7 @@ try {
     public String registerUser(@PathVariable Long id) {
         System.out.println(id);
         Customer customer = customerMapper.toEntity(customerService.findById(id).get());
-if (customer.getIsActive())return "this account is already active";
+        if (customer.getIsActive()) return "this account is already active";
         VerificationToken token = new VerificationToken();
         token.setUser(customer);
         token.setToken(UUID.randomUUID().toString());
@@ -97,7 +97,7 @@ if (customer.getIsActive())return "this account is already active";
         System.out.println(id);
         Specialist customer = specialistMapper.toEntity(speciallistService.findById(id).get());
         System.out.println(customer.getIsActive());
-        if (customer.getIsActive())return "this account is already active";
+        if (customer.getIsActive()) return "this account is already active";
 
         VerificationToken token = new VerificationToken();
         token.setUser(customer);
@@ -111,10 +111,8 @@ if (customer.getIsActive())return "this account is already active";
     }
 
 
-
-
     @PostMapping("/login")
-    public String  createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
+    public String createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
         try {
             // Authenticate user with email and password
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -125,6 +123,7 @@ if (customer.getIsActive())return "this account is already active";
 
         // If authentication is successful, generate JWT
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
         final String jwt = jwtUtil.generateToken(userDetails.getUsername(), userDetails.getAuthorities().stream()
@@ -134,6 +133,7 @@ if (customer.getIsActive())return "this account is already active";
         return jwt;
     }
 
-    public record AuthenticationRequest(String email, String password) {}
+    public record AuthenticationRequest(String email, String password) {
+    }
 }
 

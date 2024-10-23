@@ -123,6 +123,11 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         return orderMapper.toListOfResponse(baseRepository.findByCustomerId(customerId));
     }
 
+    @Override
+    public List<OrderResponse> findBySpecialistId(Long specialistId) {
+        return orderMapper.toListOfResponse(baseRepository.findByChosenSpecialistId(specialistId));
+    }
+
     @Transactional
     @Override
     public List<OrderResponse> findWaitingOrdersBySpecialist(Long specialistId) {

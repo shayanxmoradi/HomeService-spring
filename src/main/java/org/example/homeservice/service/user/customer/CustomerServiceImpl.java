@@ -95,6 +95,11 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
         return baseRepository.findByEmailAndPassword(email, password)
                 .map(customerMapper::toResponseDto);
     }
+    @Override
+    public Optional<CustomerResponseDto> findByEmail(String email) {
+        return baseRepository.findByEmail(email)
+                .map(customerMapper::toResponseDto);
+    }
 
     @Override
     public Optional<List<ServiceResponse>> findAllServices() {

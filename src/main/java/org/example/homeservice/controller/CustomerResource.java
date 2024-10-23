@@ -1,22 +1,29 @@
 package org.example.homeservice.controller;
 
+import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.homeservice.domain.Wallet;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordResponse;
+import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.user.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @Slf4j
 @RestController
 @RequestMapping("/customer")
@@ -25,8 +32,11 @@ public class CustomerResource {
     private final CustomerService customerService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    private final WalletService walletService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
         return customerService.findAll()
                 .map(ResponseEntity::ok)
@@ -49,13 +59,19 @@ public class CustomerResource {
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse(updatePasswordRequst.email(), "password suffessfully changed for this user.");
         return ResponseEntity.ok(updatePasswordResponse);
     }
+
     @GetMapping("/filter")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     public ResponseEntity<List<CustomerResponseDto>> filterCustomers(@RequestParam(required = false) String firstName,
-                                          @RequestParam(required = false) String lastName,
-                                          @Email @Validated @RequestParam(required = false) String email) {
+                                                                     @RequestParam(required = false) String lastName,
+                                                                     @Email @Validated @RequestParam(required = false) String email) {
         return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email));
     }
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('ADMIN')")
+
     public ResponseEntity<CustomerResponseDto> getCustomerById(@PathVariable Long id) {
         Optional<CustomerResponseDto> customer = customerService.findById(id);
         return customer.map(ResponseEntity::ok)
@@ -63,19 +79,58 @@ public class CustomerResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('ADMIN')")
     public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable Long id,
                                                               @RequestBody @Validated CustomerRequsetDto customerRequestDto) {
-        Optional<CustomerResponseDto> updatedCustomer = customerService.update( customerRequestDto.withId(id));
+        Optional<CustomerResponseDto> updatedCustomer = customerService.update(customerRequestDto.withId(id));
         return updatedCustomer
                 .map(cust -> ResponseEntity.ok(cust))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         if (customerService.deleteById(id)) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    //    @GetMapping("/wallet")
+//    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('SPECIALIST')")
+//    public ResponseEntity<String> getAllCustomersWithWallet(@AuthenticationPrincipal UserDetails userDetails) {
+//        String userEmail = userDetails.getUsername();
+//        CustomerResponseDto foundedUser = customerService.findByEmail(userEmail).get();
+//        Long walletId = foundedUser.walletId();
+//        double creditAmount = walletService.findById(walletId).getCreditAmount();
+//        ResponseEntity<String> responseEntity = creditAmount;
+//        return
+//    }
+    @GetMapping("/wallet")
+    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('SPECIALIST')")
+    public ResponseEntity<Double> getAllCustomersWithWallet(@AuthenticationPrincipal UserDetails userDetails) {
+        String userEmail = userDetails.getUsername();
+
+        Optional<CustomerResponseDto> optionalCustomer = customerService.findByEmail(userEmail);
+        if (optionalCustomer.isPresent()) {
+            Long walletId = optionalCustomer.get().walletId();
+
+            try {
+                Wallet optionalWallet = walletService.findById(walletId);
+
+                double creditAmount = optionalWallet.getCreditAmount();
+                return ResponseEntity.ok(creditAmount);
+
+            } catch (ValidationException e) {
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 

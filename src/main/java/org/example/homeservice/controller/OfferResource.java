@@ -7,6 +7,7 @@ import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.service.offer.OfferService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class OfferResource {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                 });
     }
+    @PreAuthorize("hasAuthority('SPECIALIST')")
 
     @PostMapping
     public ResponseEntity<OfferResponse> createOffer(@RequestBody @Validated OfferRequest offer) {
@@ -38,6 +40,8 @@ public class OfferResource {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
     @GetMapping("/offers/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+
     public ResponseEntity<List<OfferResponse>> getOffersByOrderId(@PathVariable Long id) {
         List<OfferResponse> offerResponses = offerService.findOfferByOrderId(id);
 
