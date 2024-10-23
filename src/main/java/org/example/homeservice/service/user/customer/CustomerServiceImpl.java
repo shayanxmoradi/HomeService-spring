@@ -37,7 +37,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Autowired
     public CustomerServiceImpl(@Qualifier("customerRepo") CustomerRepo customerRepo,
-                              ServiceService serviceService, OrderService orderService, CustomerMapper customerMapper, OfferService offerService) {
+                               ServiceService serviceService, OrderService orderService, CustomerMapper customerMapper, OfferService offerService) {
         super(customerRepo);
         this.serviceService = serviceService;
         this.orderService = orderService;
@@ -75,6 +75,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
         return Optional.of(customerMapper.toResponseDto(savedCustomer));
     }
+
     @Override
     public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
 
@@ -112,7 +113,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Override
     public List<ServiceResponse> findFirstLayerServices() {
-        return  serviceService.findFirstLayerServices();
+        return serviceService.findFirstLayerServices();
     }
 
     @Override
@@ -122,7 +123,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Override
     public List<OfferResponse> findByOrderIdOOrderBySuggestedPrice(Long orderId) {
-       return offerService.findByOrderIdOOrderBySuggestedPrice(orderId);
+        return offerService.findByOrderIdOOrderBySuggestedPrice(orderId);
     }
 
     @Override
@@ -155,6 +156,17 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
         String password = passwordEncoder.encode(customerRequsetDto.password());
         CustomerRequsetDto updatedCustomer = CustomerRequsetDto.updatePassword(customerRequsetDto, password);
         return save(updatedCustomer);
+    }
+
+    @Transactional
+    @Override
+    public Optional<CustomerResponseDto> activateCustomer(Long customerId) {
+        Customer customer = findId(customerId).get();
+        customer.setIsActive(true);
+        return Optional.ofNullable(customerMapper.toResponseDto(customer));
+    }
+    Optional<Customer> findId(long id){
+       return Optional.ofNullable(baseRepository.findById(id).orElseThrow(() -> new ValidationException("Customer not found")));
     }
 
 

@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
+import org.example.homeservice.domain.Customer;
 import org.example.homeservice.domain.enums.SpecialistStatus;
+import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
@@ -102,6 +104,16 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
         return reviewService.getRatingsBySpecialistId(specialistId);
     }
 
+    @Override
+    public Optional<SpecialistResponse> activateSpecialist(Long userId) {
+        Specialist specialist = findId(userId).get();
+specialist.setIsActive(true);
+        return Optional.ofNullable(specialistMapper.toDto(specialist));
+    }
+
+    Optional<Specialist> findId(long id){
+        return Optional.ofNullable(baseRepository.findById(id).orElseThrow(() -> new ValidationException("Customer not found")));
+    }
 
     @Override
     public Optional<SpecialistResponse> findById(Long id) {

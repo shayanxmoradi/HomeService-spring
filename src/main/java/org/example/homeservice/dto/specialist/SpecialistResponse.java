@@ -10,5 +10,6 @@ public record SpecialistResponse(Long id,
                                  Double rate,
                                  int numberOfRate,
                                  byte[] personalImage,
-                                 Long walletId
+                                 Long walletId,
+                                 Boolean isActive
 ) {}

@@ -58,4 +58,6 @@ public class BaseUser extends BaseEntity<Long> {
     Wallet wallet=new Wallet();
     @Enumerated(EnumType.STRING)
     UserRole userRole;
+
+    Boolean isActive=false;
 }

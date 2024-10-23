@@ -45,4 +45,5 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
 
     List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email);
     Optional<CustomerResponseDto> addCustomer(CustomerRequsetDto customerRequsetDto);
+    Optional<CustomerResponseDto> activateCustomer(Long customerId);
 }

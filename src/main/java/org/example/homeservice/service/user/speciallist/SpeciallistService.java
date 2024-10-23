@@ -31,4 +31,5 @@ public interface SpeciallistService extends BaseUserService<Specialist, Speciali
 
     List<SpecialistRateRespone> showReviews(Long specialistId);
 
+    Optional<SpecialistResponse> activateSpecialist(Long userId);
 }
