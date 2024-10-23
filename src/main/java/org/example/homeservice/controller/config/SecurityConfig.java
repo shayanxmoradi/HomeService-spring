@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Allow access to /authenticate without requiring authentication
                         .requestMatchers("/login").permitAll()
-                      .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers("/speciallist/**").hasAuthority("SPECIALIST")
                         .requestMatchers("/**").hasAuthority("ADMIN")

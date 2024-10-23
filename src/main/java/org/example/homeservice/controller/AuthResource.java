@@ -3,6 +3,7 @@ package org.example.homeservice.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.homeservice.controller.config.JwtUtil;
 import org.example.homeservice.domain.BaseUser;
 import org.example.homeservice.domain.Customer;
 import org.example.homeservice.domain.Specialist;
@@ -16,6 +17,11 @@ import org.example.homeservice.service.auth.VerificationServiceImpl;
 import org.example.homeservice.service.user.customer.CustomerService;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +30,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RestController
 public class AuthResource {
+    private final AuthenticationManager authenticationManager;
+
+
+    private final JwtUtil jwtUtil;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     private final EmailService emailService;
     private final CustomerService customerService;
@@ -99,4 +111,29 @@ if (customer.getIsActive())return "this account is already active";
     }
 
 
+
+
+    @PostMapping("/login")
+    public String  createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
+        try {
+            // Authenticate user with email and password
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect email or password", e);
+        }
+
+        // If authentication is successful, generate JWT
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername(), userDetails.getAuthorities().stream()
+                .findFirst().get().getAuthority());
+
+        // Return the JWT token in the response
+        return jwt;
+    }
+
+    public record AuthenticationRequest(String email, String password) {}
 }
+
