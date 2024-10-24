@@ -45,7 +45,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
 
-        // Add general information about the error
         body.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         body.put("status", HttpStatus.BAD_REQUEST.value());
         body.put("error", "Validation Error");
@@ -56,10 +55,10 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(fieldError -> new FieldErrorDTO(
-                        fieldError.getField(),                  // Which field has an error
-                        fieldError.getDefaultMessage(),         // Validation message for that field
-                        fieldError.getRejectedValue(),          // The rejected value (what was sent)
-                        fieldError.getCode()                    // Error code (e.g., "NotNull", "Size")
+                        fieldError.getField(),
+                        fieldError.getDefaultMessage(),
+                        fieldError.getRejectedValue(),
+                        fieldError.getCode()
                 ))
                 .collect(Collectors.toList());
 

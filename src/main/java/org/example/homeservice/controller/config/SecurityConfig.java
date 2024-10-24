@@ -25,35 +25,7 @@ public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
 
-//    private final UserDetailsService userDetailsService;
 
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                // Configure the authorization for requests
-//                .authorizeHttpRequests(auth -> auth
-//                        // Allow access to /authenticate without requiring authentication
-//                        .requestMatchers("/login").permitAll()
-////                        .requestMatchers("/**").permitAll()
-//                        .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
-//                        .requestMatchers("/speciallist/**").hasAuthority("SPECIALIST")
-//                        .requestMatchers("/**").hasAuthority("ADMIN")
-//                        .requestMatchers("/**").hasAuthority("GOD")
-//
-//                        .anyRequest().authenticated()
-//                )
-//                // Set session management to stateless (because we use JWTs)
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                );
-//
-//        // Add the JWT filter to validate tokens with each request
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -74,10 +46,6 @@ public class SecurityConfig {
     }
 
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();  // No password encoding for plain-text passwords
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

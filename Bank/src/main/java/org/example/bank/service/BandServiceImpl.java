@@ -14,7 +14,6 @@ public class BandServiceImpl implements BankService {
     @Override
     public boolean validateCard(Card card) {
 
-//        Card foundedCard = cardRepository.findByCardNumber(card.getCardNumber()).orElseThrow(() -> new ValidationException("no card with this cardNumber"));
         Card foundedCard = cardRepository.findByCardNumber(card.getCardNumber()).orElse(null);
         if (card.equals(foundedCard)) {
             return true;

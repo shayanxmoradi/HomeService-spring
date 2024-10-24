@@ -34,11 +34,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional
     public void addReview(ReviewRequest review) {
-        // Save the review
-        System.out.println(review);
         Review review1 = new Review();
-//    review1.setRating(review.rate());
-//    review1.setComment(review.Comment());
+
 
         reviewRepository.save(reviewMapper.toReview(review));
 
@@ -82,15 +79,12 @@ public class ReviewServiceImpl implements ReviewService {
         int pastNumberOfRate = specialist.getNumberOfRate();
         System.out.println("pastNumberOfRate " + pastNumberOfRate);
 
-        // Increment the number of ratings
         specialist.setNumberOfRate(pastNumberOfRate + 1);
 
-        // Correct calculation of new average rate
         double newAverageRate = ((pastRate * pastNumberOfRate) + rate) / (pastNumberOfRate + 1);
 
         System.out.println("new score " + newAverageRate);
 
-        // Update the specialist's rate
         specialist.setRate(newAverageRate);
         if (newAverageRate < 0) {
             specialist.setSpecialistStatus(SpecialistStatus.REJECTED);

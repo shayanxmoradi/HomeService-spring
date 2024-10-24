@@ -46,8 +46,4 @@ public interface OrderMapper {
     List<OrderResponse> toListOfResponse(List<Order> order);
 
 
-    //    @Mapping(target = "isCategory", source = "isCategory")
-//    OrderRequest toDtoReq(Order order);
-//
-//    OrderRequest responeToDtoReq(OrderResponse orderResponse);
 }

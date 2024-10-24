@@ -34,13 +34,11 @@ public class SpecialistSpecification {
                 return null;
             }
 
-            // Subquery to count orders per customer
             Subquery<Long> subquery = query.subquery(Long.class);
             Root<Order> orderRoot = subquery.from(Order.class);
             subquery.select(criteriaBuilder.count(orderRoot.get("id")));
             subquery.where(criteriaBuilder.equal(orderRoot.get("chosenSpecialist"), root));
 
-            // Main query: filter customers based on order count
             return criteriaBuilder.equal(subquery, count);
         };
     }
@@ -83,13 +81,11 @@ public class SpecialistSpecification {
                 return null;
             }
 
-            // Subquery to count orders per customer
             Subquery<Long> subquery = query.subquery(Long.class);
             Root<Offer> orderRoot = subquery.from(Offer.class);
             subquery.select(criteriaBuilder.count(orderRoot.get("id")));
             subquery.where(criteriaBuilder.equal(orderRoot.get("specialist"), root));
 
-            // Main query: filter customers based on order count
             return criteriaBuilder.equal(subquery, count);
         };
     }

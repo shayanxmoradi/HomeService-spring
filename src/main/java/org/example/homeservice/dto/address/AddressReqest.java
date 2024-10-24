@@ -27,14 +27,5 @@ public record AddressReqest(
         Long userId
 
 ) {
-//        public AddressReqest withId(Long newId) {
-//                return new AddressReqest(
-//                        newId,
-//                        this.street,
-//                        this.city,
-//                        this.state,
-//                        this.zip,
-//                        this.userId
-//                );
-//        }
+
 }

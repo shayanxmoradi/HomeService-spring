@@ -16,7 +16,6 @@ public interface OfferMapper {
     OfferMapper INSTANCE = Mappers.getMapper(OfferMapper.class);
 
     @Mapping(target = "order.id", source = "orderId")
-   //@Mapping(target = "service.id", source = "serviceId")
 //todo this trash omg
     @Mapping(target = "specialist.id", source = "specialistId")
     Offer toEntity(OfferRequest offerRequest);
