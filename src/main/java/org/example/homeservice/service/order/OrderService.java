@@ -14,7 +14,9 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
     List<OrderResponse> findWaitingForOfferAndSpecialist();
 
     List<OrderResponse> findByCustomerId(Long customerId);
+    List<OrderResponse> findByCustomerIdAndStatus(Long customerId, OrderStatus orderStatus);
     List<OrderResponse> findBySpecialistId(Long specialistId);
+    List<OrderResponse> findBySpecialistIdAndStatus(Long specialistId,OrderStatus orderStatus);
 
     List<OrderResponse> findWaitingOrdersBySpecialist(Long specialistId);
 

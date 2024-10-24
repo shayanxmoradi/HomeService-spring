@@ -16,7 +16,9 @@ import java.util.Optional;
 
 public interface OrderRepo extends BaseEnitityRepo<Order, Long> {
     List<Order> findByCustomerId(Long customerId);
+    List<Order> findByCustomerIdAndStatus(Long customerId,OrderStatus orderStatus);
     List<Order> findByChosenSpecialistId(Long specialistId);
+    List<Order> findByChosenSpecialistIdAndStatus(Long specialistId,OrderStatus orderStatus);
 
     List<Order> findByStatus(OrderStatus orderStatus);
 

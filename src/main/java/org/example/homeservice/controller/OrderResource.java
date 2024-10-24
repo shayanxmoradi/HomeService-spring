@@ -2,7 +2,9 @@ package org.example.homeservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.homeservice.controller.config.JwtUtil;
+import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.order.OrderMapper;
 import org.example.homeservice.dto.order.OrderRequest;
 import org.example.homeservice.dto.order.OrderResponse;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderResource {
     private final JwtUtil jwtUtil;
     @Value("${secret-key}")
@@ -44,7 +47,7 @@ public class OrderResource {
     @PostMapping
     @PreAuthorize("hasAuthority('CUSTOMER')") // Allow only users with "CUSTOMER" role
 
-    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Validated OrderRequest order,HttpServletRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Validated OrderRequest order, HttpServletRequest request) {
         System.out.println(jwtUtil.getCurrentUserEmail(request));
         Optional<OrderResponse> savingResponse = orderService.save(order);
         //todo check duplicate
@@ -52,15 +55,17 @@ public class OrderResource {
                 .map(o -> ResponseEntity.status(HttpStatus.CREATED).body(o))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
     @PutMapping("/{id}/{offer}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    public ResponseEntity<OrderResponse> choseOrder(@PathVariable Long id, @PathVariable Long offer,@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<OrderResponse> choseOrder(@PathVariable Long id, @PathVariable Long offer, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println(userDetails.getUsername());
         Optional<OrderResponse> savingResponse = orderService.choseOrder(id, offer);
         return savingResponse
                 .map(o -> ResponseEntity.status(HttpStatus.ACCEPTED).body(o))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
     @PutMapping("/start/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<OrderResponse> startOrder(@PathVariable Long id) {
@@ -69,6 +74,7 @@ public class OrderResource {
                 .map(o -> ResponseEntity.status(HttpStatus.ACCEPTED).body(o))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
     @PutMapping("/end/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<OrderResponse> endOrder(@PathVariable Long id) {
@@ -77,35 +83,75 @@ public class OrderResource {
                 .map(o -> ResponseEntity.status(HttpStatus.ACCEPTED).body(o))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+//    @PreAuthorize("hasAuthority('CUSTOMER')")
+//    @GetMapping("/customer")
+//    public ResponseEntity<List<OrderResponse>> getOrderByCustomerId(@AuthenticationPrincipal UserDetails userDetails, @RequestBody OrderStatus orderStatus) {
+//        String userEmail = userDetails.getUsername();
+//        Long userId = customerService.findByEmail(userEmail)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"))
+//                .id();
+//        List<OrderResponse> orderResponses;
+//        if (orderStatus == null) {
+//            orderResponses = orderService.findByCustomerId(userId);
+//        } else {
+//            orderResponses = orderService.findByCustomerIdAndStatus(userId, orderStatus);
+//        }
+//        if (orderResponses.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//        }
+//
+//        return ResponseEntity.ok(orderResponses);
+//    }
+
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/customer")
-    public ResponseEntity<List<OrderResponse>> getOrderByCustomerId(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<OrderResponse>> getOrderByCustomerId(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(value = "status", required = false) OrderStatus orderStatus) {
+//     log.info(orderStatus.toString());
+
+        // Get the email of the authenticated user
         String userEmail = userDetails.getUsername();
+
+        // Fetch the customer ID based on the user's email
         Long userId = customerService.findByEmail(userEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"))
                 .id();
 
-        List<OrderResponse> orderResponses = orderService.findByCustomerId(userId);
+        // Fetch the orders based on customer ID and optional status
+        List<OrderResponse> orderResponses;
+        if (orderStatus == null) {
+            orderResponses = orderService.findByCustomerId(userId);
+        } else {
+            orderResponses = orderService.findByCustomerIdAndStatus(userId, orderStatus);
+        }
 
+        // If no orders are found, return 204 No Content
         if (orderResponses.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
+        // Return the list of orders with 200 OK
         return ResponseEntity.ok(orderResponses);
     }
-
 
     @GetMapping("/specialist")
     @PreAuthorize("hasAuthority('SPECIALIST')")
 
-    public ResponseEntity<List<OrderResponse>> getOrderBySpecialistId(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<OrderResponse>> getOrderBySpecialistId(@AuthenticationPrincipal UserDetails userDetails
+            , @RequestParam(value = "status", required = false) OrderStatus orderStatus) {
         String userEmail = userDetails.getUsername();
         Long userId = speciallistService.findByEmail(userEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"))
                 .id();
 
-        List<OrderResponse> orderResponses = orderService.findBySpecialistId(userId);
-
+        List<OrderResponse> orderResponses;
+        if (orderStatus == null) {
+            orderResponses = orderService.findBySpecialistId(userId);
+        } else {
+            orderResponses = orderService.findBySpecialistIdAndStatus(userId, orderStatus);
+        }
         if (orderResponses.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
