@@ -19,10 +19,12 @@ import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,10 +149,12 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
     }
 
     @Override
-    public List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email) {
+    public List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email, LocalDateTime startDate, LocalDateTime endDate, Long numberOfOrders) {
         Specification<Customer> spec = Specification.where(UserSpecification.filterByFirstName(firstName))
                 .and(UserSpecification.filterByLastName(lastName))
-                .and(UserSpecification.filterByEmail(email));
+                .and(UserSpecification.filterByEmail(email))
+                        .and(UserSpecification.betweenDates(startDate, endDate))
+                .and(UserSpecification.filterByNumberOfOrders(numberOfOrders));
 
         return customerMapper.toResponseDto(baseRepository.findAll(spec));
 

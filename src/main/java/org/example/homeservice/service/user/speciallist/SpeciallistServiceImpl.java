@@ -4,9 +4,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.Exception.FileNotFoundException;
 import org.example.homeservice.Exception.ImageTooLargeException;
-import org.example.homeservice.domain.Customer;
 import org.example.homeservice.domain.enums.SpecialistStatus;
-import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
@@ -32,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,11 +63,15 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     }
 
     @Override
-    public List<Specialist> filterSpecialists(String name,String lastName, String email, String serviceName, String sortBy, boolean ascending) {
+    public List<Specialist> filterSpecialists(String name, String lastName, String email, String serviceName, String sortBy, boolean ascending, LocalDateTime startDate, LocalDateTime endDate, Long numberOfOrders, Long numberOfOffers) {
         Specification<Specialist> spec = Specification.where(SpecialistSpecification.filterByName(name))
                 .and(SpecialistSpecification.filterByLastName(lastName))
                 .and(SpecialistSpecification.filterByEmail(email))
-                .and(SpecialistSpecification.filterByServiceName(serviceName));
+                .and(SpecialistSpecification.filterByServiceName(serviceName))
+                .and(SpecialistSpecification.betweenDates(startDate,endDate))
+                .and(SpecialistSpecification.filterByNumberOfOrders(numberOfOrders))
+                .and(SpecialistSpecification.filterByNumberOfNumber(numberOfOffers));
+                ;
 
         if (ascending) {
 

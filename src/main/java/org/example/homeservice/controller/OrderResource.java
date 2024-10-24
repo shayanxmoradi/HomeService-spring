@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.homeservice.controller.config.JwtUtil;
+import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.order.OrderMapper;
 import org.example.homeservice.dto.order.OrderRequest;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,7 @@ public class OrderResource {
     private final SpeciallistService speciallistService;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
         Optional<OrderResponse> serviceResponse = orderService.findById(id);
         return serviceResponse
@@ -44,8 +47,20 @@ public class OrderResource {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/filter")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<OrderResponse> getOrders(
+            @RequestParam(required = false) LocalDateTime startDate,
+            @RequestParam(required = false) LocalDateTime endDate,
+            @RequestParam(required = false) OrderStatus status,
+            @RequestParam(required = false) Long serviceId,
+            @RequestParam(required = false) Long subserviceId
+    ) {
+        return orderService.getOrdersByCriteria(startDate, endDate, status, serviceId, subserviceId);
+    }
+
     @PostMapping
-    @PreAuthorize("hasAuthority('CUSTOMER')") // Allow only users with "CUSTOMER" role
+    @PreAuthorize("hasAuthority('CUSTOMER')")
 
     public ResponseEntity<OrderResponse> createOrder(@RequestBody @Validated OrderRequest order, HttpServletRequest request) {
         System.out.println(jwtUtil.getCurrentUserEmail(request));
@@ -111,15 +126,12 @@ public class OrderResource {
             @RequestParam(value = "status", required = false) OrderStatus orderStatus) {
 //     log.info(orderStatus.toString());
 
-        // Get the email of the authenticated user
         String userEmail = userDetails.getUsername();
 
-        // Fetch the customer ID based on the user's email
         Long userId = customerService.findByEmail(userEmail)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"))
                 .id();
 
-        // Fetch the orders based on customer ID and optional status
         List<OrderResponse> orderResponses;
         if (orderStatus == null) {
             orderResponses = orderService.findByCustomerId(userId);
@@ -127,12 +139,10 @@ public class OrderResource {
             orderResponses = orderService.findByCustomerIdAndStatus(userId, orderStatus);
         }
 
-        // If no orders are found, return 204 No Content
         if (orderResponses.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
-        // Return the list of orders with 200 OK
         return ResponseEntity.ok(orderResponses);
     }
 

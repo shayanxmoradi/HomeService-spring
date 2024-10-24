@@ -11,7 +11,6 @@ import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordResponse;
 import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.user.customer.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +30,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerResource {
     private final CustomerService customerService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
     private final WalletService walletService;
 
     @GetMapping("/all")
@@ -45,8 +45,7 @@ public class CustomerResource {
 
     @PostMapping
     public ResponseEntity<CustomerResponseDto> createCustomer(@RequestBody @Validated CustomerRequsetDto customer) {
-//        CustomerRequsetDto customerRequsetDto = CustomerRequsetDto.updatePassword(customer, passwordEncoder.encode(customer.password()));
-//        System.out.println(customerRequsetDto);
+
         Optional<CustomerResponseDto> savedCustomer = customerService.addCustomer(customer);
         return savedCustomer
                 .map(cust -> ResponseEntity.status(HttpStatus.CREATED).body(cust))
@@ -63,10 +62,13 @@ public class CustomerResource {
     @GetMapping("/filter")
     @PreAuthorize("hasAuthority('ADMIN')")
 
-    public ResponseEntity<List<CustomerResponseDto>> filterCustomers(@RequestParam(required = false) String firstName,
+    public ResponseEntity<List<CustomerResponseDto>> filterCustomers(@RequestParam(required = false)Long numberOfOrders,
+            @RequestParam(required = false) LocalDateTime startDate,
+                                                                     @RequestParam(required = false) LocalDateTime endDate,
+                                                                     @RequestParam(required = false) String firstName,
                                                                      @RequestParam(required = false) String lastName,
                                                                      @Email @Validated @RequestParam(required = false) String email) {
-        return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email));
+        return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email,startDate,endDate, numberOfOrders));
     }
 
     @GetMapping("/{id}")
@@ -98,16 +100,6 @@ public class CustomerResource {
         }
     }
 
-    //    @GetMapping("/wallet")
-//    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('SPECIALIST')")
-//    public ResponseEntity<String> getAllCustomersWithWallet(@AuthenticationPrincipal UserDetails userDetails) {
-//        String userEmail = userDetails.getUsername();
-//        CustomerResponseDto foundedUser = customerService.findByEmail(userEmail).get();
-//        Long walletId = foundedUser.walletId();
-//        double creditAmount = walletService.findById(walletId).getCreditAmount();
-//        ResponseEntity<String> responseEntity = creditAmount;
-//        return
-//    }
     @GetMapping("/wallet")
     @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('SPECIALIST')")
     public ResponseEntity<Double> getAllCustomersWithWallet(@AuthenticationPrincipal UserDetails userDetails) {

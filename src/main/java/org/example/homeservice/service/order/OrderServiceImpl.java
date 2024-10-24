@@ -3,7 +3,6 @@ package org.example.homeservice.service.order;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.address.AddressResponse;
-import org.example.homeservice.dto.address.AddressMapper;
 import org.example.homeservice.dto.offer.OfferMapper;
 import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.domain.Order;
@@ -14,6 +13,7 @@ import org.example.homeservice.dto.order.OrderRequest;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
+import org.example.homeservice.repository.order.OrdeSpecificaiton;
 import org.example.homeservice.repository.order.OrderRepo;
 import org.example.homeservice.service.WalletService;
 import org.example.homeservice.service.adress.AddressService;
@@ -24,6 +24,7 @@ import org.example.homeservice.service.user.customer.CustomerService;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -180,6 +181,15 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         } else {
             throw new ValidationException("Order is not in a status where you can choose it");
         }
+    }
+
+    public List<OrderResponse> getOrdersByCriteria(LocalDateTime startDate, LocalDateTime endDate, OrderStatus status, Long serviceId, Long subserviceId) {
+        Specification<Order> spec = Specification.where(OrdeSpecificaiton.betweenDates(startDate, endDate))
+                .and(OrdeSpecificaiton.hasStatus(status))
+                .and(OrdeSpecificaiton.hasService(serviceId))
+                .and(OrdeSpecificaiton.hasSubservice(subserviceId));
+
+        return orderMapper.toListOfResponse(baseRepository.findAll(spec));
     }
 
     @Transactional

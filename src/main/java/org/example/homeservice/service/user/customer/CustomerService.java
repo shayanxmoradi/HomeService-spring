@@ -11,6 +11,7 @@ import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.service.user.BaseUserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
 
     Optional<OrderResponse> endOrder(Long orderId);
 
-    List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email);
+     List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email, LocalDateTime startDate, LocalDateTime endDate,Long numberOfOrders);
     Optional<CustomerResponseDto> addCustomer(CustomerRequsetDto customerRequsetDto);
     Optional<CustomerResponseDto> activateCustomer(Long customerId);
 }

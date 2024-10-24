@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,10 @@ public class SpecialistResource {
     @PreAuthorize("hasAuthority('ADMIN')")
 
     public List<Specialist> filterSpecialists(
+            @RequestParam(required = false) Long numberOfOffers,
+            @RequestParam(required = false) Long numberOfOrders,
+            @RequestParam(required = false) LocalDateTime startDate,
+            @RequestParam(required = false) LocalDateTime endDate,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String email,
@@ -62,7 +67,7 @@ public class SpecialistResource {
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "true") boolean ascending) {
 
-        return speciallistService.filterSpecialists(name, lastName, email, serviceName, "rate", ascending);
+        return speciallistService.filterSpecialists(name, lastName, email, serviceName, "rate", ascending,startDate,endDate,numberOfOrders,numberOfOffers);
     }
 
     @GetMapping("{id}/rate")

@@ -1,11 +1,13 @@
 package org.example.homeservice.repository.order;
 
 import jakarta.transaction.Transactional;
+import org.example.homeservice.domain.Customer;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.Review;
 import org.example.homeservice.domain.Service;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface OrderRepo extends BaseEnitityRepo<Order, Long> {
+public interface OrderRepo extends JpaSpecificationExecutor<Order> , BaseEnitityRepo<Order, Long> {
     List<Order> findByCustomerId(Long customerId);
     List<Order> findByCustomerIdAndStatus(Long customerId,OrderStatus orderStatus);
     List<Order> findByChosenSpecialistId(Long specialistId);

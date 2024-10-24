@@ -6,6 +6,7 @@ import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.service.baseentity.BaseEntityService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +33,6 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
     Optional<OrderResponse> onlinePayment(Long orderId, OrderStatus orderStatus);
     public Optional<OrderResponse> setOnlinePaied(Long orderId) ;
     public List <Order> findByAdrressId(Long adrressId);
+    public List<OrderResponse> getOrdersByCriteria(LocalDateTime startDate, LocalDateTime endDate, OrderStatus status, Long serviceId, Long subserviceId);
 
     }
