@@ -1,4 +1,4 @@
-package org.example.homeservice.Exception;
+package org.example.homeservice.exception;
 
 public class FileNotFoundException extends Exception {
     private String filePath;

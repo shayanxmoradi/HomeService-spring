@@ -4,6 +4,8 @@ import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.homeservice.controller.annotaion.CheckActivation;
+import org.example.homeservice.controller.annotaion.CheckSpecActivation;
 import org.example.homeservice.domain.Wallet;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
@@ -62,13 +64,13 @@ public class CustomerResource {
     @GetMapping("/filter")
     @PreAuthorize("hasAuthority('ADMIN')")
 
-    public ResponseEntity<List<CustomerResponseDto>> filterCustomers(@RequestParam(required = false)Long numberOfOrders,
-            @RequestParam(required = false) LocalDateTime startDate,
+    public ResponseEntity<List<CustomerResponseDto>> filterCustomers(@RequestParam(required = false) Long numberOfOrders,
+                                                                     @RequestParam(required = false) LocalDateTime startDate,
                                                                      @RequestParam(required = false) LocalDateTime endDate,
                                                                      @RequestParam(required = false) String firstName,
                                                                      @RequestParam(required = false) String lastName,
                                                                      @Email @Validated @RequestParam(required = false) String email) {
-        return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email,startDate,endDate, numberOfOrders));
+        return ResponseEntity.ok(customerService.filterCustomers(firstName, lastName, email, startDate, endDate, numberOfOrders));
     }
 
     @GetMapping("/{id}")
@@ -82,6 +84,8 @@ public class CustomerResource {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('ADMIN')")
+    @CheckActivation
+
     public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable Long id,
                                                               @RequestBody @Validated CustomerRequsetDto customerRequestDto) {
         Optional<CustomerResponseDto> updatedCustomer = customerService.update(customerRequestDto.withId(id));
@@ -102,6 +106,8 @@ public class CustomerResource {
 
     @GetMapping("/wallet")
     @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('SPECIALIST')")
+    @CheckActivation
+//    @CheckSpecActivation
     public ResponseEntity<Double> getAllCustomersWithWallet(@AuthenticationPrincipal UserDetails userDetails) {
         String userEmail = userDetails.getUsername();
 

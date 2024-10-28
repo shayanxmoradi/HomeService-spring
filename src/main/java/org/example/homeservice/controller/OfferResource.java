@@ -2,6 +2,7 @@ package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.homeservice.controller.annotaion.CheckActivation;
 import org.example.homeservice.dto.offer.OfferRequest;
 import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.service.offer.OfferService;
@@ -41,6 +42,7 @@ public class OfferResource {
     }
     @GetMapping("/offers/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
+    @CheckActivation
 
     public ResponseEntity<List<OfferResponse>> getOffersByOrderId(@PathVariable Long id) {
         List<OfferResponse> offerResponses = offerService.findOfferByOrderId(id);

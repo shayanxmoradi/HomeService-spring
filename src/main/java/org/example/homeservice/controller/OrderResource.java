@@ -3,6 +3,7 @@ package org.example.homeservice.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.homeservice.controller.annotaion.CheckActivation;
 import org.example.homeservice.controller.config.JwtUtil;
 import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
@@ -61,6 +62,7 @@ public class OrderResource {
 
     @PostMapping
     @PreAuthorize("hasAuthority('CUSTOMER')")
+    @CheckActivation
 
     public ResponseEntity<OrderResponse> createOrder(@RequestBody @Validated OrderRequest order, HttpServletRequest request) {
         System.out.println(jwtUtil.getCurrentUserEmail(request));
@@ -73,6 +75,8 @@ public class OrderResource {
 
     @PutMapping("/{id}/{offer}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
+    @CheckActivation
+
     public ResponseEntity<OrderResponse> choseOrder(@PathVariable Long id, @PathVariable Long offer, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println(userDetails.getUsername());
         Optional<OrderResponse> savingResponse = orderService.choseOrder(id, offer);
@@ -83,6 +87,8 @@ public class OrderResource {
 
     @PutMapping("/start/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
+    @CheckActivation
+
     public ResponseEntity<OrderResponse> startOrder(@PathVariable Long id) {
         Optional<OrderResponse> savingResponse = orderService.startOrder(id);
         return savingResponse
@@ -92,6 +98,8 @@ public class OrderResource {
 
     @PutMapping("/end/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
+    @CheckActivation
+
     public ResponseEntity<OrderResponse> endOrder(@PathVariable Long id) {
         Optional<OrderResponse> savingResponse = orderService.endOrder(id);
         return savingResponse
@@ -99,28 +107,12 @@ public class OrderResource {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-//    @PreAuthorize("hasAuthority('CUSTOMER')")
-//    @GetMapping("/customer")
-//    public ResponseEntity<List<OrderResponse>> getOrderByCustomerId(@AuthenticationPrincipal UserDetails userDetails, @RequestBody OrderStatus orderStatus) {
-//        String userEmail = userDetails.getUsername();
-//        Long userId = customerService.findByEmail(userEmail)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"))
-//                .id();
-//        List<OrderResponse> orderResponses;
-//        if (orderStatus == null) {
-//            orderResponses = orderService.findByCustomerId(userId);
-//        } else {
-//            orderResponses = orderService.findByCustomerIdAndStatus(userId, orderStatus);
-//        }
-//        if (orderResponses.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        }
-//
-//        return ResponseEntity.ok(orderResponses);
-//    }
+
 
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/customer")
+    @CheckActivation
+
     public ResponseEntity<List<OrderResponse>> getOrderByCustomerId(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(value = "status", required = false) OrderStatus orderStatus) {

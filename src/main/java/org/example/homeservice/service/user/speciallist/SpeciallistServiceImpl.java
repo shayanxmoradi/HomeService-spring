@@ -2,8 +2,8 @@ package org.example.homeservice.service.user.speciallist;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import org.example.homeservice.Exception.FileNotFoundException;
-import org.example.homeservice.Exception.ImageTooLargeException;
+import org.example.homeservice.exception.FileNotFoundException;
+import org.example.homeservice.exception.ImageTooLargeException;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;

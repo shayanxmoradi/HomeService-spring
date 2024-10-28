@@ -1,6 +1,7 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.homeservice.controller.annotaion.CheckActivation;
 import org.example.homeservice.dto.address.AddressReqest;
 import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.service.adress.AddressService;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class AddressResource {
     private final AddressService addressService;
     @PreAuthorize("hasAuthority('CUSTOMER')")
+    @CheckActivation
 
     @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody @Validated AddressReqest address) {
@@ -38,6 +40,7 @@ public class AddressResource {
 
 
     @PreAuthorize("hasAuthority('CUSTOMER') ")
+    @CheckActivation
 
     @PutMapping("/{id}")
     public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id,
@@ -49,6 +52,7 @@ public class AddressResource {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
     @PreAuthorize("hasAuthority('CUSTOMER') ")
+    @CheckActivation
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
