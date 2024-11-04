@@ -1,6 +1,7 @@
 package org.example.homeservice.controller;
 
 
+import jakarta.annotation.security.PermitAll;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.controller.config.JwtUtil;
@@ -75,7 +76,7 @@ public class AuthResource {
 
         return "activated";
     }
-
+    @PermitAll
     @PostMapping("/customer/register/{id}")
     public String registerUser(@PathVariable Long id) {
         System.out.println(id);
@@ -91,12 +92,10 @@ public class AuthResource {
 
         return token.getToken();
     }
-
+    @PermitAll
     @PostMapping("specialist/register/{id}")
     public String registerSpecialist(@PathVariable Long id) {
-        System.out.println(id);
         Specialist customer = specialistMapper.toEntity(speciallistService.findById(id).get());
-        System.out.println(customer.getIsActive());
         if (customer.getIsActive()) return "this account is already active";
 
         VerificationToken token = new VerificationToken();
@@ -114,14 +113,12 @@ public class AuthResource {
     @PostMapping("/login")
     public String createAuthenticationToken(@RequestParam String username, @RequestParam String password) throws Exception {
         try {
-            // Authenticate user with email and password
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect email or password", e);
         }
 
-        // If authentication is successful, generate JWT
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
@@ -129,7 +126,6 @@ public class AuthResource {
         final String jwt = jwtUtil.generateToken(userDetails.getUsername(), userDetails.getAuthorities().stream()
                 .findFirst().get().getAuthority());
 
-        // Return the JWT token in the response
         return jwt;
     }
 

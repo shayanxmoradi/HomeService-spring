@@ -32,10 +32,13 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated() // Require authentication for other requests
+                        .requestMatchers("/specialist/register/**").permitAll()
+                        .requestMatchers("/customer/register/**").permitAll()
+                        .requestMatchers("/activate**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->
-                        exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint) // Set custom entry point
+                        exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
