@@ -110,4 +110,5 @@ public class SpecialistResource {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+
 }

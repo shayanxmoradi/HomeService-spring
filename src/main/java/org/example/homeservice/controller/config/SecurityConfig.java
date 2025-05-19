@@ -35,6 +35,12 @@ public class SecurityConfig {
                         .requestMatchers("/specialist/register/**").permitAll()
                         .requestMatchers("/customer/register/**").permitAll()
                         .requestMatchers("/activate**").permitAll()
+                        .requestMatchers("/customer").permitAll()
+                        .requestMatchers("/speciallist").permitAll()
+                        .requestMatchers("/address**").permitAll()
+                        .requestMatchers("/payment**").permitAll()
+                        .requestMatchers("/processPayment**").permitAll()
+                        .requestMatchers("/submitRating**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->

@@ -44,6 +44,12 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
         }
         Service savingService = serviceMapper.toEntity(dto);
 
+        validation(dto, savingService);
+        // Convert DTO to entity and save
+        return Optional.ofNullable(serviceMapper.toDto(baseRepository.save(savingService)));
+    }
+
+    private void validation(ServiceRequest dto, Service savingService) {
         if (dto.parentServiceId() != null) {
             Optional<Service> parentServiceOpt = baseRepository.findById(dto.parentServiceId()); // Fetch parent service by ID
             if (parentServiceOpt.isPresent()) {
@@ -56,8 +62,6 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
                 throw new ValidationException("Parent service with ID " + dto.parentServiceId() + " not found");
             }
         }
-        // Convert DTO to entity and save
-        return Optional.ofNullable(serviceMapper.toDto(baseRepository.save(savingService)));
     }
 
     /**
