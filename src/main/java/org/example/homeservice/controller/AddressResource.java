@@ -21,7 +21,6 @@ public class AddressResource {
     private final AddressService addressService;
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @CheckActivation
-
     @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody @Validated AddressReqest address) {
         Optional<AddressResponse> savingResponse = addressService.save(address);
@@ -41,7 +40,6 @@ public class AddressResource {
 
     @PreAuthorize("hasAuthority('CUSTOMER') ")
     @CheckActivation
-
     @PutMapping("/{id}")
     public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id,
                                                          @RequestBody @Validated AddressReqest addressRequest) {
@@ -53,7 +51,6 @@ public class AddressResource {
     }
     @PreAuthorize("hasAuthority('CUSTOMER') ")
     @CheckActivation
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
         boolean deleted = addressService.deleteById(id);
