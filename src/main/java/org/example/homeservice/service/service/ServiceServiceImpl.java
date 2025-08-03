@@ -73,7 +73,7 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
     @Transactional
 
     public boolean deleteById(Long aLong) {
-        baseRepository.findById(aLong).orElseThrow( ()->new  ValidationException("no service with this id : " + aLong+" found"));
+        baseRepository.findById(aLong).orElseThrow( ()->new  ValidationException("no service with this xxxxxx : " + aLong+" found"));
 
 
 
@@ -95,7 +95,7 @@ orderService.updateOrdersWithNullService(aLong);
                     .map(serviceMapper::toDto)
                     .collect(Collectors.toList());
         } else {
-            throw new EntityNotFoundException("Parent service not found with id: " + parentId);
+            throw new EntityNotFoundException("Parent service not found with xxxxxx: " + parentId);
         }
     }
 

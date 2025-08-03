@@ -16,12 +16,12 @@ public interface ReviewMapper {
 
 
 //    @Mapping(target = "category",source = "isCategory")
-////    @Mapping(target = "parentService.id",source = "parentServiceId")
+////    @Mapping(target = "parentService.xxxxxx",source = "parentServiceId")
 //    Service toEntity(ServiceRequest serviceRequestDto);
 //    //
-////    @Mapping(target = "parentServiceId", source = "parentService.id")
+////    @Mapping(target = "parentServiceId", source = "parentService.xxxxxx")
 ////    @Mapping(target = "availableSpecialists", source = "avilableSpecialists")
 ////    @Mapping(target = "subServices", source = "subServices")
-//    @Mapping(target = "parentServiceId",source = "parentService.id")
+//    @Mapping(target = "parentServiceId",source = "parentService.xxxxxx")
 //    ServiceResponse toDto(Service service);
 }

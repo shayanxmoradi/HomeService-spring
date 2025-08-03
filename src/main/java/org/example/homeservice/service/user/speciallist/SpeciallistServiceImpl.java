@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -40,7 +41,8 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     private final SpecialistMapper specialistMapper;
     private final OrderService orderService;
     private final ReviewService reviewService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService,@Lazy ReviewService reviewService) {
@@ -98,7 +100,7 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
 
     @Override
     public double showRating(Long specialistId) {
-        return findById(specialistId).orElseThrow(()-> new ValidationException("no specilist with this id.")).rate();
+        return findById(specialistId).orElseThrow(()-> new ValidationException("no specilist with this xxxxxx.")).rate();
     }
 
     @Override
@@ -139,8 +141,10 @@ specialist.setIsActive(true);
         }
        // if (request.personalImage()==null) throw new ValidationException("Personal image is required");
 
-        Specialist customer = SpecialistMapper.INSTANCE.toEntity(request);
-        Specialist savedSpelist = baseRepository.save(customer);
+        Specialist specialist = SpecialistMapper.INSTANCE.toEntity(request);
+        specialist.setPassword(passwordEncoder.encode(specialist.getPassword()));
+
+        Specialist savedSpelist = baseRepository.save(specialist);
         return Optional.of(SpecialistMapper.INSTANCE.toDto(savedSpelist));
     }
 

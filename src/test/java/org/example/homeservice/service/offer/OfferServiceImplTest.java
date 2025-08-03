@@ -77,7 +77,7 @@ class OfferServiceImplTest {
         );
 
         orderResponse = new OrderResponse(
-                1L, // id
+                1L, // xxxxxx
                 2L, // customerId
                 100L, // serviceId
                 3L, // addressId
@@ -90,13 +90,13 @@ class OfferServiceImplTest {
         );
 
         specialistResponse = new SpecialistResponse(
-                10L, // id
+                10L, // xxxxxx
                 "John", "Doe", "john.doe@example.com",
                 SpecialistStatus.APPROVED, 4.8, 50, null, 201L, true
         );
 
         serviceResponse = new ServiceResponse(
-                100L, // id
+                100L, // xxxxxx
                 "General Plumbing", "Fixing leaks",
                 100.0f, // basePrice
                 null, false, new ArrayList<>(), new ArrayList<>()

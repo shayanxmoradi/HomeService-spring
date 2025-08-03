@@ -87,7 +87,7 @@ public class CustomerResource {
 
     public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable Long id,
                                                               @RequestBody @Validated CustomerRequsetDto customerRequestDto) {
-        Optional<CustomerResponseDto> updatedCustomer = customerService.update(customerRequestDto.withId(id));
+        Optional<CustomerResponseDto> updatedCustomer = customerService.update(customerRequestDto);
         return updatedCustomer
                 .map(cust -> ResponseEntity.ok(cust))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());

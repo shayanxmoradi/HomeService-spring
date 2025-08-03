@@ -56,7 +56,7 @@ public class ServiceResource {
 
     public ResponseEntity<String> deleteService(@PathVariable Long id) {
         ServiceResponse serviceResponse = serviceService.findById(id).
-                orElseThrow(() -> new ValidationException("no service with this id is avialbe"));
+                orElseThrow(() -> new ValidationException("no service with this xxxxxx is avialbe"));
         boolean deletingResult = serviceService.deleteById(id);
         System.out.println(serviceResponse.name());
         if (serviceResponse == null || !deletingResult) {

@@ -96,7 +96,7 @@ public abstract class BaseUserServiceImpl<T extends BaseUser, R extends BaseUser
 //
 //        // Convert work service IDs to Service entities if necessary
 //        List<org.example.homeservice.entites.Service> services = specialistDTO.getWorkServiceIds().stream()
-//                .map(id -> serviceRepo.findById(id)
+//                .map(xxxxxx -> serviceRepo.findById(xxxxxx)
 //                        .orElseThrow(() -> new ValidationException("Service not found")))
 //                .collect(Collectors.toList());
 //        specialist.setWorkServices(services);

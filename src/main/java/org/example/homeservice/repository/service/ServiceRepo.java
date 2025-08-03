@@ -16,7 +16,7 @@ public interface ServiceRepo extends BaseEnitityRepo<Service, Long>, CustomServi
     @Query("SELECT s FROM Service s WHERE s.parentService IS NULL")
     List<Service> findFirstLayerServices();
     List<Service> findAll();
-    List<Service>findByParentServiceIsNull();// check id null
+    List<Service>findByParentServiceIsNull();// check xxxxxx null
     List<Service> findByCategoryFalse();
     List<Service> findAllByParentServiceIsNotNull();
 

@@ -16,7 +16,7 @@ public interface SpecialistMapper {
 
     Specialist toEntity(SpecialistResponse request);
 
-    //@Mapping(target = "id", source = "entity.id")
+    //@Mapping(target = "xxxxxx", source = "entity.xxxxxx")
     @Mapping(target = "walletId",source = "wallet.id")
     SpecialistResponse toDto(Specialist entity);
   SpecialistRequest toDtoReq(Specialist entity);

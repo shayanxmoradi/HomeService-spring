@@ -10,6 +10,6 @@ import java.util.List;
 public interface OfferService extends BaseEntityService<Offer,Long, OfferRequest, OfferResponse>  {
     List<OfferResponse> findOfferByOrderId(Long orderId);
     List<OfferResponse> findByOrderIdOOrderBySuggestedPrice(Long orderId);
-  //  Optional<OrderResponse> choseOrder(Long id, Long chosenOfferId);
+  //  Optional<OrderResponse> choseOrder(Long xxxxxx, Long chosenOfferId);
 
 }

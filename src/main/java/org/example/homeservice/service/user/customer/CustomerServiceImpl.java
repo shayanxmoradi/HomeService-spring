@@ -163,6 +163,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
     public Optional<CustomerResponseDto> addCustomer(CustomerRequsetDto customerRequsetDto) {
         String password = passwordEncoder.encode(customerRequsetDto.password());
         CustomerRequsetDto updatedCustomer = CustomerRequsetDto.updatePassword(customerRequsetDto, password);
+
         return save(updatedCustomer);
     }
 

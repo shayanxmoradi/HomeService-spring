@@ -38,8 +38,8 @@ public class UserSpecification {
 //            Join<Customer, Order> orders = root.join("orders", JoinType.LEFT);
 //
 //            // Group by customer ID and count orders
-//            query.groupBy(root.get("id"));
-//            query.having(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.count(orders.get("id")), orderCount.longValue()));
+//            query.groupBy(root.get("xxxxxx"));
+//            query.having(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.count(orders.get("xxxxxx")), orderCount.longValue()));
 //
 //            return query.getRestriction();
 //        };

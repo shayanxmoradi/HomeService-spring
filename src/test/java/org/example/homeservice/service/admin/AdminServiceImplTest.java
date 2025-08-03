@@ -57,7 +57,7 @@ class AdminServiceImplTest {
     void setUp() {
         // Correctly instantiate DTOs based on their record definitions
         specialistRequest = new SpecialistRequest(
-                null, // id
+                null, // xxxxxx
                 "John", // firstName
                 "Doe", // lastName
                 "john.doe@example.com", // email
@@ -73,7 +73,7 @@ class AdminServiceImplTest {
         specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
 
         specialistResponse = new SpecialistResponse(
-                1L, // id
+                1L, // xxxxxx
                 "John", // firstName
                 "Doe", // lastName
                 "john.doe@example.com", // email
