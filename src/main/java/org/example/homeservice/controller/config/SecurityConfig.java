@@ -41,6 +41,8 @@ public class SecurityConfig {
                         .requestMatchers("/payment**").permitAll()
                         .requestMatchers("/processPayment**").permitAll()
                         .requestMatchers("/submitRating**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->

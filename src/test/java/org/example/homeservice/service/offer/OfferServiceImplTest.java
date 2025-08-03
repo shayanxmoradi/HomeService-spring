@@ -73,7 +73,7 @@ class OfferServiceImplTest {
                 150.0,
                 1L, // orderId
                 Duration.ofHours(3),
-                10L // specialistId
+                10L
         );
 
         orderResponse = new OrderResponse(
@@ -86,7 +86,7 @@ class OfferServiceImplTest {
                 LocalDateTime.now(),
                 150.0,
                 OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS,
-                null // chosenSpecialistId
+                null
         );
 
         specialistResponse = new SpecialistResponse(

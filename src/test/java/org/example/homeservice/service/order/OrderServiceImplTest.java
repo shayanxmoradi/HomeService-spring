@@ -92,7 +92,6 @@ class OrderServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        // Manually set lazy dependencies
         orderService.setCustomerService(customerService);
         orderService.setSpeciallistService(speciallistService);
 
@@ -105,7 +104,6 @@ class OrderServiceImplTest {
         order = new Order();
         order.setId(1L);
         order.setStatus(OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS);
-        // *** FIX for NullPointerException ***: Set the service on the order object.
         order.setChoosenService(serviceEntity);
 
         orderResponse = new OrderResponse(1L, 1L, 100L, 200L, "desc", LocalDateTime.now(), null, 120.0, OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS, null);
