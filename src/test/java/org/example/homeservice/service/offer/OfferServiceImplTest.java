@@ -1,118 +1,168 @@
-//package org.example.homeservice.service.offer;
-//
-//import org.example.homeservice.dto.offer.OfferRequest;
-//import org.example.homeservice.dto.offer.OfferResponse;
-//import org.example.homeservice.dto.order.OrderResponse;
-//import org.example.homeservice.dto.service.ServiceResponse;
-//import org.example.homeservice.dto.offer.OfferMapper;
-//import org.example.homeservice.domain.service.Offer;
-//import org.example.homeservice.repository.offer.OfferRepo;
-//import org.example.homeservice.service.order.OrderService;
-//import org.example.homeservice.service.service.ServiceService;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//
-//import java.time.LocalDateTime;
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.Mockito.*;
-//
-//@ExtendWith(MockitoExtension.class)
-//class OfferServiceImplTest {
-//
-//
-//    @Mock
-//    private OfferRepo offerRepo;
-//    @Mock
-//    private ServiceService serviceService;
-//    @Mock
-//    private OfferMapper offerMapper;
-//    @Mock
-//    private OrderService orderService;
-//
-//    @InjectMocks
-//    private OfferServiceImpl offerServiceImpl;
-//
-//    private OfferRequest offerRequest;
-//    private OfferResponse offerResponse;
-//    private Offer offer;
-//    private OrderResponse orderResponse;
-//    private ServiceResponse serviceResponse;
-//
-//    @BeforeEach
-//    void setUp() {
-////        MockitoAnnotations.openMocks(this);
-//
-//        // Initialize test data
-//        offerRequest = new OfferRequest(LocalDateTime.now(), 200.2, 1l, null, null, null, null);
-//        offerResponse = new OfferResponse(1L, LocalDateTime.now(), 200.2, 1l,null,null,null, null);
-//        offer = new Offer();
-//        orderResponse = new OrderResponse(1L, 1l, 1l, "Description",null,  200.2);
-//        serviceResponse = new ServiceResponse(1L, "Service 1", "Description", 200.1f, null, false, null, null);
-//    }
-//
-////    @Test
-////    void testSaveOffer_ValidData_Success() {
-////        when(orderService.findById(offerRequest.orderId())).thenReturn(Optional.of(orderResponse));
-////        when(serviceService.findById(offerRequest.serviceId())).thenReturn(Optional.of(serviceResponse));
-////        when(offerMapper.toEntity(offerRequest)).thenReturn(offer);
-////        when(offerRepo.save(any(Offer.class))).thenReturn(offer);
-////        when(offerMapper.toResponse(offer)).thenReturn(offerResponse);
-////
-////        Optional<OfferResponse> result = offerServiceImpl.save(offerRequest);
-////
-////        assertTrue(result.isPresent());
-////        assertEquals(offerResponse, result.get());
-////        verify(offerRepo).save(offer);
-////    }
-//
-////    @Test
-////    void testSaveOffer_OrderNotFound_ThrowsException() {
-////        when(orderService.findById(offerRequest.orderId())).thenReturn(Optional.empty());
-////
-////        ValidationException exception = assertThrows(ValidationException.class, () -> offerServiceImpl.save(offerRequest));
-////        assertEquals("no order found", exception.getMessage());
-////        verify(offerRepo, never()).save(any(Offer.class));
-////    }
-////
-////    @Test
-////    void testSaveOffer_PriceLessThanBase_ThrowsException() {
-////        when(orderService.findById(offerRequest.orderId())).thenReturn(Optional.of(orderResponse));
-////        when(serviceService.findById(offerRequest.serviceId())).thenReturn(Optional.of(serviceResponse)); // Base price 150, suggested price 100
-////
-////        // Act & Assert
-////        ValidationException exception = assertThrows(ValidationException.class, () -> offerServiceImpl.save(offerRequest));
-////        assertEquals("base price is greater than offered price", exception.getMessage());
-////        verify(offerRepo, never()).save(any(Offer.class));
-////    }
-//
-//    @Test
-//    void testFindOfferByOrderId() {
-//        when(offerRepo.findByOrderId(1L)).thenReturn(List.of(offer));
-//        when(offerMapper.toResponses(List.of(offer))).thenReturn(List.of(offerResponse));
-//
-//        List<OfferResponse> result = offerServiceImpl.findOfferByOrderId(1L);
-//
-//        assertEquals(1, result.size());
-//        assertEquals(offerResponse, result.get(0));
-//        verify(offerRepo).findByOrderId(1L);
-//    }
-//
-//    @Test
-//    void testFindByOrderIdOOrderBySuggestedPrice() {
-//        when(offerRepo.findByOrderIdOrderBySuggestedPrice(1L)).thenReturn(List.of(offer));
-//        when(offerMapper.toResponses(List.of(offer))).thenReturn(List.of(offerResponse));
-//
-//        List<OfferResponse> result = offerServiceImpl.findByOrderIdOOrderBySuggestedPrice(1L);
-//
-//        assertEquals(1, result.size());
-//        assertEquals(offerResponse, result.get(0));
-//        verify(offerRepo).findByOrderIdOrderBySuggestedPrice(1L);
-//    }
-//}
+package org.example.homeservice.service.offer;
+
+import jakarta.validation.ValidationException;
+import org.example.homeservice.domain.enums.OrderStatus;
+import org.example.homeservice.domain.enums.SpecialistStatus;
+import org.example.homeservice.domain.service.Offer;
+import org.example.homeservice.dto.offer.OfferMapper;
+import org.example.homeservice.dto.offer.OfferRequest;
+import org.example.homeservice.dto.offer.OfferResponse;
+import org.example.homeservice.dto.order.OrderResponse;
+import org.example.homeservice.dto.service.ServiceResponse;
+import org.example.homeservice.dto.specialist.SpecialistResponse;
+import org.example.homeservice.repository.offer.OfferRepo;
+import org.example.homeservice.service.order.OrderService;
+import org.example.homeservice.service.service.ServiceService;
+import org.example.homeservice.service.user.speciallist.SpeciallistService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class OfferServiceImplTest {
+
+    @Mock
+    private OfferRepo offerRepo;
+    @Mock
+    private OrderService orderService;
+    @Mock
+    private ServiceService serviceService;
+    @Mock
+    private OfferMapper offerMapper;
+    @Mock
+    private SpeciallistService speciallistService;
+
+    @InjectMocks
+    private OfferServiceImpl offerService;
+
+    // Test Data Objects defined with real DTOs
+    private OfferRequest offerRequest;
+    private OrderResponse orderResponse;
+    private SpecialistResponse specialistResponse;
+    private ServiceResponse serviceResponse;
+    private Offer offer;
+    private OfferResponse offerResponseDto;
+
+    @BeforeEach
+    void setUp() {
+        // Manually set lazy-injected dependencies
+        offerService.setOrderService(orderService);
+        offerService.setSpeciallistService(speciallistService);
+
+        // Initialize common test data using the real DTO constructors
+        offerRequest = new OfferRequest(
+                LocalDateTime.now().plusDays(1),
+                150.0,
+                1L, // orderId
+                Duration.ofHours(3),
+                10L // specialistId
+        );
+
+        orderResponse = new OrderResponse(
+                1L, // id
+                2L, // customerId
+                100L, // serviceId
+                3L, // addressId
+                "Order description",
+                LocalDateTime.now().plusHours(24),
+                LocalDateTime.now(),
+                150.0,
+                OrderStatus.WAITING_FOR_SPECIALISTS_OFFERS,
+                null // chosenSpecialistId
+        );
+
+        specialistResponse = new SpecialistResponse(
+                10L, // id
+                "John", "Doe", "john.doe@example.com",
+                SpecialistStatus.APPROVED, 4.8, 50, null, 201L, true
+        );
+
+        serviceResponse = new ServiceResponse(
+                100L, // id
+                "General Plumbing", "Fixing leaks",
+                100.0f, // basePrice
+                null, false, new ArrayList<>(), new ArrayList<>()
+        );
+
+        offer = new Offer();
+        offer.setId(50L);
+
+        offerResponseDto = new OfferResponse(
+                50L, LocalDateTime.now().plusDays(1), 150.0, 1L, 100L,
+                LocalDate.now().plusDays(1), Duration.ofHours(3), 10L
+        );
+    }
+
+    @Nested
+    @DisplayName("Save Offer Tests")
+    class SaveOfferTests {
+
+        @Test
+        @DisplayName("save should succeed when all validations pass")
+        void save_whenAllValid_shouldSaveOffer() {
+            // Arrange
+            when(orderService.findById(anyLong())).thenReturn(Optional.of(orderResponse));
+            when(speciallistService.findById(anyLong())).thenReturn(Optional.of(specialistResponse));
+            when(offerRepo.findBySpecialistIdAndOrderId(anyLong(), anyLong())).thenReturn(Collections.emptyList());
+            when(serviceService.isSpecialistAvailableInService(anyLong(), anyLong())).thenReturn(true);
+            when(serviceService.findById(anyLong())).thenReturn(Optional.of(serviceResponse));
+            when(offerMapper.toEntity(any(OfferRequest.class))).thenReturn(offer);
+            when(offerRepo.save(any(Offer.class))).thenReturn(offer);
+            when(offerMapper.toResponse(any(Offer.class))).thenReturn(offerResponseDto);
+
+            // Act
+            Optional<OfferResponse> result = offerService.save(offerRequest);
+
+            // Assert
+            assertTrue(result.isPresent());
+            assertEquals(offerResponseDto.id(), result.get().id());
+            verify(offerRepo).save(any(Offer.class));
+        }
+
+        @Test
+        @DisplayName("save should throw exception when order is not found")
+        void save_whenOrderNotFound_shouldThrowException() {
+            when(orderService.findById(anyLong())).thenReturn(Optional.empty());
+            ValidationException ex = assertThrows(ValidationException.class, () -> offerService.save(offerRequest));
+            assertTrue(ex.getMessage().contains("No order found with ID:"));
+            verify(offerRepo, never()).save(any());
+        }
+
+        @Test
+        @DisplayName("save should throw exception when suggested price is too low")
+        void save_whenPriceIsTooLow_shouldThrowException() {
+            // Arrange
+            when(orderService.findById(anyLong())).thenReturn(Optional.of(orderResponse));
+            when(speciallistService.findById(anyLong())).thenReturn(Optional.of(specialistResponse));
+            when(offerRepo.findBySpecialistIdAndOrderId(anyLong(), anyLong())).thenReturn(Collections.emptyList());
+            when(serviceService.isSpecialistAvailableInService(anyLong(), anyLong())).thenReturn(true);
+            // Service with a base price higher than the offer
+            ServiceResponse expensiveService = new ServiceResponse(
+                    100L, "Premium Plumbing", "Advanced work", 200.0f, null, false, new ArrayList<>(), new ArrayList<>()
+            );
+            when(serviceService.findById(anyLong())).thenReturn(Optional.of(expensiveService));
+
+            // Act & Assert
+            ValidationException ex = assertThrows(ValidationException.class, () -> offerService.save(offerRequest));
+            assertEquals("base price is greater than offered price", ex.getMessage());
+        }
+    }
+}

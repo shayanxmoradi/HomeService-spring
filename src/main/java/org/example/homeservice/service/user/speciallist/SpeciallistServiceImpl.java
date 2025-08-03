@@ -6,7 +6,7 @@ import org.example.homeservice.exception.FileNotFoundException;
 import org.example.homeservice.exception.ImageTooLargeException;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.dto.order.OrderResponse;
-import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.dto.specialist.SpecialistMapper;
 import org.example.homeservice.domain.user.Specialist;

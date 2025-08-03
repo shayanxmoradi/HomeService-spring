@@ -6,7 +6,7 @@ import org.example.homeservice.dto.service.ServiceRequest;
 import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.dto.service.ServiceMapper;
 import org.example.homeservice.dto.specialist.SpecialistMapper;
-import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.domain.user.BaseUser;
 import org.example.homeservice.domain.user.Specialist;
