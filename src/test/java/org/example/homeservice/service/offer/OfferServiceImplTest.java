@@ -5,7 +5,7 @@
 //import org.example.homeservice.dto.order.OrderResponse;
 //import org.example.homeservice.dto.service.ServiceResponse;
 //import org.example.homeservice.dto.offer.OfferMapper;
-//import org.example.homeservice.domain.Offer;
+//import org.example.homeservice.domain.service.Offer;
 //import org.example.homeservice.repository.offer.OfferRepo;
 //import org.example.homeservice.service.order.OrderService;
 //import org.example.homeservice.service.service.ServiceService;

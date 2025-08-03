@@ -1,6 +1,6 @@
 package org.example.homeservice.dto.service;
 
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Service;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

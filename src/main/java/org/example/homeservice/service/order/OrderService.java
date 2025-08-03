@@ -3,7 +3,7 @@ package org.example.homeservice.service.order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.order.OrderRequest;
 import org.example.homeservice.dto.order.OrderResponse;
-import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.service.Order;
 import org.example.homeservice.service.baseentity.BaseEntityService;
 
 import java.time.LocalDateTime;

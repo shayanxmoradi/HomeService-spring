@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.homeservice.controller.annotaion.CheckActivation;
 import org.example.homeservice.controller.config.JwtUtil;
-import org.example.homeservice.domain.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
-import org.example.homeservice.dto.order.OrderMapper;
 import org.example.homeservice.dto.order.OrderRequest;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.service.order.OrderService;
@@ -108,7 +106,6 @@ public class OrderResource {
     }
 
 
-
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/customer")
     @CheckActivation
@@ -116,7 +113,6 @@ public class OrderResource {
     public ResponseEntity<List<OrderResponse>> getOrderByCustomerId(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(value = "status", required = false) OrderStatus orderStatus) {
-//     log.info(orderStatus.toString());
 
         String userEmail = userDetails.getUsername();
 

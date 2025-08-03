@@ -1,12 +1,10 @@
 package org.example.homeservice.service.adress;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import org.example.homeservice.domain.Order;
 import org.example.homeservice.dto.address.AddressReqest;
 import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.dto.address.AddressMapper;
-import org.example.homeservice.domain.Address;
+import org.example.homeservice.domain.user.Address;
 import org.example.homeservice.repository.address.AddressRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.order.OrderService;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

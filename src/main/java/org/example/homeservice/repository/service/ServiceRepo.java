@@ -1,8 +1,7 @@
 package org.example.homeservice.repository.service;
 
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Service;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

@@ -1,9 +1,11 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.service;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.example.homeservice.domain.BaseEntity;
+import org.example.homeservice.domain.user.Specialist;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

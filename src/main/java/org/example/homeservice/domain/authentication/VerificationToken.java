@@ -1,10 +1,12 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.authentication;
 
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.example.homeservice.domain.BaseEntity;
+import org.example.homeservice.domain.user.BaseUser;
 
 import java.time.LocalDateTime;
 @Table(name = VerificationToken.TABLE_NAME)

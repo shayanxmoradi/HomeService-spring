@@ -2,7 +2,7 @@ package org.example.homeservice.service.user.customer;
 
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.customer.CustomerMapper;
-import org.example.homeservice.domain.Customer;
+import org.example.homeservice.domain.user.Customer;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.offer.OfferResponse;
@@ -19,7 +19,6 @@ import org.example.homeservice.service.user.BaseUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 

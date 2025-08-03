@@ -3,7 +3,7 @@
 //import jakarta.validation.ValidationException;
 //import org.example.homeservice.dto.*;
 //import org.example.homeservice.dto.customer.CustomerMapper;
-//import org.example.homeservice.domain.Customer;
+//import org.example.homeservice.domain.user.Customer;
 //import org.example.homeservice.repository.order.OrderRepo;
 //import org.example.homeservice.repository.user.CustomerRepo;
 //import org.example.homeservice.service.offer.OfferService;

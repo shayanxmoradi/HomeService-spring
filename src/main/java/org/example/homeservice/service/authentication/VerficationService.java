@@ -1,6 +1,6 @@
-package org.example.homeservice.service.auth;
+package org.example.homeservice.service.authentication;
 
-import org.example.homeservice.domain.VerificationToken;
+import org.example.homeservice.domain.authentication.VerificationToken;
 
 public interface VerficationService {
     VerificationToken save(VerificationToken verificationToken);

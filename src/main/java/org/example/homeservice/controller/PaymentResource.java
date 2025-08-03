@@ -6,11 +6,10 @@ import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.review.ReviewRequest;
-import org.example.homeservice.service.WalletService;
+import org.example.homeservice.service.wallet.WalletService;
 import org.example.homeservice.service.order.OrderService;
 import org.example.homeservice.service.review.ReviewService;
 import org.example.homeservice.service.user.customer.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
@@ -39,13 +38,13 @@ public class PaymentResource {
 
     private final RestTemplate restTemplate;
 
-   private final WalletService walletService;
+    private final WalletService walletService;
 
 
     private final ReviewService reviewService;
 
     @Value("${recaptcha.secret}")
-    private String recaptchaSecret ;
+    private String recaptchaSecret;
 
     private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
     private static final String ERROR_PAGE = "error";
@@ -79,14 +78,14 @@ public class PaymentResource {
         boolean hasEnoughCreditCards = false;
         try {
 
-            walletService.removeMoneyFromWallet(walletId,orderResponse.offeredPrice());
+            walletService.removeMoneyFromWallet(walletId, orderResponse.offeredPrice());
             hasEnoughCreditCards = true;
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
         if (hasEnoughCreditCards) {
-            paiedOrderSetup(orderId,OrderStatus.PAIED_WITH_WALLET);
+            paiedOrderSetup(orderId, OrderStatus.PAIED_WITH_WALLET);
 
             model.addAttribute("orderId", orderId);
 
@@ -127,13 +126,11 @@ public class PaymentResource {
         }
 
 
-
         Card cardRequest = new Card(cardNumber, LocalDate.of(Integer.parseInt("20" + expiryDate.substring(3, 5)), Integer.parseInt(expiryDate.substring(0, 2)), 20), cvv); // Create a DTO for the request
-//        System.out.println("checkedCard" + cardRequest);
+
         // Call Bank API to validate the card
         String bankApiUrl = "http://localhost:8085/bank/valid";
         ResponseEntity<Boolean> response = restTemplate.postForEntity(bankApiUrl, cardRequest, Boolean.class);
-//        System.out.println(response.getBody());
 
 
         if (response.getBody() == null || !response.getBody()) {
@@ -149,7 +146,7 @@ public class PaymentResource {
             return ERROR_PAGE;
         }
         System.out.println(orderId);
-        paiedOrderSetup(orderId,OrderStatus.PAID);
+        paiedOrderSetup(orderId, OrderStatus.PAID);
 
         model.addAttribute("orderId", orderId);
 
@@ -205,9 +202,9 @@ public class PaymentResource {
     }
 
 
-    private void paiedOrderSetup(Long orderId,OrderStatus orderStatus) {
+    private void paiedOrderSetup(Long orderId, OrderStatus orderStatus) {
         //first set status to online paied
-        orderService.onlinePayment(orderId,orderStatus);
+        orderService.onlinePayment(orderId, orderStatus);
 
     }
 

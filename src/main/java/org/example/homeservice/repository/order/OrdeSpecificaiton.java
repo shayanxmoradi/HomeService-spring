@@ -1,6 +1,6 @@
 package org.example.homeservice.repository.order;
 
-import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.service.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.springframework.data.jpa.domain.Specification;
 

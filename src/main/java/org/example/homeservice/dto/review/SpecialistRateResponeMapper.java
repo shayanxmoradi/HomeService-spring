@@ -1,6 +1,6 @@
 package org.example.homeservice.dto.review;
 
-import org.example.homeservice.domain.Review;
+import org.example.homeservice.domain.service.Review;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

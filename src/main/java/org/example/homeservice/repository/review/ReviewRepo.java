@@ -1,7 +1,7 @@
-package org.example.homeservice.repository;
+package org.example.homeservice.repository.review;
 
-import org.example.homeservice.domain.Review;
-import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.service.Review;
+import org.example.homeservice.domain.user.Specialist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

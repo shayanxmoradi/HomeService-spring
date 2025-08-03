@@ -1,7 +1,8 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.service;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.homeservice.domain.BaseEntity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

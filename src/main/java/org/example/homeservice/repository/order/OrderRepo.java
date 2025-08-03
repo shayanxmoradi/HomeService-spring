@@ -1,10 +1,7 @@
 package org.example.homeservice.repository.order;
 
 import jakarta.transaction.Transactional;
-import org.example.homeservice.domain.Customer;
-import org.example.homeservice.domain.Order;
-import org.example.homeservice.domain.Review;
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

@@ -2,19 +2,15 @@ package org.example.homeservice.controller;
 
 
 import jakarta.annotation.security.PermitAll;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.homeservice.controller.config.JwtUtil;
-import org.example.homeservice.domain.BaseUser;
-import org.example.homeservice.domain.Customer;
-import org.example.homeservice.domain.Specialist;
-import org.example.homeservice.domain.VerificationToken;
+import org.example.homeservice.domain.user.Customer;
+import org.example.homeservice.domain.user.Specialist;
+import org.example.homeservice.domain.authentication.VerificationToken;
 import org.example.homeservice.dto.customer.CustomerMapper;
-import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.specialist.SpecialistMapper;
-import org.example.homeservice.service.auth.EmailService;
-import org.example.homeservice.service.auth.VerficationService;
-import org.example.homeservice.service.auth.VerificationServiceImpl;
+import org.example.homeservice.service.authentication.EmailService;
+import org.example.homeservice.service.authentication.VerficationService;
 import org.example.homeservice.service.user.customer.CustomerService;
 import org.example.homeservice.service.user.speciallist.SpeciallistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +72,7 @@ public class AuthResource {
 
         return "activated";
     }
+
     @PermitAll
     @PostMapping("/customer/register/{id}")
     public String registerUser(@PathVariable Long id) {
@@ -92,6 +89,7 @@ public class AuthResource {
 
         return token.getToken();
     }
+
     @PermitAll
     @PostMapping("specialist/register/{id}")
     public String registerSpecialist(@PathVariable Long id) {

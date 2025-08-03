@@ -6,7 +6,7 @@
 //import org.example.homeservice.dto.customer.CustomerResponseDto;
 //import org.example.homeservice.dto.offer.OfferMapper;
 //import org.example.homeservice.dto.order.OrderMapper;
-//import org.example.homeservice.domain.Order;
+//import org.example.homeservice.domain.service.Order;
 //import org.example.homeservice.domain.enums.OrderStatus;
 //import org.example.homeservice.dto.order.OrderRequest;
 //import org.example.homeservice.dto.order.OrderResponse;

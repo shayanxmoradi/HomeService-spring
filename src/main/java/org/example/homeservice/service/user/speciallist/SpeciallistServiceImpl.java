@@ -9,7 +9,7 @@ import org.example.homeservice.dto.order.OrderResponse;
 import org.example.homeservice.dto.service.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.dto.specialist.SpecialistMapper;
-import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.user.Specialist;
 import org.example.homeservice.dto.review.SpecialistRateRespone;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.repository.service.ServiceRepo;

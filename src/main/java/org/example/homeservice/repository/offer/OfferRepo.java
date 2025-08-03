@@ -1,6 +1,6 @@
 package org.example.homeservice.repository.offer;
 
-import org.example.homeservice.domain.Offer;
+import org.example.homeservice.domain.service.Offer;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
 
 import java.util.List;

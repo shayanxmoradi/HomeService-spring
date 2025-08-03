@@ -7,7 +7,7 @@
 //import org.example.homeservice.dto.service.SpecialistRequest;
 //import org.example.homeservice.dto.specialist.SpecialistResponse;
 //import org.example.homeservice.dto.specialist.SpecialistMapper;
-//import org.example.homeservice.domain.Specialist;
+//import org.example.homeservice.domain.user.Specialist;
 //import org.example.homeservice.domain.enums.SpecialistStatus;
 //import org.example.homeservice.repository.service.ServiceRepo;
 //import org.example.homeservice.repository.user.SpecialistRepo;

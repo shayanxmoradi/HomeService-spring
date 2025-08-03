@@ -2,7 +2,7 @@ package org.example.homeservice.service.offer;
 
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.offer.OfferMapper;
-import org.example.homeservice.domain.Offer;
+import org.example.homeservice.domain.service.Offer;
 import org.example.homeservice.dto.offer.OfferRequest;
 import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.dto.order.OrderResponse;

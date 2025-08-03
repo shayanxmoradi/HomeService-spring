@@ -1,4 +1,4 @@
-package org.example.homeservice.service.auth;
+package org.example.homeservice.service.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

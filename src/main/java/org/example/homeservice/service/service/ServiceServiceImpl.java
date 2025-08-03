@@ -6,7 +6,7 @@ import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.service.ServiceMapper;
 import org.example.homeservice.dto.service.ServiceRequest;
 import org.example.homeservice.dto.service.ServiceResponse;
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Service;
 import org.example.homeservice.repository.service.ServiceRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.order.OrderService;

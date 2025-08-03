@@ -1,7 +1,8 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.homeservice.domain.service.Service;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

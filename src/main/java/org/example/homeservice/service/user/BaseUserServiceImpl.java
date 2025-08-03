@@ -2,7 +2,7 @@ package org.example.homeservice.service.user;
 
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
-import org.example.homeservice.domain.BaseUser;
+import org.example.homeservice.domain.user.BaseUser;
 import org.example.homeservice.repository.user.BaseUserRepo;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

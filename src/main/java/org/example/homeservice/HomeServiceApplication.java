@@ -2,8 +2,9 @@ package org.example.homeservice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.homeservice.domain.*;
-import org.example.homeservice.dto.address.AddressReqest;
+import org.example.homeservice.domain.service.Service;
+import org.example.homeservice.domain.user.Customer;
+import org.example.homeservice.domain.user.Specialist;
 import org.example.homeservice.dto.customer.CustomerMapper;
 import org.example.homeservice.dto.offer.OfferMapper;
 import org.example.homeservice.dto.offer.OfferRequest;

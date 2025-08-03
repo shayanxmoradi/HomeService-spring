@@ -3,7 +3,10 @@ package org.example.homeservice.repository.user;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
-import org.example.homeservice.domain.*;
+import org.example.homeservice.domain.service.Offer;
+import org.example.homeservice.domain.service.Order;
+import org.example.homeservice.domain.service.Service;
+import org.example.homeservice.domain.user.Specialist;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;

@@ -3,7 +3,7 @@ package org.example.homeservice.service.adress;
 import org.example.homeservice.dto.address.AddressReqest;
 import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.dto.address.AddressMapper;
-import org.example.homeservice.domain.Address;
+import org.example.homeservice.domain.user.Address;
 import org.example.homeservice.repository.address.AddressRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

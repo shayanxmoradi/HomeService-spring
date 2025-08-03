@@ -1,9 +1,7 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
 
 @Table(name = Customer.TABLE_NAME)
 @Data
