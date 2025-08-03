@@ -80,15 +80,20 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
     @Override
     public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
 
-        Customer specialist = baseRepository.findByEmail(updatePasswordRequst.email())
+        Customer customer = baseRepository.findByEmail(updatePasswordRequst.email())
                 .orElseThrow(() -> new ValidationException("user with this email not found"));
+        String endcodedPass = passwordEncoder.encode(updatePasswordRequst.oldPassword());
 
-        if (!specialist.getPassword().equals(updatePasswordRequst.oldPassword())) {
+        if (!passwordEncoder.matches(updatePasswordRequst.oldPassword(), customer.getPassword())) {
+            System.out.println("pass in request: " + updatePasswordRequst.oldPassword());
+            System.out.println("pass in db (encoded): " + customer.getPassword());
             throw new ValidationException("Incorrect password");
         }
+        String encodedNewPass = passwordEncoder.encode(updatePasswordRequst.newPassword());
+        customer.setPassword(encodedNewPass);
 
-        specialist.setPassword(updatePasswordRequst.newPassword());
-        baseRepository.save(specialist);
+
+        baseRepository.save(customer);
     }
 
     @Override

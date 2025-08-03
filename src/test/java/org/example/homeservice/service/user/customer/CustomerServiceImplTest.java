@@ -57,7 +57,7 @@ class CustomerServiceImplTest {
 
         ReflectionTestUtils.setField(customerService, "passwordEncoder", passwordEncoder);
 
-        customerRequestDto = new CustomerRequsetDto(1L, "Jane", "Doe", "jane.doe@example.com", "password123");
+        customerRequestDto = new CustomerRequsetDto( "Jane", "Doe", "jane.doe@example.com", "password123");
         customer = new Customer();
         customer.setId(1L);
         customer.setEmail(customerRequestDto.email());
