@@ -1,20 +1,15 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.homeservice.domain.BaseEntity;
 import org.example.homeservice.domain.enums.UserRole;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Table(name = BaseUser.TABLE_NAME)
 @Data

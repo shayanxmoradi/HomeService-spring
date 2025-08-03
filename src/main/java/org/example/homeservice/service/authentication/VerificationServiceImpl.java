@@ -1,8 +1,8 @@
-package org.example.homeservice.service.auth;
+package org.example.homeservice.service.authentication;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.VerificationToken;
-import org.example.homeservice.repository.auth.VerficationTokenRepo;
+import org.example.homeservice.domain.authentication.VerificationToken;
+import org.example.homeservice.repository.authentication.VerficationTokenRepo;
 import org.springframework.stereotype.Service;
 
 @Service

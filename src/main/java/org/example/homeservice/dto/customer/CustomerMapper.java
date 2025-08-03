@@ -1,6 +1,6 @@
 package org.example.homeservice.dto.customer;
 
-import org.example.homeservice.domain.Customer;
+import org.example.homeservice.domain.user.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

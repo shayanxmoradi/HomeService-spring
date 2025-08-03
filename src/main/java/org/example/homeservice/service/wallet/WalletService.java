@@ -1,6 +1,6 @@
-package org.example.homeservice.service;
+package org.example.homeservice.service.wallet;
 
-import org.example.homeservice.domain.Wallet;
+import org.example.homeservice.domain.user.Wallet;
 
 import java.util.Optional;
 

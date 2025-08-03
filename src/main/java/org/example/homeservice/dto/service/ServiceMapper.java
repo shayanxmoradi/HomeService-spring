@@ -1,6 +1,6 @@
 package org.example.homeservice.dto.service;
 
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Service;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -9,10 +9,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {
     @Mapping(target = "category",source = "isCategory")
-//    @Mapping(target = "parentService.id",source = "parentServiceId")
+//    @Mapping(target = "parentService.xxxxxx",source = "parentServiceId")
     Service toEntity(ServiceRequest serviceRequestDto);
 //
-//    @Mapping(target = "parentServiceId", source = "parentService.id")
+//    @Mapping(target = "parentServiceId", source = "parentService.xxxxxx")
 //    @Mapping(target = "availableSpecialists", source = "avilableSpecialists")
 //    @Mapping(target = "subServices", source = "subServices")
 @Mapping(target = "parentServiceId",source = "parentService.id")
@@ -31,7 +31,7 @@ ServiceResponse toDto(Service service);
 //            return null;
 //        }
 //        return availableSpecialists.stream()
-//                .map(Specialist::getId)  // Assuming `Specialist` has an `id` field
+//                .map(Specialist::getId)  // Assuming `Specialist` has an `xxxxxx` field
 //                .collect(Collectors.toList());
 //    }
 //
@@ -52,7 +52,7 @@ ServiceResponse toDto(Service service);
 //    @Mapping(target = "avilableSpecialists", ignore = true) // Handle separately in the service layer
 //    Service toEntity(ServiceRequest serviceRequest);
 //
-//    @Mapping(source = "parentService.id", target = "parentServiceId")
+//    @Mapping(source = "parentService.xxxxxx", target = "parentServiceId")
 //    @Mapping(source = "avilableSpecialists", target = "availableSpecialistsIds", qualifiedByName = "mapSpecialistsToIds")
 //    ServiceResponse toDto(Service service);
 //

@@ -1,7 +1,9 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.homeservice.domain.enums.UserRole;
+import org.example.homeservice.domain.service.Service;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -34,6 +36,13 @@ public class Specialist extends BaseUser {
     // @Lob //todo whgat is this
     @Column(name = "image_data", length = 300000)
     private byte[] personalImage;
+
+    // making sure no one can change the role
+    @PrePersist
+    @PreUpdate
+    public void enforceSpecialistRole() {
+        this.userRole = UserRole.SPECIALIST;
+    }
 
     @Override
     public String toString() {

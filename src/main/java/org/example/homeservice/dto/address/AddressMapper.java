@@ -1,6 +1,6 @@
 package org.example.homeservice.dto.address;
 
-import org.example.homeservice.domain.Address;
+import org.example.homeservice.domain.user.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

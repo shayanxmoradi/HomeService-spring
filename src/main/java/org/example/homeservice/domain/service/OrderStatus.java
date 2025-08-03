@@ -1,9 +1,10 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.service;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.example.homeservice.domain.BaseEntity;
 
 @Entity
 @Table(name = "order_status")

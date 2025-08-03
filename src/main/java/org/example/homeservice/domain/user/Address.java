@@ -1,8 +1,9 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.example.homeservice.domain.BaseEntity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

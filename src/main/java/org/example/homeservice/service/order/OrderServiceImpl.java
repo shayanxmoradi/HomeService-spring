@@ -5,7 +5,7 @@ import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.address.AddressResponse;
 import org.example.homeservice.dto.offer.OfferMapper;
 import org.example.homeservice.dto.offer.OfferResponse;
-import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.service.Order;
 import org.example.homeservice.domain.enums.OrderStatus;
 import org.example.homeservice.dto.order.OrderMapper;
 import org.example.homeservice.dto.specialist.SpecialistMapper;
@@ -15,7 +15,7 @@ import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.repository.order.OrdeSpecificaiton;
 import org.example.homeservice.repository.order.OrderRepo;
-import org.example.homeservice.service.WalletService;
+import org.example.homeservice.service.wallet.WalletService;
 import org.example.homeservice.service.adress.AddressService;
 import org.example.homeservice.service.baseentity.BaseEntityServiceImpl;
 import org.example.homeservice.service.offer.OfferService;
@@ -76,18 +76,18 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
             throw new ValidationException("this order already exists");
         }
         if (customerService.findById(orderRequest.customerId()).isEmpty()) {
-            throw new ValidationException("Customer with this id not found");
+            throw new ValidationException("Customer with this xxxxxx not found");
         }
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
-            throw new ValidationException("no servicee with this id : " + orderRequest.serviceId() + " found .");
+            throw new ValidationException("no servicee with this xxxxxx : " + orderRequest.serviceId() + " found .");
         } else if (foundService.get().category() ) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
         }
         Optional<AddressResponse> foundedAddress = addressService.findById(orderRequest.addressId());
         if (foundedAddress.isEmpty()) {
-            throw new ValidationException("no address with this id found");
+            throw new ValidationException("no address with this xxxxxx found");
         }
         if (foundService.get().basePrice() > orderRequest.offeredPrice())
             throw new ValidationException("base price is greater than offered price");

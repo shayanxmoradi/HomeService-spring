@@ -1,8 +1,7 @@
 package org.example.homeservice.repository.service;
 
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Service;
 import org.example.homeservice.repository.baseentity.BaseEnitityRepo;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,7 +16,7 @@ public interface ServiceRepo extends BaseEnitityRepo<Service, Long>, CustomServi
     @Query("SELECT s FROM Service s WHERE s.parentService IS NULL")
     List<Service> findFirstLayerServices();
     List<Service> findAll();
-    List<Service>findByParentServiceIsNull();// check id null
+    List<Service>findByParentServiceIsNull();// check xxxxxx null
     List<Service> findByCategoryFalse();
     List<Service> findAllByParentServiceIsNotNull();
 

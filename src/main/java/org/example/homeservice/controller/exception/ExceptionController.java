@@ -54,10 +54,10 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(fieldError -> new FieldErrorDTO(
-                        fieldError.getField(),                  // Which field has an error
-                        fieldError.getDefaultMessage(),         // Validation message for that field
-                        fieldError.getRejectedValue(),          // The rejected value (what was sent)
-                        fieldError.getCode()                    // Error code (e.g., "NotNull", "Size")
+                        fieldError.getField(),
+                        fieldError.getDefaultMessage(),
+                        fieldError.getRejectedValue(),
+                        fieldError.getCode()
                 ))
                 .collect(Collectors.toList());
 
@@ -130,10 +130,10 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class FieldErrorDTO implements Serializable {
-        private String field;          // The name of the field with the error
-        private String message;        // The validation error message
-        private Object rejectedValue;  // The value that was rejected (if available)
-        private String errorCode;      // The type of validation error (e.g., "NotNull", "Size")
+        private String field;
+        private String message;
+        private Object rejectedValue;
+        private String errorCode;
     }
 
     @Setter

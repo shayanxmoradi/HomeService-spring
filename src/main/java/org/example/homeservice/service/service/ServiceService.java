@@ -3,7 +3,7 @@ package org.example.homeservice.service.service;
 
 import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.dto.service.ServiceRequest;
-import org.example.homeservice.domain.Service;
+import org.example.homeservice.domain.service.Service;
 import org.example.homeservice.service.baseentity.BaseEntityService;
 
 import java.util.List;

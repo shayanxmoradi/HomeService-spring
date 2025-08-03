@@ -2,7 +2,7 @@ package org.example.homeservice.service.offer;
 
 import jakarta.validation.ValidationException;
 import org.example.homeservice.dto.offer.OfferMapper;
-import org.example.homeservice.domain.Offer;
+import org.example.homeservice.domain.service.Offer;
 import org.example.homeservice.dto.offer.OfferRequest;
 import org.example.homeservice.dto.offer.OfferResponse;
 import org.example.homeservice.dto.order.OrderResponse;
@@ -60,13 +60,13 @@ public class OfferServiceImpl extends BaseEntityServiceImpl<Offer, Long, OfferRe
         //checking for duplicated uncomment this
         List<Offer> bySpecialistIdAndOrderId = baseRepository.findBySpecialistIdAndOrderId(dto.specialistId(), orderId);
         if (bySpecialistIdAndOrderId.size()>0) {
-            throw new ValidationException("speciallist with id :" + dto.specialistId() + " already summited offer for order : " + orderId);
+            throw new ValidationException("speciallist with xxxxxx :" + dto.specialistId() + " already summited offer for order : " + orderId);
         }
 
 
         //is this service is service of specialist offeredservices?
         if (!serviceService.isSpecialistAvailableInService(foundedOrder.serviceId(), dto.specialistId())) {
-            throw new ValidationException("specialist with this Id : " + dto.specialistId() + " is not available in this service with id : " + foundedOrder.serviceId());
+            throw new ValidationException("specialist with this Id : " + dto.specialistId() + " is not available in this service with xxxxxx : " + foundedOrder.serviceId());
         }
 
 
@@ -85,7 +85,7 @@ public class OfferServiceImpl extends BaseEntityServiceImpl<Offer, Long, OfferRe
         orderService.findById(orderId);
         if (baseRepository.findByOrderId(orderId) == null || baseRepository.findByOrderId(orderId).isEmpty())
             throw new ValidationException("no offers  for order " +
-                                          "with id " + orderId + "found");
+                                          "with xxxxxx " + orderId + "found");
 
         return offerMapper.toResponses(baseRepository.findByOrderId(orderId));
     }

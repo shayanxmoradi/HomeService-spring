@@ -6,10 +6,10 @@ import org.example.homeservice.dto.service.ServiceRequest;
 import org.example.homeservice.dto.service.ServiceResponse;
 import org.example.homeservice.dto.service.ServiceMapper;
 import org.example.homeservice.dto.specialist.SpecialistMapper;
-import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
-import org.example.homeservice.domain.BaseUser;
-import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.user.BaseUser;
+import org.example.homeservice.domain.user.Specialist;
 import org.example.homeservice.domain.enums.SpecialistStatus;
 import org.example.homeservice.repository.user.SpecialistRepo;
 import org.example.homeservice.service.service.ServiceService;
@@ -107,7 +107,7 @@ public class AdminServiceImpl  implements AdminService {
         if (serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
             throw new ValidationException("Specialist is already added to this service");
         }
-        org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
+        org.example.homeservice.domain.service.Service service = serviceService.findByIdX(subServiceId);
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));
@@ -118,7 +118,7 @@ public class AdminServiceImpl  implements AdminService {
     @Override
     public void deleteSpecialistFromSubService(Long specialistId, Long subServiceId) {
         Specialist specialist = specialistRepo.findById(specialistId)
-                .orElseThrow(() -> new ValidationException("Specialist with id: "+specialistId+" found"));
+                .orElseThrow(() -> new ValidationException("Specialist with xxxxxx: "+specialistId+" found"));
 
 //        if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
 //            throw new ValidationException("Specialist is not approved");
@@ -127,7 +127,7 @@ public class AdminServiceImpl  implements AdminService {
         if (!serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
             throw new ValidationException("Specialist is already not in this service ");
         }
-        org.example.homeservice.domain.Service service = serviceService.findByIdX(subServiceId);
+        org.example.homeservice.domain.service.Service service = serviceService.findByIdX(subServiceId);
 
         ServiceResponse foundService = serviceService.findById(subServiceId)
                 .orElseThrow(() -> new ValidationException("Service not found"));

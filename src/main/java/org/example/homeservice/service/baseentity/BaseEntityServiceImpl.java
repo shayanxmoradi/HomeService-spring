@@ -61,7 +61,7 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
 
         if (baseRepository.findById(id).isEmpty()) {
 
-            throw new ValidationException(   "entitny from class :"+ this.getClass().getSimpleName()+ " with id : " + id + " not found!");
+            throw new ValidationException(   "entitny from class :"+ this.getClass().getSimpleName()+ " with xxxxxx : " + id + " not found!");
         }
         return baseRepository.findById(id).map(this::toDto);
     }

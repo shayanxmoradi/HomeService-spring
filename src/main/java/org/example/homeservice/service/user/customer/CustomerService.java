@@ -2,7 +2,7 @@ package org.example.homeservice.service.user.customer;
 
 
 
-import org.example.homeservice.domain.Customer;
+import org.example.homeservice.domain.user.Customer;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.offer.OfferResponse;

@@ -1,11 +1,9 @@
 package org.example.homeservice.repository.user;
 
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
-import org.example.homeservice.domain.Customer;
-import org.example.homeservice.domain.Order;
+import org.example.homeservice.domain.user.Customer;
+import org.example.homeservice.domain.service.Order;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
@@ -40,8 +38,8 @@ public class UserSpecification {
 //            Join<Customer, Order> orders = root.join("orders", JoinType.LEFT);
 //
 //            // Group by customer ID and count orders
-//            query.groupBy(root.get("id"));
-//            query.having(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.count(orders.get("id")), orderCount.longValue()));
+//            query.groupBy(root.get("xxxxxx"));
+//            query.having(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.count(orders.get("xxxxxx")), orderCount.longValue()));
 //
 //            return query.getRestriction();
 //        };

@@ -1,7 +1,6 @@
 package org.example.homeservice.dto.specialist;
 
-import org.example.homeservice.dto.service.SpecialistRequest;
-import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.user.Specialist;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -17,7 +16,7 @@ public interface SpecialistMapper {
 
     Specialist toEntity(SpecialistResponse request);
 
-    //@Mapping(target = "id", source = "entity.id")
+    //@Mapping(target = "xxxxxx", source = "entity.xxxxxx")
     @Mapping(target = "walletId",source = "wallet.id")
     SpecialistResponse toDto(Specialist entity);
   SpecialistRequest toDtoReq(Specialist entity);

@@ -1,10 +1,10 @@
-package org.example.homeservice.service;
+package org.example.homeservice.service.wallet;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.Wallet;
-import org.example.homeservice.repository.WalletRepo;
+import org.example.homeservice.domain.user.Wallet;
+import org.example.homeservice.repository.wallet.WalletRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

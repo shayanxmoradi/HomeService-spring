@@ -1,9 +1,8 @@
-package org.example.homeservice.domain;
+package org.example.homeservice.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
+import org.example.homeservice.domain.enums.UserRole;
 
 @Table(name = Customer.TABLE_NAME)
 @Data
@@ -15,13 +14,12 @@ public class Customer extends BaseUser {
     public static final String TABLE_NAME = "customer";
 
 
-//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//    private List<Order> orders;
-//
-//    public void addOrder(Order order) {
-//        orders.add(order);
-//    }
-
+// making sure no one can change the role
+@PrePersist
+@PreUpdate
+public void enforceCustomerRole() {
+    this.userRole = UserRole.CUSTOMER;
+}
 
 }
 

@@ -1,4 +1,4 @@
-package org.example.homeservice.dto.service;
+package org.example.homeservice.dto.specialist;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

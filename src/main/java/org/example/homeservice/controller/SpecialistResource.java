@@ -1,12 +1,10 @@
 package org.example.homeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.homeservice.domain.Specialist;
+import org.example.homeservice.domain.user.Specialist;
 import org.example.homeservice.domain.enums.SpecialistStatus;
-import org.example.homeservice.dto.customer.CustomerRequsetDto;
-import org.example.homeservice.dto.customer.CustomerResponseDto;
 import org.example.homeservice.dto.order.OrderResponse;
-import org.example.homeservice.dto.service.SpecialistRequest;
+import org.example.homeservice.dto.specialist.SpecialistRequest;
 import org.example.homeservice.dto.specialist.SpecialistResponse;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordRequst;
 import org.example.homeservice.dto.updatepassword.UpdatePasswordResponse;
