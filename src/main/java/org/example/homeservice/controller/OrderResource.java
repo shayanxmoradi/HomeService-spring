@@ -60,7 +60,7 @@ public class OrderResource {
 
     @PostMapping
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    @CheckActivation
+    //@CheckActivation
 
     public ResponseEntity<OrderResponse> createOrder(@RequestBody @Validated OrderRequest order, HttpServletRequest request) {
         System.out.println(jwtUtil.getCurrentUserEmail(request));
@@ -74,8 +74,7 @@ public class OrderResource {
     @PutMapping("/{id}/{offer}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @CheckActivation
-
-    public ResponseEntity<OrderResponse> choseOrder(@PathVariable Long id, @PathVariable Long offer, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<OrderResponse> choseOffer(@PathVariable Long id, @PathVariable Long offer, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println(userDetails.getUsername());
         Optional<OrderResponse> savingResponse = orderService.choseOrder(id, offer);
         return savingResponse

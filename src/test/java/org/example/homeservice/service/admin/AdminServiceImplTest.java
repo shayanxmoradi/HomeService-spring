@@ -34,7 +34,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class AdminServiceImplTest {
 
-    // Mocks for all dependencies of AdminServiceImpl
     @Mock
     private SpecialistRepo specialistRepo;
     @Mock
@@ -44,27 +43,24 @@ class AdminServiceImplTest {
     @Mock
     private SpeciallistService speciallistService;
 
-    // The instance of the class we are testing, with mocks injected
     @InjectMocks
     private AdminServiceImpl adminService;
 
-    // Test data objects
     private Specialist specialist;
     private SpecialistRequest specialistRequest;
     private SpecialistResponse specialistResponse;
 
     @BeforeEach
     void setUp() {
-        // Correctly instantiate DTOs based on their record definitions
         specialistRequest = new SpecialistRequest(
-                null, // xxxxxx
-                "John", // firstName
-                "Doe", // lastName
-                "john.doe@example.com", // email
-                "password123", // password
-                SpecialistStatus.NEW, // specialistStatus
-                0.0, // rate
-                null // personalImage
+                null,
+                "John",
+                "Doe",
+                "john.doe@example.com",
+                "password123",
+                SpecialistStatus.NEW,
+                0.0,
+                null
         );
 
         specialist = new Specialist();
@@ -73,16 +69,16 @@ class AdminServiceImplTest {
         specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
 
         specialistResponse = new SpecialistResponse(
-                1L, // xxxxxx
-                "John", // firstName
-                "Doe", // lastName
-                "john.doe@example.com", // email
-                SpecialistStatus.NEW, // specialistStatus
-                150.0, // rate
-                0, // numberOfRate
-                null, // personalImage
-                201L, // walletId
-                true // isActive
+                1L,
+                "John",
+                "Doe",
+                "john.doe@example.com",
+                SpecialistStatus.NEW,
+                150.0,
+                0,
+                null,
+                201L,
+                true
         );
     }
 

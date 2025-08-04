@@ -6,20 +6,20 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import org.example.homeservice.domain.BaseEntity;
 
-@Entity
-@Table(name = "order_status")
-@Data
-public class OrderStatus extends BaseEntity<Long> {
-
-    @Column(nullable = false, unique = true)
-    private String statusName;
-
-
-    public String getStatusName() {
-        return statusName;
-    }
-
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
-    }
-}
+//@Entity
+//@Table(name = "order_status")
+//@Data
+//public class OrderStatus extends BaseEntity<Long> {
+//
+//    @Column(nullable = false, unique = true)
+//    private String statusName;
+//
+//
+//    public String getStatusName() {
+//        return statusName;
+//    }
+//
+//    public void setStatusName(String statusName) {
+//        this.statusName = statusName;
+//    }
+//}

@@ -80,14 +80,14 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         }
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
-            throw new ValidationException("no servicee with this xxxxxx : " + orderRequest.serviceId() + " found .");
+            throw new ValidationException("no servicee with this  : " + orderRequest.serviceId() + " found .");
         } else if (foundService.get().category() ) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
         }
         Optional<AddressResponse> foundedAddress = addressService.findById(orderRequest.addressId());
         if (foundedAddress.isEmpty()) {
-            throw new ValidationException("no address with this xxxxxx found");
+            throw new ValidationException("no address with this  found");
         }
         if (foundService.get().basePrice() > orderRequest.offeredPrice())
             throw new ValidationException("base price is greater than offered price");

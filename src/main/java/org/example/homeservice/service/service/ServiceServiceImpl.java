@@ -114,7 +114,7 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
                     .map(serviceMapper::toDto)
                     .collect(Collectors.toList());
         } else {
-            throw new EntityNotFoundException("Parent service not found with xxxxxx: " + parentId);
+            throw new EntityNotFoundException("Parent service not found with : " + parentId);
         }
     }
 

@@ -118,7 +118,7 @@ public class AdminServiceImpl  implements AdminService {
     @Override
     public void deleteSpecialistFromSubService(Long specialistId, Long subServiceId) {
         Specialist specialist = specialistRepo.findById(specialistId)
-                .orElseThrow(() -> new ValidationException("Specialist with xxxxxx: "+specialistId+" found"));
+                .orElseThrow(() -> new ValidationException("Specialist with : "+specialistId+" found"));
 
 //        if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
 //            throw new ValidationException("Specialist is not approved");
