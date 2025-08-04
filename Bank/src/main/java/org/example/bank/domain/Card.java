@@ -33,14 +33,29 @@ public class Card {
     @Length(min = 3, max = 3, message = "should be 3Ò digits")
     private String cvv;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Card card)) return false;
-        return Objects.equals(cardNumber, card.cardNumber) && Objects.equals(expirationDate.getYear(), card.expirationDate.getYear())
-               && Objects.equals(expirationDate.getMonth(), card.expirationDate.getMonth())
-               && Objects.equals(cvv, card.cvv);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Card card)) return false;
+//        return Objects.equals(cardNumber, card.cardNumber) && Objects.equals(expirationDate.getYear(), card.expirationDate.getYear())
+//               && Objects.equals(expirationDate.getMonth(), card.expirationDate.getMonth())
+//               && Objects.equals(cvv, card.cvv);
+//    }
+@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Card card)) return false;
+    if (cardNumber == null || card.cardNumber == null) return false;
+    if (cvv == null || card.cvv == null) return false;
+    if (expirationDate == null || card.expirationDate == null) return false;
+
+    return cardNumber.equals(card.cardNumber)
+           && expirationDate.getYear() == card.expirationDate.getYear()
+           && expirationDate.getMonth() == card.expirationDate.getMonth()
+           && expirationDate.getDayOfMonth() == card.expirationDate.getDayOfMonth()
+           && cvv.equals(card.cvv)
+            && cardHolderName.equals(card.cardHolderName);
+}
 
     @Override
     public int hashCode() {

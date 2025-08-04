@@ -28,8 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Controller("/customer")
+@Controller()
 @RequiredArgsConstructor()
+@RequestMapping("customer")
 public class PaymentResource {
 
 
@@ -74,14 +75,18 @@ public class PaymentResource {
         OrderResponse orderResponse = orderService.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
         Long customerId = orderResponse.customerId();
         CustomerResponseDto customerResponseDto = customerService.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        System.out.printf("customer"+customerResponseDto);
         Long walletId = customerResponseDto.walletId();
+        System.out.printf("wallet id in controller"+walletId);
         boolean hasEnoughCreditCards = false;
         try {
 
             walletService.removeMoneyFromWallet(walletId, orderResponse.offeredPrice());
             hasEnoughCreditCards = true;
         } catch (Exception e) {
-
+            e.printStackTrace();
+            System.out.println("Exception message: " + e.getMessage());
+            System.out.println("Exception class: " + e.getClass().getName());
         }
 
         if (hasEnoughCreditCards) {
