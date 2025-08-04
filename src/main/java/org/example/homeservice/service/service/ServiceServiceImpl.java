@@ -64,26 +64,45 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
         }
     }
 
-    /**
-     * watch out first all orrders wich have chosen service in it be deleted.
-     * @param aLong
-     * @return
-     */
+//    /**
+//     * watch out first all orrders wich have chosen service in it be deleted.
+//     * @param aLong
+//     * @return
+//     */
+//    @Override
+//    @Transactional
+//
+//    public boolean deleteById(Long aLong) {
+//        baseRepository.findById(aLong).orElseThrow( ()->new  ValidationException("no service with this xxxxxx : " + aLong+" found"));
+//
+//
+//
+//
+//     //   orderService.deleteByServiceId(aLong);
+//
+//
+//orderService.updateOrdersWithNullService(aLong);
+//      //   baseRepository.deleteById(aLong);
+//         return true;
+//    }
+
+
     @Override
     @Transactional
-
-    public boolean deleteById(Long aLong) {
-        baseRepository.findById(aLong).orElseThrow( ()->new  ValidationException("no service with this xxxxxx : " + aLong+" found"));
-
-
+    public boolean deleteById(Long id) {
+        Service parentService = baseRepository.findById(id)
+                .orElseThrow(() -> new ValidationException("No service with ID: " + id + " found"));
 
 
-     //   orderService.deleteByServiceId(aLong);
+        for (Service sub : parentService.getSubServices()) {
+            sub.setParent(null);
+        }
 
+        orderService.updateOrdersWithNullService(id);
 
-orderService.updateOrdersWithNullService(aLong);
-      //   baseRepository.deleteById(aLong);
-         return true;
+        baseRepository.delete(parentService);
+
+        return true;
     }
 
     @Override
