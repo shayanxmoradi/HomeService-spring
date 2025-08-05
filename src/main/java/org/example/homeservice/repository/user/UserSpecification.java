@@ -28,23 +28,6 @@ public class UserSpecification {
     }
 
 
-//    public static Specification<Customer> filterByNumberOfOrders(Integer orderCount) {
-//        return (root, query, criteriaBuilder) -> {
-//            if (orderCount == null) {
-//                return null;
-//            }
-//
-//            // Join with Order table
-//            Join<Customer, Order> orders = root.join("orders", JoinType.LEFT);
-//
-//            // Group by customer ID and count orders
-//            query.groupBy(root.get("xxxxxx"));
-//            query.having(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.count(orders.get("xxxxxx")), orderCount.longValue()));
-//
-//            return query.getRestriction();
-//        };
-//    }
-
     public static Specification<Customer> filterByNumberOfOrders(Long count) {
         return (root, query, criteriaBuilder) -> {
             if (count == null) {

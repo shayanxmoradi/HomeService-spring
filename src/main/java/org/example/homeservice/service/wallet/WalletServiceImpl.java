@@ -30,7 +30,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Optional<Wallet> removeMoneyFromWallet(Long walletId, Double money) {
-        System.out.println("walletID"+walletId);
+        System.out.println("walletID" + walletId);
         Wallet byWalletId = findById(walletId);
         double newAmount = byWalletId.getCreditAmount() - money;
         System.out.println("newAmount: " + newAmount);

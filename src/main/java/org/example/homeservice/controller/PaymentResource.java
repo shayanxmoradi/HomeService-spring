@@ -30,7 +30,7 @@ import java.util.Optional;
 
 @Controller()
 @RequiredArgsConstructor()
-@RequestMapping("customer")
+@RequestMapping()
 public class PaymentResource {
 
 
@@ -75,9 +75,9 @@ public class PaymentResource {
         OrderResponse orderResponse = orderService.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
         Long customerId = orderResponse.customerId();
         CustomerResponseDto customerResponseDto = customerService.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
-        System.out.printf("customer"+customerResponseDto);
+        System.out.printf("customer" + customerResponseDto);
         Long walletId = customerResponseDto.walletId();
-        System.out.printf("wallet id in controller"+walletId);
+        System.out.printf("wallet id in controller" + walletId);
         boolean hasEnoughCreditCards = false;
         try {
 
@@ -131,8 +131,8 @@ public class PaymentResource {
         }
 
 
-        Card cardRequest = new Card(cardNumber, LocalDate.of(Integer.parseInt("20" + expiryDate.substring(3, 5)), Integer.parseInt(expiryDate.substring(0, 2)), 20), cvv); // Create a DTO for the request
-
+        Card cardRequest = new Card(cardNumber, LocalDate.of(Integer.parseInt("2025"), Integer.parseInt(expiryDate.substring(3, 5)), Integer.parseInt(expiryDate.substring(0, 2))), cvv); // Create a DTO for the request
+        System.out.println("cardRequest: " + cardRequest);
         // Call Bank API to validate the card
         String bankApiUrl = "http://localhost:8085/bank/valid";
         ResponseEntity<Boolean> response = restTemplate.postForEntity(bankApiUrl, cardRequest, Boolean.class);

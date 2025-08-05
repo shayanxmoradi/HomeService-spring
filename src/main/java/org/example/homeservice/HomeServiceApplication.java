@@ -53,10 +53,11 @@ public class HomeServiceApplication {
 
         };
     }
+
     @Bean
     CommandLineRunner delteService(ServiceService serviceService) {
         return args -> {
-         //   serviceService.deleteById(2002l);
+            //   serviceService.deleteById(2002l);
         };
     }
 
@@ -98,7 +99,7 @@ public class HomeServiceApplication {
 //specialist.setSpecialistStatus();//todo defalut status
 //            specialist.setPersonalImage(speciallistService.processImage("/Users/shayan/Desktop/x.jpg"));
 
-          //  speciallistService.save(specialistMapper.toDtoReq(specialist));
+            //  speciallistService.save(specialistMapper.toDtoReq(specialist));
 
             //speciallistService.retriveImageOfSpecialist(802l,"/Users/shayan/Desktop/savedx.jpg");
         };
@@ -115,7 +116,7 @@ public class HomeServiceApplication {
     @Bean
     CommandLineRunner adddingSpecialistToService(AdminService adminService, SpecialistMapper specialistMapper) {
         return args -> {
-         //  adminService.addingSpecialistToSubService(1102L,1352l);
+            //  adminService.addingSpecialistToSubService(1102L,1352l);
 //todo FIIIIIIIIIIXXXXXX
         };
     }
@@ -149,7 +150,7 @@ public class HomeServiceApplication {
                     false,
                     null
             );
-    //     serviceService.save(serviceRequest);
+            //     serviceService.save(serviceRequest);
         };
 
 
@@ -169,7 +170,7 @@ public class HomeServiceApplication {
                     false,
                     null
             );
-         //   adminService.createNewService(serviceRequest);
+            //   adminService.createNewService(serviceRequest);
         };
     }
 
@@ -189,7 +190,7 @@ public class HomeServiceApplication {
             List<ServiceResponse> serviceResponses = adminService.findAllServices().get();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(serviceResponses);
-          //  System.out.println(json);
+            //  System.out.println(json);
         };
     }
 
@@ -222,20 +223,22 @@ public class HomeServiceApplication {
                     LocalDateTime.now().plusDays(2),
                     33333.21
             );
-          //  orderService.save(order);
+            //  orderService.save(order);
         };
     }
+
     @Bean
     CommandLineRunner seeActiveOrders(OrderService orderService, OrderMapper orderMapper) {
         return args -> {
             System.out.println(orderService.findWaitingForOfferAndSpecialist());
         };
     }
+
     @Bean
     CommandLineRunner getrelatedOrderToSpecialist(OrderService orderService, OrderMapper orderMapper) {
         return args -> {
-         //   System.out.println("here");
-          //  orderService.findWaitingOrdersBySpecialist(1002l).forEach(a -> System.out.println(a.serviceId()));
+            //   System.out.println("here");
+            //  orderService.findWaitingOrdersBySpecialist(1002l).forEach(a -> System.out.println(a.serviceId()));
         };
     }
 
@@ -243,14 +246,14 @@ public class HomeServiceApplication {
     CommandLineRunner registerOffer(OfferService offerService, OfferMapper offerMapper) {
         return args -> {
             //todo change
-            OfferRequest offer= new OfferRequest(LocalDateTime.now().plusDays(1),2000.2,
-                    4402l, java.time.Duration.ofHours(2),1102l);
+            OfferRequest offer = new OfferRequest(LocalDateTime.now().plusDays(1), 2000.2,
+                    4402l, java.time.Duration.ofHours(2), 1102l);
 
 //                    LocalDate.now().plusDays(2), LocalTime.now().plusHours(2),
 //                    4444.2,2552l ,
 //                    1102l,
 //                    5,1, LocalDate.now().plusDays(2),22,1002l);
-           // offerService.save(offer);
+            // offerService.save(offer);
         };
     }
 
@@ -261,12 +264,15 @@ public class HomeServiceApplication {
 //            System.out.println(offerService.findOfferByOrderId(2552l));
         };
     }
+
     @Bean
     CommandLineRunner choseOffer(OrderService orderService, OfferMapper offerMapper) {
         return args -> {
 //      orderService.choseOrder(4452l,1902l);
         };
-    }    @Bean
+    }
+
+    @Bean
     CommandLineRunner startOrder(OrderService orderService, OfferMapper offerMapper) {
         return args -> {
 //            Optional<OrderResponse> savingResponse = orderService.startOrder(4452l);
@@ -278,6 +284,7 @@ public class HomeServiceApplication {
             Optional<OrderResponse> savingResponse = orderService.setOnlinePaied(4452l);
         };
     }
+
     @Bean
     CommandLineRunner spefilter(SpeciallistService speciallistService, OfferMapper offerMapper) {
         return args -> {

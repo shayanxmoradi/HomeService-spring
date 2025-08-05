@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 
 public interface SpecialistRateResponeMapper {
-    @Mapping(source = "order.id",target = "orderId")
+    @Mapping(source = "order.id", target = "orderId")
     SpecialistRateRespone dtoToSpecialistRateRespone(Review review);
 
     List<SpecialistRateRespone> reviewToDto(List<Review> review);

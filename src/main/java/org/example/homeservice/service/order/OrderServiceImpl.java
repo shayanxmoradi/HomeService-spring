@@ -71,7 +71,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Override
     public Optional<OrderResponse> save(OrderRequest orderRequest) {
-        boolean isDuplicateOrder= isDuplicatedOrder(orderRequest);
+        boolean isDuplicateOrder = isDuplicatedOrder(orderRequest);
         if (isDuplicateOrder) {
             throw new ValidationException("this order already exists");
         }
@@ -81,7 +81,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
         Optional<ServiceResponse> foundService = serviceService.findById(orderRequest.serviceId());
         if (foundService.isEmpty()) {
             throw new ValidationException("no servicee with this  : " + orderRequest.serviceId() + " found .");
-        } else if (foundService.get().category() ) {
+        } else if (foundService.get().category()) {
             throw new ValidationException("chosenService is not really service its just as category for other services");
 
         }
@@ -126,7 +126,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Override
     public List<OrderResponse> findByCustomerIdAndStatus(Long customerId, OrderStatus orderStatus) {
-        return orderMapper.toListOfResponse(baseRepository.findByCustomerIdAndStatus(customerId,orderStatus));
+        return orderMapper.toListOfResponse(baseRepository.findByCustomerIdAndStatus(customerId, orderStatus));
     }
 
     @Override
@@ -136,7 +136,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Override
     public List<OrderResponse> findBySpecialistIdAndStatus(Long specialistId, OrderStatus orderStatus) {
-        return orderMapper.toListOfResponse(baseRepository.findByChosenSpecialistIdAndStatus(specialistId,orderStatus));
+        return orderMapper.toListOfResponse(baseRepository.findByChosenSpecialistIdAndStatus(specialistId, orderStatus));
     }
 
     @Transactional
@@ -239,7 +239,7 @@ public class OrderServiceImpl extends BaseEntityServiceImpl<Order, Long, OrderRe
 
     @Transactional
     @Override
-    public Optional<OrderResponse> onlinePayment(Long orderId,OrderStatus orderStatus) {
+    public Optional<OrderResponse> onlinePayment(Long orderId, OrderStatus orderStatus) {
         try {
             OrderStatus status = OrderStatus.DONE;
             Order foundedOrder = checkOrderStatus(orderId, status);

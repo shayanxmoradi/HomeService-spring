@@ -22,7 +22,7 @@ public interface SpeciallistService extends BaseUserService<Specialist, Speciali
 
     Optional<SpecialistResponse> acceptSpecialist(Long specialistId);
 
-    public List<Specialist> filterSpecialists(String name, String lastName, String email, String serviceName, String sortBy, boolean ascending, LocalDateTime startDate, LocalDateTime endDate,Long numberOfOrders,Long numberOfOffers);
+    public List<Specialist> filterSpecialists(String name, String lastName, String email, String serviceName, String sortBy, boolean ascending, LocalDateTime startDate, LocalDateTime endDate, Long numberOfOrders, Long numberOfOffers);
 
     public Integer submitRating(Long specialsitId, Integer rate);
 
@@ -33,6 +33,7 @@ public interface SpeciallistService extends BaseUserService<Specialist, Speciali
     List<SpecialistRateRespone> showReviews(Long specialistId);
 
     Optional<SpecialistResponse> activateSpecialist(Long userId);
+
     Optional<SpecialistResponse> findByEmail(String email);
 
 }

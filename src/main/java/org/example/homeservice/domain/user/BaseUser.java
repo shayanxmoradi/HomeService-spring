@@ -38,9 +38,6 @@ public class BaseUser extends BaseEntity<Long> {
     @Column
     private LocalDateTime registrationDate= LocalDateTime.now();
 
-//
-//    @Column
-//    private Time registrationTime=Time.valueOf(LocalTime.now());
 
   //  @Size(min = 8, max = 8, message = "The length must be exactly 8 characters.")
  //   @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$", message = "Password must contain a combination of letters and numbers")

@@ -18,7 +18,7 @@ public class EmailService {
 
     public void sendActivationEmail(String to, String token) {
         String subject = "account acctivation link for Homeservice  +\n";
-        String activationUrl = "http://localhost:"+port+"/activate?token=" + token;
+        String activationUrl = "http://localhost:" + port + "/activate?token=" + token;
         String message = "open this link to Activate your account: +\n" + activationUrl;
 
         SimpleMailMessage email = new SimpleMailMessage();

@@ -45,7 +45,7 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SpeciallistServiceImpl(@Qualifier("specialistRepo")SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService,@Lazy ReviewService reviewService) {
+    public SpeciallistServiceImpl(@Qualifier("specialistRepo") SpecialistRepo baseRepo, ServiceRepo serviceRepo, SpecialistMapper specialistMapper, OrderService orderService, @Lazy ReviewService reviewService) {
         super(baseRepo);
         this.serviceRepo = serviceRepo;
         this.specialistMapper = specialistMapper;
@@ -61,7 +61,7 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
                 .orElseThrow(() -> new ValidationException("Specialist not found"));
 
         specialist.setSpecialistStatus(SpecialistStatus.APPROVED);
-       return Optional.ofNullable(specialistMapper.toDto(baseRepository.save(specialist)));
+        return Optional.ofNullable(specialistMapper.toDto(baseRepository.save(specialist)));
     }
 
     @Override
@@ -70,10 +70,10 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
                 .and(SpecialistSpecification.filterByLastName(lastName))
                 .and(SpecialistSpecification.filterByEmail(email))
                 .and(SpecialistSpecification.filterByServiceName(serviceName))
-                .and(SpecialistSpecification.betweenDates(startDate,endDate))
+                .and(SpecialistSpecification.betweenDates(startDate, endDate))
                 .and(SpecialistSpecification.filterByNumberOfOrders(numberOfOrders))
                 .and(SpecialistSpecification.filterByNumberOfNumber(numberOfOffers));
-                ;
+        ;
 
         if (ascending) {
 
@@ -82,15 +82,16 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
             return baseRepository.findAll(spec, Sort.by(sortBy).descending());
         }
     }
-@Transactional
+
+    @Transactional
     @Override
     public Integer submitRating(Long specialsitId, Integer rate) {
-        if (rate>5) {
+        if (rate > 5) {
             throw new ValidationException("Rate must be under 5");
         }
-    Double oldRate = findById(specialsitId).get().rate();
+        Double oldRate = findById(specialsitId).get().rate();
 
-    return 0;
+        return 0;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
 
     @Override
     public double showRating(Long specialistId) {
-        return findById(specialistId).orElseThrow(()-> new ValidationException("no specilist with this xxxxxx.")).rate();
+        return findById(specialistId).orElseThrow(() -> new ValidationException("no specilist with this xxxxxx.")).rate();
     }
 
     @Override
@@ -112,7 +113,7 @@ public class SpeciallistServiceImpl extends BaseUserServiceImpl<Specialist, Spec
     @Override
     public Optional<SpecialistResponse> activateSpecialist(Long userId) {
         Specialist specialist = findId(userId).get();
-specialist.setIsActive(true);
+        specialist.setIsActive(true);
         return Optional.ofNullable(specialistMapper.toDto(specialist));
     }
 
@@ -122,7 +123,7 @@ specialist.setIsActive(true);
                 .map(specialistMapper::toDto);
     }
 
-    Optional<Specialist> findId(long id){
+    Optional<Specialist> findId(long id) {
         return Optional.ofNullable(baseRepository.findById(id).orElseThrow(() -> new ValidationException("Customer not found")));
     }
 
@@ -133,13 +134,12 @@ specialist.setIsActive(true);
     }
 
 
-
     @Override
     public Optional<SpecialistResponse> save(SpecialistRequest request) {
         if (baseRepository.findByEmail(request.email()).isPresent()) {
             throw new ValidationException("specialist with this email already exists");
         }
-       // if (request.personalImage()==null) throw new ValidationException("Personal image is required");
+        // if (request.personalImage()==null) throw new ValidationException("Personal image is required");
 
         Specialist specialist = SpecialistMapper.INSTANCE.toEntity(request);
         specialist.setPassword(passwordEncoder.encode(specialist.getPassword()));
@@ -147,7 +147,6 @@ specialist.setIsActive(true);
         Specialist savedSpelist = baseRepository.save(specialist);
         return Optional.of(SpecialistMapper.INSTANCE.toDto(savedSpelist));
     }
-
 
 
     @Override
@@ -202,8 +201,9 @@ specialist.setIsActive(true);
 
         return null;
     }
+
     @Override
-    public   void retriveImageOfSpecialist(Long specialistId, String savingPath) {
+    public void retriveImageOfSpecialist(Long specialistId, String savingPath) {
         try {
 
             byte[] imageData = findById(specialistId).get().personalImage();
@@ -232,21 +232,9 @@ specialist.setIsActive(true);
 
     @Override
     public List<OrderResponse> getAvilableOrders(Long specialistId) {
-        return orderService.findWaitingOrdersBySpecialist(specialistId  );
+        return orderService.findWaitingOrdersBySpecialist(specialistId);
 
 
     }
-//    @Override
-//    public void updatePassword(UpdatePasswordRequst updatePasswordRequst) {
-//
-//        Specialist specialist = baseRepository.findByEmail(updatePasswordRequst.email())
-//                .orElseThrow(() -> new ValidationException("user with this email not found"));
-//
-//        if (!specialist.getPassword().equals(updatePasswordRequst.oldPassword())) {
-//            throw new ValidationException("Incorrect password");
-//        }
-//
-//        specialist.setPassword(updatePasswordRequst.newPassword());
-//        baseRepository.save(specialist);
-//    }
+
 }

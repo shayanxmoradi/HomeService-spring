@@ -13,11 +13,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface OrderRepo extends JpaSpecificationExecutor<Order> , BaseEnitityRepo<Order, Long> {
+public interface OrderRepo extends JpaSpecificationExecutor<Order>, BaseEnitityRepo<Order, Long> {
     List<Order> findByCustomerId(Long customerId);
-    List<Order> findByCustomerIdAndStatus(Long customerId,OrderStatus orderStatus);
+
+    List<Order> findByCustomerIdAndStatus(Long customerId, OrderStatus orderStatus);
+
     List<Order> findByChosenSpecialistId(Long specialistId);
-    List<Order> findByChosenSpecialistIdAndStatus(Long specialistId,OrderStatus orderStatus);
+
+    List<Order> findByChosenSpecialistIdAndStatus(Long specialistId, OrderStatus orderStatus);
 
     List<Order> findByStatus(OrderStatus orderStatus);
 
@@ -43,5 +46,6 @@ public interface OrderRepo extends JpaSpecificationExecutor<Order> , BaseEnitity
 
     //    Order findOrderByCustomerIdAndStatusAAndChoosenService(Long customerId, OrderStatus orderStatus, Service chosenService);
     Optional<Order> findOrderByCustomerIdAndChoosenServiceIdAndServiceTime(Long customerId, Long chosenService, LocalDateTime serviceTime);
-List<Order> findOrderByAddressId(Long addressId);
+
+    List<Order> findOrderByAddressId(Long addressId);
 }

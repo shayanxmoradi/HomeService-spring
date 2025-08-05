@@ -1,7 +1,6 @@
 package org.example.homeservice.service.user.customer;
 
 
-
 import org.example.homeservice.domain.user.Customer;
 import org.example.homeservice.dto.customer.CustomerRequsetDto;
 import org.example.homeservice.dto.customer.CustomerResponseDto;
@@ -22,20 +21,26 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
     List<OrderResponse> getCustomerOrders(CustomerRequsetDto customerRequsetDto);
 
     Optional<CustomerResponseDto> getCustomerByEmail(String email);
+
     Optional<CustomerResponseDto> findByEmailAndPass(String username, String password);
+
     Optional<CustomerResponseDto> findByEmail(String email);
 
-  //  public void updatePassword(UpdatePasswordRequst updatePasswordRequst);
+    //  public void updatePassword(UpdatePasswordRequst updatePasswordRequst);
 
 
     //services
     Optional<List<ServiceResponse>> findAllServices();
+
     List<ServiceResponse> findAllByParentId(Long parentId);
+
     List<ServiceResponse> findRealServices();
+
     List<ServiceResponse> findFirstLayerServices();
 
     //offer
     List<OfferResponse> findOfferByOrderId(Long orderId);
+
     List<OfferResponse> findByOrderIdOOrderBySuggestedPrice(Long orderId);
 
     //order
@@ -45,7 +50,9 @@ public interface CustomerService extends BaseUserService<Customer, CustomerRequs
 
     Optional<OrderResponse> endOrder(Long orderId);
 
-     List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email, LocalDateTime startDate, LocalDateTime endDate,Long numberOfOrders);
+    List<CustomerResponseDto> filterCustomers(String firstName, String lastName, String email, LocalDateTime startDate, LocalDateTime endDate, Long numberOfOrders);
+
     Optional<CustomerResponseDto> addCustomer(CustomerRequsetDto customerRequsetDto);
+
     Optional<CustomerResponseDto> activateCustomer(Long customerId);
 }

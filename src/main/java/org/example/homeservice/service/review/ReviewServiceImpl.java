@@ -55,8 +55,8 @@ public class ReviewServiceImpl implements ReviewService {
         System.out.println("xx" + specialistId);
 //        SpecialistResponse specialistResponse = speciallistService.findById(specialistId).orElseThrow(ValidationException::new);
         int finalRate = review.rating();
-        if (delayedHours<0){
-            finalRate=review.rating() + delayedHours;
+        if (delayedHours < 0) {
+            finalRate = review.rating() + delayedHours;
         }
         updateSpecialistRate(specialistId, finalRate);
     }

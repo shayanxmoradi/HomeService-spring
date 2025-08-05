@@ -19,7 +19,7 @@ import java.util.Optional;
 
 public class AddressServiceImpl extends BaseEntityServiceImpl<Address, Long, AddressRepo, AddressReqest, AddressResponse> implements AddressService {
     private final AddressMapper addressMapper;
-    private  CustomerService customerService;
+    private CustomerService customerService;
     private final OrderService orderService;
 
     @Autowired
@@ -28,36 +28,18 @@ public class AddressServiceImpl extends BaseEntityServiceImpl<Address, Long, Add
         this.addressMapper = addressMapper;
         this.orderService = orderService;
     }
-@Autowired
+
+    @Autowired
     public void setCustomerService(@Lazy CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @Override
     public Optional<AddressResponse> save(AddressReqest dto) {
-        customerService.findById(dto.userId()).orElseThrow(() -> new ValidationException("Customer with "+dto.userId()+" not found"));
+        customerService.findById(dto.userId()).orElseThrow(() -> new ValidationException("Customer with " + dto.userId() + " not found"));
 
         return super.save(dto);
     }
-
-//    @Override
-//    public Optional<AddressResponse> update(AddressReqest dto) {
-//        return super.update(dto);
-//    }
-    //    @Transactional
-//    @Override
-//    public boolean deleteById(Long aLong) {
-//        System.out.println("here");
-//            // First, find all orders referencing this address
-//            List<Order> orders = orderService.findByAdrressId(aLong);
-//
-//            for (Order order : orders) {
-//                order.setAddress(null);
-//            }
-//
-//
-//            return super.deleteById(aLong);
-//        }
 
 
     @Override

@@ -16,13 +16,13 @@ public interface OrderMapper {
     @Mapping(target = "address.id", source = "addressId")
     @Mapping(target = "customer.id", source = "customerId")
     @Mapping(target = "address", source = "addressId")
-
     Order toEntity(OrderRequest orderRequest);
+
     @Mapping(target = "choosenService", source = "serviceId")
     @Mapping(target = "address.id", source = "addressId")
     @Mapping(target = "customer.id", source = "customerId")
     @Mapping(target = "address", source = "addressId")
-    @Mapping(target = "chosenSpecialist.id",source = "chosenSpecialistId")
+    @Mapping(target = "chosenSpecialist.id", source = "chosenSpecialistId")
     Order toEntity(OrderResponse orderRequest);
 
     OrderRequest toDto(Order order);
@@ -39,8 +39,7 @@ public interface OrderMapper {
     @Mapping(target = "customerId", source = "customer.id")
     @Mapping(target = "serviceId", source = "choosenService.id")
     @Mapping(target = "addressId", source = "address.id")
-    @Mapping(source = "chosenSpecialist.id",target = "chosenSpecialistId")
-
+    @Mapping(source = "chosenSpecialist.id", target = "chosenSpecialistId")
     OrderResponse toResponse(Order order);
 
     List<OrderResponse> toListOfResponse(List<Order> order);

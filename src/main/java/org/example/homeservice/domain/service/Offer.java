@@ -28,7 +28,7 @@ public class Offer extends BaseEntity<Long> {
 
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn( nullable = true)
+    @JoinColumn(nullable = true)
     Order order;
 
     @ManyToOne(cascade = {CascadeType.REMOVE})

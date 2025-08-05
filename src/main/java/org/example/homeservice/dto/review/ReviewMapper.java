@@ -7,11 +7,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 
 public interface ReviewMapper {
-    @Mapping(source = "order.id",target = "orderId")
+    @Mapping(source = "order.id", target = "orderId")
     ReviewRequest toReviewRequest(Review review);
 
-    @Mapping(source = "orderId",target = "order.id")
-
+    @Mapping(source = "orderId", target = "order.id")
     Review toReview(ReviewRequest reviewRequest);
 
 

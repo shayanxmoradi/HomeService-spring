@@ -32,8 +32,6 @@ public class Service extends BaseEntity<Long> {
     @JoinColumn(name = PARENT_SERVICE_ID)
     private Service parentService;
 
-//    @OneToMany(mappedBy = "parentService",  cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true,fetch = FetchType.EAGER)
-//    private List<Service> subServices= new ArrayList<>();
 
     @OneToMany(
             mappedBy = "parentService",
@@ -43,7 +41,7 @@ public class Service extends BaseEntity<Long> {
     )
     private List<Service> subServices = new ArrayList<>();
 
-    @Column(name = SERVICE_NAME,unique = true)
+    @Column(name = SERVICE_NAME, unique = true)
     @NotBlank(message = "Name cannot be blank")
 
     private String name;
@@ -64,7 +62,6 @@ public class Service extends BaseEntity<Long> {
 
     @Column
     private Boolean category;
-
 
 
     public void addSubService(Service subService) {

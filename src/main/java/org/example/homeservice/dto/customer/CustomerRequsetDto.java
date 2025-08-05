@@ -19,15 +19,14 @@ public record CustomerRequsetDto(
         @Size(min = 8, max = 8, message = "The length must be exactly 8 characters.")
         @NotBlank(message = "password is required")
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).+$", message = "Password must contain a combination of letters and numbers")
-        String password)
-{
-        public static CustomerRequsetDto updatePassword(CustomerRequsetDto oldDto, String newPassword) {
-                return new CustomerRequsetDto(
+        String password) {
+    public static CustomerRequsetDto updatePassword(CustomerRequsetDto oldDto, String newPassword) {
+        return new CustomerRequsetDto(
 
-                        oldDto.firstName(),
-                        oldDto.lastName(),
-                        oldDto.email(),
-                        newPassword
-                );
-        }
+                oldDto.firstName(),
+                oldDto.lastName(),
+                oldDto.email(),
+                newPassword
+        );
+    }
 }

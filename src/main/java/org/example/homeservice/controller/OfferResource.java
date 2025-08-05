@@ -31,15 +31,17 @@ public class OfferResource {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                 });
     }
+
     @PreAuthorize("hasAuthority('SPECIALIST')")
 
     @PostMapping
     public ResponseEntity<OfferResponse> createOffer(@RequestBody @Validated OfferRequest offer) {
         Optional<OfferResponse> savingResponse = offerService.save(offer);
         return savingResponse
-                .map(off-> ResponseEntity.status(HttpStatus.CREATED).body(off))
+                .map(off -> ResponseEntity.status(HttpStatus.CREATED).body(off))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
+
     @GetMapping("/offers/{id}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @CheckActivation
@@ -53,7 +55,6 @@ public class OfferResource {
 
         return ResponseEntity.ok(offerResponses);
     }
-
 
 
 }

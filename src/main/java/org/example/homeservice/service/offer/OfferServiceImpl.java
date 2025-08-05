@@ -59,7 +59,7 @@ public class OfferServiceImpl extends BaseEntityServiceImpl<Offer, Long, OfferRe
 
         //checking for duplicated uncomment this
         List<Offer> bySpecialistIdAndOrderId = baseRepository.findBySpecialistIdAndOrderId(dto.specialistId(), orderId);
-        if (bySpecialistIdAndOrderId.size()>0) {
+        if (bySpecialistIdAndOrderId.size() > 0) {
             throw new ValidationException("speciallist with xxxxxx :" + dto.specialistId() + " already summited offer for order : " + orderId);
         }
 
