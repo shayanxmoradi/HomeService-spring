@@ -49,7 +49,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class OrderServiceImplTest {
 
-    //<editor-fold desc="Mocks & Service">
     @Mock
     private OrderRepo orderRepo;
     @Mock

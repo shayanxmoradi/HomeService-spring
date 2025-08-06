@@ -24,7 +24,6 @@ public class Order extends BaseEntity<Long> {
     public static final String TABLE_NAME = "orders";
 
     @PrimaryKeyJoinColumn
-//todo check dont fuck oders
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Service choosenService;
 

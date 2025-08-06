@@ -50,7 +50,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         body.put("error", "Validation Error");
         body.put("message", "One or more fields have validation errors");
 
-        // Collect field-specific error details
         List<FieldErrorDTO> fieldErrors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()

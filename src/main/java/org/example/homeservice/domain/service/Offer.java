@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Offer extends BaseEntity<Long> {
 
     @Column
-    LocalDateTime submittedDateTime = LocalDateTime.now();//todo carefull this changed
+    LocalDateTime submittedDateTime = LocalDateTime.now();
 
     @Column
     @Future

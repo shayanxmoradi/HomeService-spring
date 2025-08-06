@@ -53,7 +53,7 @@ public class Service extends BaseEntity<Long> {
     @Positive
     private Float basePrice;
 
-    //todo should be many to many?
+    //todo many to many
     @JoinColumn(nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
