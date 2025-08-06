@@ -32,10 +32,16 @@ public class Service extends BaseEntity<Long> {
     @JoinColumn(name = PARENT_SERVICE_ID)
     private Service parentService;
 
-    @OneToMany(mappedBy = "parentService",  cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<Service> subServices= new ArrayList<>();
 
-    @Column(name = SERVICE_NAME,unique = true)
+    @OneToMany(
+            mappedBy = "parentService",
+            cascade = {CascadeType.PERSIST},
+            orphanRemoval = false,
+            fetch = FetchType.EAGER
+    )
+    private List<Service> subServices = new ArrayList<>();
+
+    @Column(name = SERVICE_NAME, unique = true)
     @NotBlank(message = "Name cannot be blank")
 
     private String name;
@@ -47,7 +53,7 @@ public class Service extends BaseEntity<Long> {
     @Positive
     private Float basePrice;
 
-    //todo should be many to many?
+    //todo many to many
     @JoinColumn(nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
@@ -56,7 +62,6 @@ public class Service extends BaseEntity<Long> {
 
     @Column
     private Boolean category;
-
 
 
     public void addSubService(Service subService) {

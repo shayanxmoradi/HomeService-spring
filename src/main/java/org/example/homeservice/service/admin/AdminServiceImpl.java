@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AdminServiceImpl  implements AdminService {
+public class AdminServiceImpl implements AdminService {
     private final SpecialistRepo specialistRepo;
     private final SpecialistMapper specialistConverter; // Inject the converter
     private final ServiceService serviceService;
@@ -89,6 +89,7 @@ public class AdminServiceImpl  implements AdminService {
 
     /**
      * when you find object its still in persitst state dont need to call update on it again
+     *
      * @param specialistId
      * @param subServiceId
      */
@@ -103,7 +104,7 @@ public class AdminServiceImpl  implements AdminService {
         if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
             throw new ValidationException("Specialist is not approved");
         }
-        System.out.println("is avil"+serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
+        System.out.println("is avil" + serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
         if (serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
             throw new ValidationException("Specialist is already added to this service");
         }
@@ -114,16 +115,14 @@ public class AdminServiceImpl  implements AdminService {
         service.getAvilableSpecialists().add(specialist);
 
     }
-@Transactional
+
+    @Transactional
     @Override
     public void deleteSpecialistFromSubService(Long specialistId, Long subServiceId) {
         Specialist specialist = specialistRepo.findById(specialistId)
-                .orElseThrow(() -> new ValidationException("Specialist with xxxxxx: "+specialistId+" found"));
+                .orElseThrow(() -> new ValidationException("Specialist with : " + specialistId + " found"));
 
-//        if (specialist.getSpecialistStatus() != SpecialistStatus.APPROVED) {
-//            throw new ValidationException("Specialist is not approved");
-//        }
-        System.out.println("is avil"+serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
+        System.out.println("is avil" + serviceService.isSpecialistAvailableInService(subServiceId, specialistId));
         if (!serviceService.isSpecialistAvailableInService(subServiceId, specialistId)) {
             throw new ValidationException("Specialist is already not in this service ");
         }

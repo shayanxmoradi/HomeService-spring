@@ -19,14 +19,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AddressResource {
     private final AddressService addressService;
+
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @CheckActivation
     @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody @Validated AddressReqest address) {
         Optional<AddressResponse> savingResponse = addressService.save(address);
         return savingResponse
-                .map(add-> ResponseEntity.status(HttpStatus.CREATED).body(add))
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .map(add -> ResponseEntity.status(HttpStatus.CREATED).body(add))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping("/{id}")
@@ -44,11 +45,12 @@ public class AddressResource {
     public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id,
                                                          @RequestBody @Validated AddressReqest addressRequest) {
 
-        Optional<AddressResponse> updatedAddressResponse = addressService.update( addressRequest.withId(id));
+        Optional<AddressResponse> updatedAddressResponse = addressService.update(addressRequest.withId(id));
         return updatedAddressResponse
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
     @PreAuthorize("hasAuthority('CUSTOMER') ")
     @CheckActivation
     @DeleteMapping("/{id}")

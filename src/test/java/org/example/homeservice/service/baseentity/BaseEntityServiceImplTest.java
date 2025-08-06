@@ -143,7 +143,7 @@ class BaseEntityServiceImplTest {
 
             // Act & Assert
             ValidationException exception = assertThrows(ValidationException.class, () -> service.findById(99L));
-            assertTrue(exception.getMessage().contains("with xxxxxx : 99 not found!"));
+            assertTrue(exception.getMessage().contains("not found!"));
         }
 
         @Test

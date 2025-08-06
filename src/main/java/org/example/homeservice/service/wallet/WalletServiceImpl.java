@@ -30,8 +30,11 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Optional<Wallet> removeMoneyFromWallet(Long walletId, Double money) {
+        System.out.println("walletID" + walletId);
         Wallet byWalletId = findById(walletId);
         double newAmount = byWalletId.getCreditAmount() - money;
+        System.out.println("newAmount: " + newAmount);
+        System.out.printf("byWalletId: %s\n", byWalletId.getCreditAmount());
         if (newAmount < 0) {
             throw new ValidationException("not enough credit amount");//fixme watchout
         }

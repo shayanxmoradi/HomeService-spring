@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface ReviewRepo extends JpaRepository<Review, Long> {
     List<Review> findByOrder_ChosenSpecialist(Specialist specialist);
-//    List<Review> findByOrderByOrder_ChosenSpecialistId(Long specialistId);
 
     @Query("SELECT r FROM Review r WHERE r.order.chosenSpecialist.id = :specialistId")
     List<Review> findRatingsBySpecialistId(@Param("specialistId") Long specialistId);

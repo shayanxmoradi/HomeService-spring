@@ -26,7 +26,6 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
 
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -38,8 +37,12 @@ public class SecurityConfig {
                         .requestMatchers("/customer").permitAll()
                         .requestMatchers("/speciallist").permitAll()
                         .requestMatchers("/address**").permitAll()
-                        .requestMatchers("/payment**").permitAll()
-                        .requestMatchers("/processPayment**").permitAll()
+                        .requestMatchers("payment/**").permitAll()
+                        .requestMatchers("/processPayment/**").permitAll()
+                        .requestMatchers("/processPayment/**").permitAll()
+                        .requestMatchers("/paywithwallet/**").permitAll()
+                        .requestMatchers("/paymentSuccess/**").permitAll()
+                        .requestMatchers("customer/processPayment**").permitAll()
                         .requestMatchers("/submitRating**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 
@@ -55,7 +58,6 @@ public class SecurityConfig {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
 
     @Bean

@@ -39,6 +39,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 ), e.getHttpStatus()
         );
     }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -49,7 +50,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         body.put("error", "Validation Error");
         body.put("message", "One or more fields have validation errors");
 
-        // Collect field-specific error details
         List<FieldErrorDTO> fieldErrors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -65,6 +65,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, headers, status);
     }
+
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(ValidationException ex) {
         Map<String, String> errorResponse = new HashMap<>();
@@ -84,6 +85,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleConstraintViolation(ConstraintViolationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request parameters: " + ex.getMessage());
     }
+
     @ExceptionHandler(ClassCastException.class)
     public ResponseEntity<Map<String, String>> handleClassCastException(ClassCastException ex) {
         Map<String, String> errorResponse = new HashMap<>();
@@ -91,6 +93,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -119,7 +122,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
             errorResponse.put("expectedType", ex.getRequiredType().getSimpleName());
         }
         errorResponse.put("rejectedValue", ex.getValue() != null ? ex.getValue().toString() : "null");
-        errorResponse.put("message", ex.getMessage()); 
+        errorResponse.put("message", ex.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

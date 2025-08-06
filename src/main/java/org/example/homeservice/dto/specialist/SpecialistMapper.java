@@ -12,16 +12,16 @@ public interface SpecialistMapper {
     SpecialistMapper INSTANCE = Mappers.getMapper(SpecialistMapper.class);
 
     Specialist toEntity(SpecialistRequest request);
-    @Mapping(target = "wallet.id",source = "walletId")
 
+    @Mapping(target = "wallet.id", source = "walletId")
     Specialist toEntity(SpecialistResponse request);
 
-    //@Mapping(target = "xxxxxx", source = "entity.xxxxxx")
-    @Mapping(target = "walletId",source = "wallet.id")
+    @Mapping(target = "walletId", source = "wallet.id")
     SpecialistResponse toDto(Specialist entity);
-  SpecialistRequest toDtoReq(Specialist entity);
-    List<SpecialistResponse> toDto(List<Specialist> specialists);
 
+    SpecialistRequest toDtoReq(Specialist entity);
+
+    List<SpecialistResponse> toDto(List<Specialist> specialists);
 
 
 }

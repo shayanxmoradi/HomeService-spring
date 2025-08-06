@@ -14,6 +14,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ServiceValidatorImpl.class)
 public @interface ServiceValidator {
     String message() default "Category services cannot have a price";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

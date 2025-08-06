@@ -12,12 +12,18 @@ import java.util.Optional;
 @Repository
 public interface ServiceRepo extends BaseEnitityRepo<Service, Long>, CustomServiceRepo {
     Optional<Service> findByName(String name);
+
     List<Service> findAllByParentService(Service parentService); // Change from findAllByParentId to findAllByParentService
+
     @Query("SELECT s FROM Service s WHERE s.parentService IS NULL")
     List<Service> findFirstLayerServices();
+
     List<Service> findAll();
-    List<Service>findByParentServiceIsNull();// check xxxxxx null
+
+    List<Service> findByParentServiceIsNull();// check xxxxxx null
+
     List<Service> findByCategoryFalse();
+
     List<Service> findAllByParentServiceIsNotNull();
 
     @Query("SELECT CASE WHEN COUNT(s) > 0 THEN TRUE ELSE FALSE END " +
@@ -26,10 +32,6 @@ public interface ServiceRepo extends BaseEnitityRepo<Service, Long>, CustomServi
     boolean isSpecialistAvailableInService(@Param("serviceId") Long serviceId, @Param("specialistId") Long specialistId);
 
 
-//native query
-//
-//    @Query(value = "SELECT COUNT(*) > 0 FROM spring.home_service.service_avilable_specialists WHERE service_id = :serviceId AND avilable_specialists_id = :specialistId", nativeQuery = true)
-//    boolean isSpecialistAvailableInService(@Param("serviceId") Long serviceId, @Param("specialistId") Long specialistId);
 
     @Query(value = "SELECT COUNT(*) FROM spring.home_service.service_avilable_specialists WHERE service_id = :serviceId AND avilable_specialists_id = :specialistId", nativeQuery = true)
     int countSpecialistsInService(@Param("serviceId") Long serviceId, @Param("specialistId") Long specialistId);

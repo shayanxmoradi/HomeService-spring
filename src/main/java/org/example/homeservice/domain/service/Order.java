@@ -24,7 +24,6 @@ public class Order extends BaseEntity<Long> {
     public static final String TABLE_NAME = "orders";
 
     @PrimaryKeyJoinColumn
-//todo check dont fuck oders
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Service choosenService;
 
@@ -46,16 +45,11 @@ public class Order extends BaseEntity<Long> {
     private LocalDateTime orderStartedAt;//todo on dtos
 
 
-    //uncoment this line to delete order it completely
-//    @ManyToOne(cascade = {CascadeType.REMOVE}) // Ensure the cascade option is set
-//    @JoinColumn(nullable = true)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Address address;
 
-    //            (fetch = FetchType.LAZY)
     @OneToMany
     @JoinColumn(nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
@@ -75,7 +69,6 @@ public class Order extends BaseEntity<Long> {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Offer chosenOffer;
-
 
 
     @Enumerated(EnumType.STRING)

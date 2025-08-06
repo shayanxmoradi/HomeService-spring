@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Offer extends BaseEntity<Long> {
 
     @Column
-    LocalDateTime submittedDateTime = LocalDateTime.now();//todo carefull this changed
+    LocalDateTime submittedDateTime = LocalDateTime.now();
 
     @Column
     @Future
@@ -28,7 +28,7 @@ public class Offer extends BaseEntity<Long> {
 
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn( nullable = true)
+    @JoinColumn(nullable = true)
     Order order;
 
     @ManyToOne(cascade = {CascadeType.REMOVE})

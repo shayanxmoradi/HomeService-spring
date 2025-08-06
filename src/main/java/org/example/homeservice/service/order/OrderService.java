@@ -15,9 +15,12 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
     List<OrderResponse> findWaitingForOfferAndSpecialist();
 
     List<OrderResponse> findByCustomerId(Long customerId);
+
     List<OrderResponse> findByCustomerIdAndStatus(Long customerId, OrderStatus orderStatus);
+
     List<OrderResponse> findBySpecialistId(Long specialistId);
-    List<OrderResponse> findBySpecialistIdAndStatus(Long specialistId,OrderStatus orderStatus);
+
+    List<OrderResponse> findBySpecialistIdAndStatus(Long specialistId, OrderStatus orderStatus);
 
     List<OrderResponse> findWaitingOrdersBySpecialist(Long specialistId);
 
@@ -26,13 +29,18 @@ public interface OrderService extends BaseEntityService<Order, Long, OrderReques
     Optional<OrderResponse> startOrder(Long orderId);
 
     Optional<OrderResponse> endOrder(Long orderId);
-    void deleteByServiceId( Long serviceId);
+
+    void deleteByServiceId(Long serviceId);
+
     void updateOrdersWithNullService(Long serviceId);
 
 
     Optional<OrderResponse> onlinePayment(Long orderId, OrderStatus orderStatus);
-    public Optional<OrderResponse> setOnlinePaied(Long orderId) ;
-    public List <Order> findByAdrressId(Long adrressId);
+
+    public Optional<OrderResponse> setOnlinePaied(Long orderId);
+
+    public List<Order> findByAdrressId(Long adrressId);
+
     public List<OrderResponse> getOrdersByCriteria(LocalDateTime startDate, LocalDateTime endDate, OrderStatus status, Long serviceId, Long subserviceId);
 
-    }
+}

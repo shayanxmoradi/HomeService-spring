@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializable, R extends BaseEnitityRepo<T, ID>, D,RDTO>
-        implements BaseEntityService<T, ID, D,RDTO> {
+public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializable, R extends BaseEnitityRepo<T, ID>, D, RDTO>
+        implements BaseEntityService<T, ID, D, RDTO> {
     protected final R baseRepository;
 
 
@@ -19,11 +19,11 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
     }
 
     protected T toEntity(D dto) {
-        throw new UnsupportedOperationException(dto.getClass()+"to eininty Conversion not implemented");
+        throw new UnsupportedOperationException(dto.getClass() + "to eininty Conversion not implemented");
     }
 
     protected RDTO toDto(T entity) {
-        throw new UnsupportedOperationException( entity.getClass()+" todto Conversion not implemented");
+        throw new UnsupportedOperationException(entity.getClass() + " todto Conversion not implemented");
     }
 
     @Override
@@ -61,7 +61,7 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
 
         if (baseRepository.findById(id).isEmpty()) {
 
-            throw new ValidationException(   "entitny from class :"+ this.getClass().getSimpleName()+ " with xxxxxx : " + id + " not found!");
+            throw new ValidationException("entitny from class :" + this.getClass().getSimpleName() + " with  id : " + id + " not found!");
         }
         return baseRepository.findById(id).map(this::toDto);
     }
@@ -71,7 +71,6 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
         List<T> entities = baseRepository.findAll();
         return Optional.of(entities.stream().map(this::toDto).toList());
     }
-
 
 
     @Override

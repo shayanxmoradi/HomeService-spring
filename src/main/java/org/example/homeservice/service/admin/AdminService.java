@@ -10,18 +10,28 @@ import org.example.homeservice.domain.enums.SpecialistStatus;
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminService  {
+public interface AdminService {
     void saveSpecialist(SpecialistRequest specialistDTO);
+
     void deleteSpecialistById(Long specialistId);
+
     List<SpecialistResponse> getAllSpecialists();
+
     List<SpecialistResponse> getSpecialistsByStatus(SpecialistStatus status);
+
     List<BaseUser> getAllUsers();
+
     void acceptSpecialist(Long specialistId);
+
     void addingSpecialistToSubService(Long specialistId, Long subServiceId);
+
     void deleteSpecialistFromSubService(Long specialistId, Long subServiceId);
-     Optional<ServiceResponse> createNewService(ServiceRequest dto);
+
+    Optional<ServiceResponse> createNewService(ServiceRequest dto);
+
     Optional<SpecialistResponse> addSpeciliast(SpecialistRequest request);
+
     void deleteSpecialist(Long specialistId);
 
-     Optional<List<ServiceResponse>> findAllServices();
+    Optional<List<ServiceResponse>> findAllServices();
 }

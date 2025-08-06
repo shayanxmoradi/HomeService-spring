@@ -64,26 +64,24 @@ public class ServiceServiceImpl extends BaseEntityServiceImpl<Service, Long, Ser
         }
     }
 
-    /**
-     * watch out first all orrders wich have chosen service in it be deleted.
-     * @param aLong
-     * @return
-     */
+
+
     @Override
     @Transactional
-
-    public boolean deleteById(Long aLong) {
-        baseRepository.findById(aLong).orElseThrow( ()->new  ValidationException("no service with this xxxxxx : " + aLong+" found"));
-
-
+    public boolean deleteById(Long id) {
+        Service parentService = baseRepository.findById(id)
+                .orElseThrow(() -> new ValidationException("No service with ID: " + id + " found"));
 
 
-     //   orderService.deleteByServiceId(aLong);
+        for (Service sub : parentService.getSubServices()) {
+            sub.setParent(null);
+        }
 
+        orderService.updateOrdersWithNullService(id);
 
-orderService.updateOrdersWithNullService(aLong);
-      //   baseRepository.deleteById(aLong);
-         return true;
+        baseRepository.delete(parentService);
+
+        return true;
     }
 
     @Override
@@ -95,7 +93,7 @@ orderService.updateOrdersWithNullService(aLong);
                     .map(serviceMapper::toDto)
                     .collect(Collectors.toList());
         } else {
-            throw new EntityNotFoundException("Parent service not found with xxxxxx: " + parentId);
+            throw new EntityNotFoundException("Parent service not found with : " + parentId);
         }
     }
 
@@ -109,12 +107,6 @@ orderService.updateOrdersWithNullService(aLong);
         return Optional.ofNullable(allServices);
     }
 
-//    public List<ServiceResponse> findAllServicesWithParentId() {
-//        return baseRepository.findAllByParentServiceIsNotNull()
-//                .stream()
-//                .map(serviceMapper::toDto)
-//                .collect(Collectors.toList());
-//    }
 
     public List<ServiceResponse> findRealServices() {
         return baseRepository.findByCategoryFalse()

@@ -6,7 +6,8 @@ import org.example.homeservice.dto.review.ReviewRequest;
 import java.util.List;
 
 public interface ReviewService {
-    public void addReview(ReviewRequest review) ;
+    public void addReview(ReviewRequest review);
+
     public List<SpecialistRateRespone> getRatingsBySpecialistId(Long specialistId);
 
 }

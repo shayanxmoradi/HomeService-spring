@@ -127,7 +127,6 @@ public class AuthResource {
         return jwt;
     }
 
-    public record AuthenticationRequest(String email, String password) {
-    }
+
 }
 

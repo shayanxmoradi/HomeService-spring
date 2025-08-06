@@ -21,14 +21,12 @@ public interface OfferMapper {
     @Mapping(target = "orderId", source = "order.id")
     @Mapping(target = "specialistId", source = "specialist.id")
     @Mapping(target = "serviceId", source = "service.id")
-
     OfferResponse toResponse(Offer offer);
 
     List<OfferResponse> toResponses(List<Offer> offers);
 
     @Mapping(target = "order.id", source = "orderId")
     @Mapping(target = "specialist.id", source = "specialistId")
-
     Offer toEnity(OfferResponse offerRequest);
 
     default Service mapService(Long serviceId) {
@@ -39,6 +37,7 @@ public interface OfferMapper {
         service.setId(serviceId);
         return service;  // Return the new Service with only the ID set
     }
+
     default Duration toDuration(int days, int hours, int minutes) {
         return Duration.ofDays(days).plusHours(hours).plusMinutes(minutes);
     }
